@@ -1,0 +1,239 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+}
+
+body {
+  padding: 0 !important;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+  padding: 0;
+}
+
+select {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+  padding: 0;
+}
+
+.breadcrumb__separator::after {
+  content: "/";
+  padding: 0 8px;
+  @apply text-slate-300;
+}
+
+.tooltip {
+  @apply pointer-events-none absolute z-10 rounded bg-slate-900 bg-opacity-90 font-display text-white;
+}
+
+.no-scroll-bar::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+.no-scroll-bar::-webkit-scrollbar-thumb {
+  background: transparent;
+  width: 0px;
+  height: 0px;
+}
+
+.no-scroll-bar::-webkit-scrollbar-track {
+  background: transparent;
+  width: 0px;
+  height: 0px;
+}
+
+.site-selector-scroll-mobile {
+  max-height: calc(100vh - 15em);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.site-selector-scroll-desktop {
+  max-height: calc(100vh - 4.3em);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.shadow-btn {
+  box-shadow: 0 2px var(--tw-shadow-color);
+}
+
+.shadow-btn-2 {
+  box-shadow: 0 4px var(--tw-shadow-color);
+}
+
+.shadow-btn:hover,
+.shadow-btn-2:hover {
+  box-shadow: 0 0px transparent;
+}
+
+.shadow-flat {
+  box-shadow: 0px 2px var(--tw-shadow-color);
+}
+
+.shadow-flat-2 {
+  box-shadow: 0px 4px var(--tw-shadow-color);
+}
+
+/* 
+
+Infinite Loop
+
+*/
+
+@keyframes slideAnim {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.looper {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 50px;
+    z-index: 1;
+
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 1) 0%,
+      rgba(255, 255, 255, 0) 100%
+    );
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 50px;
+    z-index: 1;
+
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 100%
+    );
+  }
+}
+
+.looper__innerList {
+  display: flex;
+  justify-content: center;
+  width: fit-content;
+}
+
+.looper__innerList[data-animate="true"] .looper__listInstance {
+  animation: slideAnim linear infinite;
+}
+
+.looper__listInstance {
+  display: flex;
+  width: max-content;
+
+  animation: none;
+}
+
+.description {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.contentBlock--one:last-of-type {
+  color: var(--green);
+  margin-right: 36px;
+}
+.contentBlock--two {
+  color: var(--green);
+  font-size: 48px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 222.2 47.4% 11.2%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 0.3rem;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --chart-clicks: 217.2 91.2% 59.8%;
+    --chart-impressions: 270.7 91% 65.1%;
+    --chart-click_through_rate: 198.4 93.2% 59.6%;
+    --chart-position: 47.9 95.8% 53.1%;
+
+    --color-clicks: 217.2 91.2% 59.8%;
+    --color-impressions: 270.7 91% 65.1%;
+    --color-click_through_rate: 198.4 93.2% 59.6%;
+    --color-position: 47.9 95.8% 53.1%;
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
