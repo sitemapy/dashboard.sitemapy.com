@@ -27,7 +27,7 @@ export const formatTime = (time: number) => {
 export const addHash = (params: {
   path: string;
   currentHash?: string;
-  value?: any;
+  value?: string;
 }) => {
   const { path, currentHash, value } = params;
   if (!currentHash) {

@@ -1,6 +1,6 @@
+import { UserEntity } from "@/modules/authentication/entities/authentication.entity";
 import { actions } from "@/redux/actions";
 import { createReducer } from "@reduxjs/toolkit";
-import { UserEntity } from "../entities/authentication.entity";
 
 export type AuthenticationState = {
   user: UserEntity | null;

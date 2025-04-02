@@ -37,6 +37,12 @@ jobs:
         if: steps.yarn-cache.outputs.cache-hit != 'true'
         run: yarn install --frozen-lockfile
 
+      - name: Type check
+        run: yarn type-check
+
+      - name: Lint
+        run: yarn lint
+
       - name: Build
         run: yarn build
 

@@ -1,5 +1,5 @@
+import { NotificationEntity } from "@/modules/notifications/entities/notifications.entity";
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { NotificationEntity } from "../entities/notifications.entity";
 
 export const store = createAction<NotificationEntity>("notifications/store");
 

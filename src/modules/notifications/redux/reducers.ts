@@ -1,6 +1,7 @@
+import { NotificationEntity } from "@/modules/notifications/entities/notifications.entity";
+import { actions } from "@/redux/actions";
 import { createReducer } from "@reduxjs/toolkit";
-import { NotificationEntity } from "../entities/notifications.entity";
-import { remove, store } from "./actions";
+
 interface NotificationsState {
   notifications: Array<NotificationEntity>;
 }
@@ -11,10 +12,10 @@ const initialState: NotificationsState = {
 
 export const notifications_reducer = createReducer(initialState, (builder) => {
   builder
-    .addCase(store, (state, action) => {
+    .addCase(actions.notifications.store, (state, action) => {
       state.notifications.push(action.payload);
     })
-    .addCase(remove, (state, action) => {
+    .addCase(actions.notifications.remove, (state, action) => {
       state.notifications = state.notifications.filter(
         (notification) => notification.id !== action.payload.id
       );

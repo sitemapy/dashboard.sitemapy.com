@@ -1,7 +1,7 @@
+import { HomeRoute } from "@/routes";
 import { Router } from "@reach/router";
 import * as Sentry from "@sentry/react";
 import { ErrorBoundary } from "react-error-boundary";
-import { HomeRoute } from "./routes";
 
 Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN,

@@ -12,6 +12,14 @@ export type Dependencies = {
 };
 
 export const build = (env?: "in-memory" | "api"): Dependencies => {
+  if (env === "in-memory") {
+    return {
+      AuthenticationRepository: new AuthenticationRepositoryInMemory(),
+      OrganizationRepository: new OrganizationRepositoryInMemory(),
+      SitemapRepository: new SitemapRepositoryInMemory(),
+    };
+  }
+
   return {
     AuthenticationRepository: new AuthenticationRepositoryInMemory(),
     OrganizationRepository: new OrganizationRepositoryInMemory(),

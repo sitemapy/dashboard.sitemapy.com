@@ -1,11 +1,11 @@
-import { actions } from "@/redux/actions";
-import { AsyncThunkConfig } from "@/redux/store";
-import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   OrganizationEntity,
   OrganizationRole,
   OrganizationToUserEntity,
-} from "../entities/organization.entity";
+} from "@/modules/organization/entities/organization.entity";
+import { actions } from "@/redux/actions";
+import { AsyncThunkConfig } from "@/redux/store";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const get_organizations = createAsyncThunk<
   OrganizationEntity[],
@@ -38,7 +38,7 @@ export const get_organization_members = createAsyncThunk<
 });
 
 export const create_organization = createAsyncThunk<
-  any,
+  void,
   { name: string },
   AsyncThunkConfig
 >(
@@ -64,7 +64,7 @@ export const create_organization = createAsyncThunk<
 );
 
 export const add_member = createAsyncThunk<
-  any,
+  void,
   { organization_id: string; member_id: string; role: OrganizationRole },
   AsyncThunkConfig
 >("organization/add_member", async (params, { extra, getState, dispatch }) => {
