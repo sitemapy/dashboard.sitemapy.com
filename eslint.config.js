@@ -23,13 +23,23 @@ export default tseslint.config(
         "warn",
         { allowConstantExport: true },
       ],
-      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-unused-vars": "error",
       "no-unexpected-multiline": "warn",
-      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-explicit-any": "error",
       "no-empty": "warn",
       "@typescript-eslint/ban-ts-comment": "warn",
-      "no-relative-imports": "error",
-      "import/no-relative-parent-imports": "error",
+      "no-restricted-imports": [
+        "error",
+        {
+          patterns: ["src/**/*.{ts,tsx}"],
+        },
+      ],
+    },
+  },
+  {
+    files: ["*.test.ts", "**/scripts/*.ts"],
+    rules: {
+      "no-restricted-imports": "off",
     },
   }
 );

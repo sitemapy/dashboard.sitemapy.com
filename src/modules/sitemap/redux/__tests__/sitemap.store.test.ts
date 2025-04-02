@@ -1,6 +1,6 @@
+import { SitemapResponse } from "@/modules/sitemap/entities/sitemap.entity";
 import { actions } from "@/redux/actions";
 import { init } from "@/redux/store";
-import { SitemapResponse } from "../../entities/sitemap.entity";
 
 describe("Feature: Sitemap", () => {
   const sitemap_url = "https://example.com/sitemap.xml";

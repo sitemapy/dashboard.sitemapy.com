@@ -212,20 +212,4 @@ async function main() {
   await storeRestoreFile();
 }
 
-async function getAllKeys() {
-  const en = await loadFile("en");
-
-  return Object.keys(en).map((key) => ({
-    key,
-    value: en[key as keyof typeof en],
-    lang: "en",
-  }));
-}
-
-// async function addNewLanguage(lang: string) {
-//   const allKeys = await getAllKeys();
-
-//   await addCreatedKeys(allKeys, lang);
-// }
-
 main();

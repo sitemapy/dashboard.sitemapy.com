@@ -1,7 +1,7 @@
+import { UserEntity } from "@/modules/authentication/entities/authentication.entity";
 import { actions } from "@/redux/actions";
 import { AsyncThunkConfig } from "@/redux/store";
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { UserEntity } from "../entities/authentication.entity";
 
 export const _signup_success = createAction<{ user: UserEntity }>(
   "authentication/_signup_success"
@@ -23,7 +23,7 @@ export const _login_failure = createAction<{ error: string }>(
   "authentication/_login_failure"
 );
 
-export const logout = createAsyncThunk<any, void, AsyncThunkConfig>(
+export const logout = createAsyncThunk<void, void, AsyncThunkConfig>(
   "authentication/logout",
   async (_, { extra, dispatch }) => {
     dispatch(actions.global_events.logout());
@@ -32,7 +32,7 @@ export const logout = createAsyncThunk<any, void, AsyncThunkConfig>(
 );
 
 export const login = createAsyncThunk<
-  any,
+  void,
   { email: string; password: string },
   AsyncThunkConfig
 >("authentication/login_request", async (payload, { extra, dispatch }) => {
@@ -55,7 +55,7 @@ export const login = createAsyncThunk<
 });
 
 export const signup = createAsyncThunk<
-  any,
+  void,
   { email: string; password: string },
   AsyncThunkConfig
 >("authentication/signup", async (payload, { extra, dispatch }) => {
@@ -77,12 +77,12 @@ export const signup = createAsyncThunk<
   dispatch(actions.global_events.login({ user: response.body }));
 });
 
-export const is_authenticated = createAsyncThunk<any, void, AsyncThunkConfig>(
+export const is_authenticated = createAsyncThunk<void, void, AsyncThunkConfig>(
   "authentication/is_authenticated",
   async (_, { extra, dispatch }) => {
     const response = await extra.AuthenticationRepository.is_authenticated();
 
-    if (!response) return null;
+    if (!response) return;
 
     dispatch(_store_user({ user: response }));
     dispatch(actions.global_events.login({ user: response }));

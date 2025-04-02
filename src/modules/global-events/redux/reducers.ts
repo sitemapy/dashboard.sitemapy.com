@@ -2,7 +2,7 @@ import { actions } from "@/redux/actions";
 import { createReducer } from "@reduxjs/toolkit";
 
 export type global_events_state = {
-  history: { type: string; payload: any }[];
+  history: { type: string; payload: Record<string, unknown> }[];
 };
 
 const initial_state: global_events_state = {

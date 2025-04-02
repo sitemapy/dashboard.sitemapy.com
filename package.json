@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "type-check": "tsc --noEmit --project tsconfig.app.json",
     "preview": "vite preview",
     "test": "vitest",
     "i18n": "tsx src/i18n/scripts/i18n.run.ts"

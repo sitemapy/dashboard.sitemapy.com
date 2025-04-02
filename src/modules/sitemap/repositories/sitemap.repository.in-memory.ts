@@ -1,5 +1,8 @@
-import { SitemapHistory, SitemapResponse } from "../entities/sitemap.entity";
-import { SitemapRepository } from "./sitemap.repository";
+import {
+  SitemapHistory,
+  SitemapResponse,
+} from "@/modules/sitemap/entities/sitemap.entity";
+import { SitemapRepository } from "@/modules/sitemap/repositories/sitemap.repository";
 
 export class SitemapRepositoryInMemory implements SitemapRepository {
   private sitemap_responses: Map<string, SitemapResponse> = new Map();

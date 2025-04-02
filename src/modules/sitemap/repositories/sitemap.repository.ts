@@ -1,4 +1,7 @@
-import { SitemapHistory, SitemapResponse } from "../entities/sitemap.entity";
+import {
+  SitemapHistory,
+  SitemapResponse,
+} from "@/modules/sitemap/entities/sitemap.entity";
 
 export interface SitemapRepository {
   fetch_sitemap(
