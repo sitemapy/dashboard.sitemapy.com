@@ -5,9 +5,10 @@ describe("Feature: Authentication", () => {
   it(`
     Given a user is not logged in
     When the user signs up
-    Then the user should be logged in
+    Then the user should be created in the database
+    And redirect to the login page
   `, async () => {
-    const { store } = init({});
+    const { store, dependencies } = init({});
 
     await store.dispatch(
       actions.authentication.signup({
@@ -22,6 +23,8 @@ describe("Feature: Authentication", () => {
     );
     expect(store.getState().authentication.is_loading).toBe(false);
     expect(store.getState().authentication.error).toBeNull();
+
+    expect(dependencies.LocationService.getPathname()).toBe("/login");
   });
 
   it(`
@@ -43,6 +46,7 @@ describe("Feature: Authentication", () => {
     expect(store.getState().authentication.user).toBeNull();
     expect(store.getState().authentication.error).toBeNull();
     expect(store.getState().authentication.is_loading).toBe(false);
+    expect(store.getState().authentication.initialized).toBe(false);
   });
 
   it(`
@@ -74,6 +78,7 @@ describe("Feature: Authentication", () => {
       "test@example.com"
     );
     expect(store.getState().authentication.is_loading).toBe(false);
+    expect(store.getState().authentication.initialized).toBe(true);
   });
 
   it(`
@@ -104,5 +109,30 @@ describe("Feature: Authentication", () => {
     expect(store.getState().authentication.user?.email).toBe(
       "test@example.com"
     );
+  });
+
+  it(`
+    Given a user was logged in
+    When the app is mounted
+    Then the user should be logged in
+  `, async () => {
+    const { store, dependencies } = init({});
+
+    await dependencies.AuthenticationRepository.signup({
+      email: "test@test.com",
+      password: "password123",
+    });
+
+    await dependencies.AuthenticationRepository.login({
+      email: "test@test.com",
+      password: "password123",
+    });
+
+    expect(store.getState().authentication.initialized).toBe(false);
+
+    await store.dispatch(actions.global_events.app_mounted());
+
+    expect(store.getState().authentication.user?.email).toBe("test@test.com");
+    expect(store.getState().authentication.initialized).toBe(true);
   });
 });

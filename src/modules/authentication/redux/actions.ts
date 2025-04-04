@@ -31,6 +31,10 @@ export const logout = createAsyncThunk<void, void, AsyncThunkConfig>(
   }
 );
 
+export const _set_initialized = createAction<boolean>(
+  "authentication/_set_initialized"
+);
+
 export const login = createAsyncThunk<
   void,
   { email: string; password: string },
@@ -47,11 +51,19 @@ export const login = createAsyncThunk<
 
   if (response.error) {
     dispatch(_login_failure({ error: response.code }));
+    dispatch(
+      actions.notifications.create({
+        message: "Authentication failed",
+        type: "error",
+        description: response.code,
+      })
+    );
     return;
   }
 
   dispatch(_store_user({ user: response.body }));
   dispatch(actions.global_events.login({ user: response.body }));
+  extra.LocationService.navigate("/");
 });
 
 export const signup = createAsyncThunk<
@@ -75,6 +87,14 @@ export const signup = createAsyncThunk<
 
   dispatch(_store_user({ user: response.body }));
   dispatch(actions.global_events.login({ user: response.body }));
+  dispatch(
+    actions.notifications.create({
+      message: "Account created successfully",
+      type: "success",
+    })
+  );
+
+  extra.LocationService.navigate("/login");
 });
 
 export const is_authenticated = createAsyncThunk<void, void, AsyncThunkConfig>(
@@ -82,9 +102,13 @@ export const is_authenticated = createAsyncThunk<void, void, AsyncThunkConfig>(
   async (_, { extra, dispatch }) => {
     const response = await extra.AuthenticationRepository.is_authenticated();
 
-    if (!response) return;
+    if (!response) {
+      dispatch(actions.authentication._set_initialized(true));
+      return;
+    }
 
     dispatch(_store_user({ user: response }));
     dispatch(actions.global_events.login({ user: response }));
+    dispatch(actions.authentication._set_initialized(true));
   }
 );

@@ -11,13 +11,10 @@ const initialState: NotificationsState = {
 };
 
 export const notifications_reducer = createReducer(initialState, (builder) => {
-  builder
-    .addCase(actions.notifications.store, (state, action) => {
-      state.notifications.push(action.payload);
-    })
-    .addCase(actions.notifications.remove, (state, action) => {
-      state.notifications = state.notifications.filter(
-        (notification) => notification.id !== action.payload.id
-      );
-    });
+  builder.addCase(actions.notifications.store, (state, action) => {
+    return {
+      ...state,
+      notifications: [action.payload, ...state.notifications].slice(0, 10),
+    };
+  });
 });
