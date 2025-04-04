@@ -20,6 +20,13 @@ export const error = createAsyncThunk<
 
 export const logout = createAction("global_events/logout");
 
+export const app_mounted = createAsyncThunk<void, void, AsyncThunkConfig>(
+  "global_events/app_mounted",
+  async (_, { dispatch }) => {
+    dispatch(actions.authentication.is_authenticated());
+  }
+);
+
 export const login = createAsyncThunk<
   void,
   { user: UserEntity },

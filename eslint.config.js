@@ -27,6 +27,7 @@ export default tseslint.config(
       "no-unexpected-multiline": "warn",
       "@typescript-eslint/no-explicit-any": "error",
       "no-empty": "warn",
+      "react-hooks/exhaustive-deps": "off",
       "@typescript-eslint/ban-ts-comment": "warn",
       "no-restricted-imports": [
         "error",

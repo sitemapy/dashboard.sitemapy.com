@@ -6,12 +6,14 @@ export type AuthenticationState = {
   user: UserEntity | null;
   is_loading: boolean;
   error: string | null;
+  initialized: boolean;
 };
 
 const initialState: AuthenticationState = {
   user: null,
   is_loading: false,
   error: null,
+  initialized: false,
 };
 
 export const authentication_reducer = createReducer(initialState, (builder) => {
@@ -23,6 +25,7 @@ export const authentication_reducer = createReducer(initialState, (builder) => {
       state.is_loading = false;
       state.user = action.payload.user;
       state.error = null;
+      state.initialized = true;
     })
     .addCase(actions.authentication._login_failure, (state, action) => {
       state.is_loading = false;
@@ -38,6 +41,9 @@ export const authentication_reducer = createReducer(initialState, (builder) => {
       state.is_loading = false;
       state.user = null;
       state.error = action.payload.error;
+    })
+    .addCase(actions.authentication._set_initialized, (state, action) => {
+      state.initialized = action.payload;
     })
     .addCase(actions.global_events.logout, () => {
       return initialState;
