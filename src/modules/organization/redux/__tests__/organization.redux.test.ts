@@ -1,5 +1,6 @@
 import { actions } from "@/redux/actions";
 import { init } from "@/redux/store";
+import { OrganizationEntity } from "@sitemapy/interfaces";
 
 describe("Feature: Organization", () => {
   it(`
@@ -7,40 +8,7 @@ describe("Feature: Organization", () => {
     When the user gets organizations
     Then the organizations should be returned
   `, async () => {
-    const { store, dependencies } = init({});
-
-    await dependencies.OrganizationRepository.create_organization({
-      name: "Organization 1",
-      user_id: "test-id-1",
-    });
-
-    await store.dispatch(
-      actions.authentication.signup({
-        email: "test@example.com",
-        password: "password123",
-      })
-    );
-
-    await store.dispatch(actions.organization.get_organizations());
-
-    expect(store.getState().organization.organization_list).toBeTruthy();
-    expect(store.getState().organization.organization_list.length).toBe(1);
-    expect(store.getState().organization.organization_list[0].name).toBe(
-      "Organization 1"
-    );
-  });
-
-  it(`
-    Given a logged out user
-    When a user logs in
-    Then the organizations should be fetched
-  `, async () => {
-    const { store, dependencies } = init({});
-
-    await dependencies.OrganizationRepository.create_organization({
-      name: "Organization 1",
-      user_id: "test-id-1",
-    });
+    const { store } = init({});
 
     await store.dispatch(
       actions.authentication.signup({
@@ -59,8 +27,48 @@ describe("Feature: Organization", () => {
     expect(store.getState().organization.organization_list).toBeTruthy();
     expect(store.getState().organization.organization_list.length).toBe(1);
     expect(store.getState().organization.organization_list[0].name).toBe(
-      "Organization 1"
+      "My Personal Organization"
     );
+  });
+
+  it(`
+    Given a logged out user
+    When a user logs in
+    Then the organizations should be fetched
+  `, async () => {
+    const { store } = init({});
+
+    await store.dispatch(
+      actions.authentication.signup({
+        email: "test@example.com",
+        password: "password123",
+      })
+    );
+
+    await store.dispatch(
+      actions.authentication.login({
+        email: "test@example.com",
+        password: "password123",
+      })
+    );
+
+    await store.dispatch(
+      actions.organization.create_organization({
+        name: "Organization 1",
+      })
+    );
+
+    store.dispatch(actions.global_events.logout());
+
+    await store.dispatch(
+      actions.authentication.login({
+        email: "test@example.com",
+        password: "password123",
+      })
+    );
+
+    expect(store.getState().organization.organization_list).toBeTruthy();
+    expect(store.getState().organization.organization_list.length).toBe(2);
   });
 
   it(`
@@ -68,12 +76,7 @@ describe("Feature: Organization", () => {
     When the user gets organization members
     Then the organization members should be returned
   `, async () => {
-    const { store, dependencies } = init({});
-
-    await dependencies.OrganizationRepository.create_organization({
-      name: "Organization 1",
-      user_id: "test-id-1",
-    });
+    const { store } = init({});
 
     await store.dispatch(
       actions.authentication.signup({
@@ -91,6 +94,7 @@ describe("Feature: Organization", () => {
 
     const organization_id =
       store.getState().organization.organization_list[0].id;
+    const user_id = store.getState().authentication.user?.id;
 
     await store.dispatch(
       actions.organization.get_organization_members({
@@ -100,7 +104,7 @@ describe("Feature: Organization", () => {
 
     expect(store.getState().organization.organization_members.length).toBe(1);
     expect(store.getState().organization.organization_members[0].user_id).toBe(
-      "test-id-1"
+      user_id
     );
   });
 
@@ -123,13 +127,15 @@ describe("Feature: Organization", () => {
       })
     );
 
-    expect(store.getState().organization.organization_list.length).toBe(1);
-    expect(store.getState().organization.organization_list[0].name).toBe(
-      "Organization 1"
-    );
+    const organization_created = store
+      .getState()
+      .organization.organization_list.find(
+        (organization) => organization.name === "Organization 1"
+      ) as OrganizationEntity;
 
-    const organization_id =
-      store.getState().organization.organization_list[0].id;
+    expect(organization_created).toBeDefined();
+
+    const organization_id = organization_created.id;
 
     await store.dispatch(
       actions.organization.get_organization_members({
@@ -162,7 +168,7 @@ describe("Feature: Organization", () => {
       })
     );
 
-    store.dispatch(actions.authentication.logout());
+    await store.dispatch(actions.authentication.logout());
 
     await store.dispatch(
       actions.authentication.signup({
@@ -184,8 +190,15 @@ describe("Feature: Organization", () => {
       })
     );
 
-    const organization_id =
-      store.getState().organization.organization_list[0].id;
+    const organization_created = store
+      .getState()
+      .organization.organization_list.find(
+        (organization) => organization.name === "Organization 1"
+      ) as OrganizationEntity;
+
+    expect(organization_created).toBeDefined();
+
+    const organization_id = organization_created.id;
 
     await store.dispatch(
       actions.organization.add_member({
@@ -263,33 +276,27 @@ describe("Feature: Organization", () => {
   });
 
   it(`
-    Given a member user
+    Given a non-admin member user
     When the user tries to add a new member
     Then the new member should not be added
     And the user should get an error
   `, async () => {
-    const { store } = init({});
+    const { store, dependencies } = init({});
 
-    await store.dispatch(
-      actions.authentication.signup({
-        email: "member_to_add@example.com",
-        password: "password123",
-      })
-    );
+    await dependencies.AuthenticationRepository.signup({
+      email: "member_to_add@example.com",
+      password: "password123",
+    });
 
-    await store.dispatch(
-      actions.authentication.signup({
-        email: "member@example.com",
-        password: "password123",
-      })
-    );
+    await dependencies.AuthenticationRepository.signup({
+      email: "member@example.com",
+      password: "password123",
+    });
 
-    await store.dispatch(
-      actions.authentication.signup({
-        email: "admin@example.com",
-        password: "password123",
-      })
-    );
+    await dependencies.AuthenticationRepository.signup({
+      email: "admin@example.com",
+      password: "password123",
+    });
 
     await store.dispatch(
       actions.authentication.login({
@@ -304,8 +311,13 @@ describe("Feature: Organization", () => {
       })
     );
 
-    const organization_id =
-      store.getState().organization.organization_list[0].id;
+    const organization_created = store
+      .getState()
+      .organization.organization_list.find(
+        (organization) => organization.name === "organization"
+      ) as OrganizationEntity;
+
+    const organization_id = organization_created.id;
 
     await store.dispatch(
       actions.organization.add_member({
@@ -382,10 +394,14 @@ describe("Feature: Organization", () => {
         name: "organization",
       })
     );
-    expect(store.getState().organization.organization_list.length).toBe(1);
-    expect(store.getState().organization.organization_list[0].name).toBe(
-      "organization"
-    );
+
+    const organization_created = store
+      .getState()
+      .organization.organization_list.find(
+        (organization) => organization.name === "organization"
+      ) as OrganizationEntity;
+
+    expect(organization_created).toBeDefined();
 
     store.dispatch(actions.global_events.logout());
 

@@ -1,7 +1,7 @@
-import { UserEntity } from "@/modules/authentication/entities/authentication.entity";
 import { actions } from "@/redux/actions";
 import { AsyncThunkConfig } from "@/redux/store";
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { UserEntity } from "@sitemapy/interfaces";
 
 export const _signup_success = createAction<{ user: UserEntity }>(
   "authentication/_signup_success"
@@ -23,16 +23,17 @@ export const _login_failure = createAction<{ error: string }>(
   "authentication/_login_failure"
 );
 
+export const _set_initialized = createAction<boolean>(
+  "authentication/_set_initialized"
+);
+
 export const logout = createAsyncThunk<void, void, AsyncThunkConfig>(
   "authentication/logout",
   async (_, { extra, dispatch }) => {
     dispatch(actions.global_events.logout());
+    extra.LocationService.navigate("/login");
     await extra.AuthenticationRepository.logout();
   }
-);
-
-export const _set_initialized = createAction<boolean>(
-  "authentication/_set_initialized"
 );
 
 export const login = createAsyncThunk<
@@ -86,7 +87,7 @@ export const signup = createAsyncThunk<
   }
 
   dispatch(_store_user({ user: response.body }));
-  dispatch(actions.global_events.login({ user: response.body }));
+  dispatch(actions.global_events.signup({ user: response.body }));
   dispatch(
     actions.notifications.create({
       message: "Account created successfully",

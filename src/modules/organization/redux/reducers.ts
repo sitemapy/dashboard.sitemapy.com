@@ -1,9 +1,9 @@
+import { actions } from "@/redux/actions";
+import { createReducer } from "@reduxjs/toolkit";
 import {
   OrganizationEntity,
   OrganizationToUserEntity,
-} from "@/modules/organization/entities/organization.entity";
-import { actions } from "@/redux/actions";
-import { createReducer } from "@reduxjs/toolkit";
+} from "@sitemapy/interfaces";
 
 export type OrganizationState = {
   organization_list: OrganizationEntity[];
@@ -29,6 +29,9 @@ export const organization_reducer = createReducer(initialState, (builder) => {
     (state, action) => {
       state.is_loading = false;
       state.organization_list = action.payload;
+      if (action.payload.length > 0) {
+        state.current_organization = action.payload[0];
+      }
     }
   );
 

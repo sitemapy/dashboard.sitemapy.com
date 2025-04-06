@@ -1,19 +1,34 @@
+import { OrganizationRepository } from "@/modules/organization/repositories/organization.repository";
+import { nanoid } from "@reduxjs/toolkit";
 import {
   OrganizationEntity,
   OrganizationRole,
   OrganizationToUserEntity,
-} from "@/modules/organization/entities/organization.entity";
-import { OrganizationRepository } from "@/modules/organization/repositories/organization.repository";
-import { nanoid } from "@reduxjs/toolkit";
+} from "@sitemapy/interfaces";
 
 export class OrganizationRepositoryInMemory implements OrganizationRepository {
   private organizations: Map<string, OrganizationEntity> = new Map();
   private organization_members: OrganizationToUserEntity[] = [];
 
-  async get_organizations(): Promise<
+  async get_organizations(params: {
+    user_id: string;
+  }): Promise<
     { error: true; code: string } | { error: false; body: OrganizationEntity[] }
   > {
-    return { error: false, body: Array.from(this.organizations.values()) };
+    const organization_members = this.organizations.values();
+    const organizations = Array.from(organization_members).filter(
+      (organization) =>
+        this.organization_members.find(
+          (member) =>
+            member.organization_id === organization.id &&
+            member.user_id === params.user_id
+        )
+    );
+
+    return {
+      error: false,
+      body: organizations,
+    };
   }
 
   async create_organization(params: {
@@ -56,6 +71,18 @@ export class OrganizationRepositoryInMemory implements OrganizationRepository {
     };
   }
 
+  async does_user_already_have_organization(params: {
+    user_id: string;
+  }): Promise<{ error: true; code: string } | { error: false; body: boolean }> {
+    const user_already_has_organization = this.organization_members.find(
+      (member) => member.user_id === params.user_id
+    );
+
+    if (!user_already_has_organization) return { error: false, body: false };
+
+    return { error: false, body: true };
+  }
+
   async add_member(params: {
     organization_id: string;
     user_id: string;
@@ -70,7 +97,9 @@ export class OrganizationRepositoryInMemory implements OrganizationRepository {
       (member) => member.user_id === params.user_id && member.role === "admin"
     );
     const member_already_exists = this.organization_members.find(
-      (member) => member.user_id === params.member_id
+      (member) =>
+        member.user_id === params.member_id &&
+        member.organization_id === params.organization_id
     );
 
     if (!organization) return { error: true, code: "Organization not found" };

@@ -8,6 +8,7 @@ import { OrganizationRepositoryInMemory } from "@/modules/organization/repositor
 import { SitemapRepository } from "@/modules/sitemap/repositories/sitemap.repository";
 import { SitemapRepositoryInMemory } from "@/modules/sitemap/repositories/sitemap.repository.in-memory";
 import { AuthenticationRepositoryLocalStorage } from "../authentication/repositories/authentication.repository.local-storage";
+import { OrganizationRepositoryLocalStorage } from "../organization/repositories/organization.repository.local-storage";
 
 export type Dependencies = {
   AuthenticationRepository: AuthenticationRepository;
@@ -28,7 +29,7 @@ export const build = (env?: "in-memory" | "api"): Dependencies => {
 
   return {
     AuthenticationRepository: new AuthenticationRepositoryLocalStorage(),
-    OrganizationRepository: new OrganizationRepositoryInMemory(),
+    OrganizationRepository: new OrganizationRepositoryLocalStorage(),
     SitemapRepository: new SitemapRepositoryInMemory(),
     LocationService: new LocationServiceWindow(),
   };

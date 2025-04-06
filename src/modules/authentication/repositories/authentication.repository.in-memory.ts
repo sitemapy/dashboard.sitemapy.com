@@ -1,5 +1,5 @@
-import { UserEntity } from "@/modules/authentication/entities/authentication.entity";
 import { AuthenticationRepository } from "@/modules/authentication/repositories/authentication.repository";
+import { UserEntity } from "@sitemapy/interfaces";
 
 export class AuthenticationRepositoryInMemory
   implements AuthenticationRepository
@@ -40,11 +40,12 @@ export class AuthenticationRepositoryInMemory
       return { error: true, code: "User already exists" };
     }
 
-    const newUser = {
+    const newUser: UserEntity = {
       ...params,
       id: params.email,
       created_at: new Date(),
       updated_at: new Date(),
+      language: "en",
     };
 
     this.users.push(newUser);
