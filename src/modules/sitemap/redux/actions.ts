@@ -1,14 +1,11 @@
-import {
-  SitemapHistory,
-  SitemapResponse,
-} from "@/modules/sitemap/entities/sitemap.entity";
 import { actions } from "@/redux/actions";
 import { AsyncThunkConfig } from "@/redux/store";
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { SitemapResponse } from "@sitemapy/interfaces";
 
 export const _store_sitemap_response = createAction<{
   sitemap_url: string;
-  sitemap_response: SitemapResponse;
+  sitemap_response: SitemapResponse[];
 }>("sitemap/_store_sitemap_response");
 
 export const _toggle_collapse_folder = createAction<{
@@ -47,26 +44,4 @@ export const fetch_sitemap = createAsyncThunk<
 
 export const _set_fetching_history_loading = createAction<boolean>(
   "sitemap/_set_fetching_history_loading"
-);
-
-export const _store_history = createAction<SitemapHistory[]>(
-  "sitemap/_store_history"
-);
-
-export const fetch_history = createAsyncThunk<void, void, AsyncThunkConfig>(
-  "sitemap/fetch_history",
-  async (_, { dispatch, extra }) => {
-    dispatch(_set_fetching_history_loading(true));
-
-    const history = await extra.SitemapRepository.get_history();
-
-    dispatch(_set_fetching_history_loading(false));
-
-    if (history.error) {
-      dispatch(actions.global_events.error({ error: history.code }));
-      return;
-    }
-
-    dispatch(_store_history(history.body));
-  }
 );

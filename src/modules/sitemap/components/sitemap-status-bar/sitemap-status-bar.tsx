@@ -1,4 +1,4 @@
-import { Tooltip, TooltipContent, TooltipTrigger } from "@sitemapy/ui";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/ui";
 import clsx from "clsx";
 import { CalendarIcon, ClockIcon, FileIcon, ServerIcon } from "lucide-react";
 import React, { memo } from "react";

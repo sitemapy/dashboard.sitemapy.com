@@ -1,4 +1,4 @@
-import { SitemapResponse } from "../entities/sitemap.entity";
+import { SitemapResponse } from "@sitemapy/interfaces";
 /**
  * Extract data from a sitemap response
  * @param sitemap_response - The sitemap response to extract data from
@@ -31,7 +31,7 @@ export const extract_sitemap_data = <T>(
       results.push(extracted);
     }
 
-    node.sitemaps.forEach(visit);
+    node.children.forEach(visit);
   };
 
   visit(sitemap_response);

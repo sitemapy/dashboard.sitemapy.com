@@ -1,8 +1,8 @@
+import { Layout } from "@/modules/global-events/components/layout/layout";
 import { actions } from "@/redux/actions";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { UserEntity } from "@sitemapy/interfaces";
-import { Layout } from "@sitemapy/ui";
-import { SettingsIcon } from "lucide-react";
+import { FolderIcon, SettingsIcon } from "lucide-react";
 
 type Props = {
   children: React.ReactNode;
@@ -21,13 +21,25 @@ export const GlobalLayout: React.FC<Props> = ({ children }) => {
       navigation={[
         [
           {
-            title: "Home",
+            title: "Sitemaps",
             active: true,
-            icon: SettingsIcon,
+            icon: FolderIcon,
             items: [
               {
-                title: "Home",
+                title: "Dashboard",
                 url: "/",
+              },
+              {
+                title: "Analyze",
+                url: "/analyze",
+              },
+              {
+                title: "History",
+                url: "/history",
+              },
+              {
+                title: "Reports",
+                url: "/reports",
               },
             ],
           },

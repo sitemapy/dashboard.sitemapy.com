@@ -34,7 +34,6 @@ export const login = createAsyncThunk<
 >("global_events/login", async (_, { dispatch }) => {
   dispatch(actions.organization.create_organization_if_not_exists());
   dispatch(actions.organization.get_organizations());
-  dispatch(actions.sitemap.fetch_history());
 });
 
 export const signup = createAsyncThunk<

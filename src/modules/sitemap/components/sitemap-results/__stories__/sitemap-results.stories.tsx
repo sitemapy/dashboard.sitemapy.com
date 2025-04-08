@@ -1,6 +1,9 @@
-import type { Meta } from "@storybook/react";
-import { SitemapResults } from "../sitemap-results";
+import { actions } from "@/redux/actions";
+import { useAppDispatch } from "@/redux/store";
 import { SitemapResponse } from "@sitemapy/interfaces";
+import type { Meta } from "@storybook/react";
+import React from "react";
+import { SitemapResults } from "../sitemap-results";
 
 const meta = {
   title: "Organisms/SitemapResults",
@@ -63,13 +66,18 @@ const sitemaps: SitemapResponse[] = [
   },
 ];
 
-export const Default = {
-  render: () => {
-    return (
-      <SitemapResults 
-        isLoading={false}
-        sitemaps={sitemaps}
-      />
+
+export const Default = () => {
+  const dispatch = useAppDispatch();
+
+  React.useEffect(() => {
+    dispatch(
+      actions.sitemap._store_sitemap_response({
+        sitemap_url: "https://www.google.com/sitemap.xml",
+        sitemap_response: sitemaps,
+      })
     );
-  }
+  }, []);
+
+  return <SitemapResults />;
 };

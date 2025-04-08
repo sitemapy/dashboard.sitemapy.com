@@ -1,41 +1,41 @@
-import { SitemapResponse } from "../../entities/sitemap.entity";
+import { SitemapResponse } from "@sitemapy/interfaces";
 import { extract_sitemap_data } from "../extract-sitemap-data";
 
 describe("Feature: Extract sitemap data", () => {
   const sitemap_url = "https://example.com/sitemap.xml";
   const sitemap_response: SitemapResponse = {
     url: sitemap_url,
-    statusCode: 200,
-    pages: [],
+    status_code: 200,
     type: "sitemap-index",
-    sitemaps: [
+    sitemap_parent_url: null,
+    children: [
       {
         url: "https://example.com/sitemap1.xml",
-        statusCode: 200,
-        pages: [],
+        status_code: 200,
+        children: [],
         type: "sitemap",
-        sitemaps: [],
-        numberTotalOfPages: 10,
+        sitemap_parent_url: "https://example.com/sitemap.xml",
+        number_total_of_pages: 10,
       },
       {
         url: "https://example.com/sitemap2.xml",
-        statusCode: 200,
-        pages: [],
+        status_code: 200,
         type: "sitemap",
-        sitemaps: [
+        sitemap_parent_url: "https://example.com/sitemap.xml",
+        children: [
           {
             url: "https://example.com/sitemap2-1.xml",
-            statusCode: 200,
-            pages: [],
+            status_code: 200,
+            children: [],
             type: "sitemap",
-            sitemaps: [],
-            numberTotalOfPages: 5,
+            sitemap_parent_url: "https://example.com/sitemap2.xml",
+            number_total_of_pages: 5,
           },
         ],
-        numberTotalOfPages: 15,
+        number_total_of_pages: 15,
       },
     ],
-    numberTotalOfPages: 30,
+    number_total_of_pages: 30,
   };
 
   it("should extract data from all nodes in the sitemap tree", () => {
@@ -70,11 +70,11 @@ describe("Feature: Extract sitemap data", () => {
   it("should handle empty sitemaps", () => {
     const empty_sitemap: SitemapResponse = {
       url: sitemap_url,
-      statusCode: 200,
-      pages: [],
+      status_code: 200,
+      children: [],
       type: "sitemap",
-      sitemaps: [],
-      numberTotalOfPages: 0,
+      sitemap_parent_url: "https://example.com/sitemap.xml",
+      number_total_of_pages: 0,
     };
 
     const extracted = extract_sitemap_data(empty_sitemap, (node) => node.url);

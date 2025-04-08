@@ -1,5 +1,5 @@
 import { format_url_for_sitemap } from "@/modules/sitemap/utils/format-url-for-sitemap";
-import { Button } from "@sitemapy/ui";
+import { Button } from "@/ui";
 import clsx from "clsx";
 import {
   ChevronDownIcon,
@@ -30,7 +30,7 @@ const Wrapper: React.FC<ContainerProps> = (props) => {
           zIndex: 40 - props.depth,
         }}
       >
-        <div className="flex items-start">
+        <div className="flex items-center">
           {has_children && (
             <div className="flex items-center space-x-2">
               <Button
@@ -75,7 +75,7 @@ const Wrapper: React.FC<ContainerProps> = (props) => {
               <a
                 href={props.url}
                 target="_blank"
-                className="flex items-center gap-2 hover:underline"
+                className="flex items-center gap-2 text-sm hover:underline"
               >
                 <div>{format_url_for_sitemap(props.url)}</div>
                 <ExternalLinkIcon className="text-muted-foreground h-4 w-4" />

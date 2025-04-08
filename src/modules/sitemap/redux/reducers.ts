@@ -1,23 +1,24 @@
-import {
-  SitemapHistory,
-  SitemapResponse,
-} from "@/modules/sitemap/entities/sitemap.entity";
 import { actions } from "@/redux/actions";
 import { createReducer } from "@reduxjs/toolkit";
+import { SitemapResponse } from "@sitemapy/interfaces";
 import { extract_sitemap_data } from "../utils/extract-sitemap-data";
 
 export type sitemap_state = {
   sitemap_url: string | null;
   is_loading: boolean;
-  history: SitemapHistory[];
+  history: Array<{
+    sitemap_url: string;
+    sitemap_response: SitemapResponse;
+    created_at: Date;
+  }>;
   history_is_loading: boolean;
-  sitemap_response: SitemapResponse | null;
+  sitemap_response: SitemapResponse[];
   collapsed_folders: Array<string>;
 };
 
 const initial_state: sitemap_state = {
   sitemap_url: null,
-  sitemap_response: null,
+  sitemap_response: [],
   is_loading: false,
   history: [],
   history_is_loading: false,
@@ -28,17 +29,18 @@ export const sitemap_reducer = createReducer(initial_state, (builder) => {
   builder.addCase(actions.sitemap._store_sitemap_response, (state, action) => {
     state.sitemap_url = action.payload.sitemap_url;
     state.sitemap_response = action.payload.sitemap_response;
-    state.history.unshift({
-      sitemap_url: action.payload.sitemap_url,
-      sitemap_response: action.payload.sitemap_response,
-      created_at: new Date(),
-    });
-    state.collapsed_folders = extract_sitemap_data<string>(
-      action.payload.sitemap_response,
-      (element) => {
-        if (element.type === "sitemap-index") return element.url;
-        return undefined;
-      }
+
+    console.log(
+      "action.payload.sitemap_response",
+      action.payload.sitemap_response
+    );
+
+    state.collapsed_folders = action.payload.sitemap_response.flatMap(
+      (sitemap) =>
+        extract_sitemap_data<string>(sitemap, (element) => {
+          if (element.type === "sitemap-index") return element.url;
+          return undefined;
+        })
     );
   });
 
@@ -65,8 +67,4 @@ export const sitemap_reducer = createReducer(initial_state, (builder) => {
       state.history_is_loading = action.payload;
     }
   );
-
-  builder.addCase(actions.sitemap._store_history, (state, action) => {
-    state.history = action.payload;
-  });
 });

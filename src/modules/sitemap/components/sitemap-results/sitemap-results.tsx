@@ -1,32 +1,17 @@
-import { SitemapResponse } from "@sitemapy/interfaces";
-import { Skeleton } from "@sitemapy/ui";
 import React from "react";
 import { SitemapResultsItem } from "../sitemap-results-item/sitemap-results-item";
+import { connector, ContainerProps } from "./sitemap-results.container";
 
-type Props = {
-  isLoading: boolean;
-  sitemaps: SitemapResponse[];
-};
-
-export const SitemapResults: React.FC<Props> = (props) => {
+export const Wrapper: React.FC<ContainerProps> = (props) => {
   return (
-    <div className="mx-auto max-w-6xl">
-      {props.isLoading && (
-        <>
-          <Skeleton />
-          <Skeleton />
-          <Skeleton />
-          <Skeleton />
-        </>
-      )}
-
-      {props.sitemaps && !props.isLoading && (
-        <div className="relative grid gap-2">
-          {props.sitemaps.map((sitemap, index) => (
-            <SitemapResultsItem key={index} {...sitemap} depth={0} />
-          ))}
-        </div>
-      )}
+    <div className="relative grid gap-2">
+      {props.sitemaps.map((sitemap) => (
+        <SitemapResultsItem key={sitemap.url} {...sitemap} depth={0} />
+      ))}
     </div>
   );
 };
+
+Wrapper.displayName = "SitemapResults";
+
+export const SitemapResults = connector(Wrapper);
