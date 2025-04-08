@@ -1,18 +1,24 @@
+import { actions } from "@/redux/actions";
+import { AsyncThunkConfig } from "@/redux/store";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   OrganizationEntity,
   OrganizationRole,
   OrganizationToUserEntity,
-} from "@/modules/organization/entities/organization.entity";
-import { actions } from "@/redux/actions";
-import { AsyncThunkConfig } from "@/redux/store";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+  UserEntity,
+} from "@sitemapy/interfaces";
 
 export const get_organizations = createAsyncThunk<
   OrganizationEntity[],
   void,
   AsyncThunkConfig
->("organization/get_organizations", async (_, { extra }) => {
-  const response = await extra.OrganizationRepository.get_organizations();
+>("organization/get_organizations", async (_, { extra, getState }) => {
+  const { authentication } = getState();
+  const user = authentication.user as UserEntity;
+
+  const response = await extra.OrganizationRepository.get_organizations({
+    user_id: user.id,
+  });
 
   if (response.error) {
     throw new Error(response.code);
@@ -25,34 +31,39 @@ export const get_organization_members = createAsyncThunk<
   OrganizationToUserEntity[],
   { organization_id: string },
   AsyncThunkConfig
->("organization/get_organization_members", async (params, { extra }) => {
-  const response = await extra.OrganizationRepository.get_organization_members(
-    params
-  );
+>(
+  "organization/get_organization_members",
+  async (params, { extra, getState }) => {
+    const { authentication } = getState();
+    const user = authentication.user as UserEntity;
 
-  if (response.error) {
-    throw new Error(response.code);
+    const response =
+      await extra.OrganizationRepository.get_organization_members({
+        organization_id: params.organization_id,
+        user_id: user.id,
+      });
+
+    if (response.error) {
+      throw new Error(response.code);
+    }
+
+    return response.body;
   }
-
-  return response.body;
-});
+);
 
 export const create_organization = createAsyncThunk<
-  void,
+  OrganizationEntity,
   { name: string },
   AsyncThunkConfig
 >(
   "organization/create_organization",
   async (params, { extra, dispatch, getState }) => {
     const { authentication } = getState();
-
-    if (!authentication.user?.id) {
-      throw new Error("User not found");
-    }
+    const user = authentication.user as UserEntity;
 
     const response = await extra.OrganizationRepository.create_organization({
       ...params,
-      user_id: authentication.user.id,
+      user_id: user.id,
     });
 
     if (response.error) {
@@ -60,6 +71,33 @@ export const create_organization = createAsyncThunk<
     }
 
     await dispatch(get_organizations());
+
+    return response.body;
+  }
+);
+
+export const create_organization_if_not_exists = createAsyncThunk<
+  void,
+  void,
+  AsyncThunkConfig
+>(
+  "organization/create_organization_if_not_exists",
+  async (params, { extra, dispatch, getState }) => {
+    const { authentication } = getState();
+    const user = authentication.user as UserEntity;
+
+    const response =
+      await extra.OrganizationRepository.does_user_already_have_organization({
+        user_id: user.id,
+      });
+
+    if (response.error) throw new Error(response.code);
+
+    const has_organization = response.body;
+
+    if (has_organization) return;
+
+    dispatch(create_organization({ name: "My Personal Organization" }));
   }
 );
 
@@ -69,18 +107,17 @@ export const add_member = createAsyncThunk<
   AsyncThunkConfig
 >("organization/add_member", async (params, { extra, getState, dispatch }) => {
   const { authentication } = getState();
-
-  if (!authentication.user?.id) {
-    dispatch(actions.global_events.error({ error: "User not found" }));
-    return;
-  }
+  const user = authentication.user as UserEntity;
 
   const response = await extra.OrganizationRepository.add_member({
-    ...params,
-    user_id: authentication.user.id,
+    member_id: params.member_id,
+    organization_id: params.organization_id,
+    role: params.role,
+    user_id: user.id,
   });
 
   if (response.error) {
+    console.error(response);
     dispatch(actions.global_events.error({ error: response.code }));
   }
 

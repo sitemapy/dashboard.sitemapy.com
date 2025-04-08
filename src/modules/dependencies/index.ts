@@ -8,6 +8,9 @@ import { OrganizationRepositoryInMemory } from "@/modules/organization/repositor
 import { SitemapRepository } from "@/modules/sitemap/repositories/sitemap.repository";
 import { SitemapRepositoryInMemory } from "@/modules/sitemap/repositories/sitemap.repository.in-memory";
 import { AuthenticationRepositoryLocalStorage } from "../authentication/repositories/authentication.repository.local-storage";
+import { OrganizationRepositoryLocalStorage } from "../organization/repositories/organization.repository.local-storage";
+
+import { sitemap } from "./__fixtures__/sitemaps";
 
 export type Dependencies = {
   AuthenticationRepository: AuthenticationRepository;
@@ -28,8 +31,13 @@ export const build = (env?: "in-memory" | "api"): Dependencies => {
 
   return {
     AuthenticationRepository: new AuthenticationRepositoryLocalStorage(),
-    OrganizationRepository: new OrganizationRepositoryInMemory(),
-    SitemapRepository: new SitemapRepositoryInMemory(),
+    OrganizationRepository: new OrganizationRepositoryLocalStorage(),
+    SitemapRepository: new SitemapRepositoryInMemory({
+      sitemap_responses: new Map([
+        ["https://www.sudoku.academy/sitemap-index.xml", [sitemap]],
+        ["https://www.sudoku.academy", [sitemap]],
+      ]),
+    }),
     LocationService: new LocationServiceWindow(),
   };
 };

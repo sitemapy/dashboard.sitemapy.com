@@ -1,11 +1,16 @@
-import { UserEntity } from "@/modules/authentication/entities/authentication.entity";
 import { actions } from "@/redux/actions";
 import { createReducer } from "@reduxjs/toolkit";
+import { UserEntity } from "@sitemapy/interfaces";
 
 export type AuthenticationState = {
   user: UserEntity | null;
   is_loading: boolean;
   error: string | null;
+  /**
+   * We need to know if we already checked if the user is authenticated
+   * If yes, we can redirect the user to the home page or login page
+   * If no, the app will wait until the user has been checked
+   */
   initialized: boolean;
 };
 

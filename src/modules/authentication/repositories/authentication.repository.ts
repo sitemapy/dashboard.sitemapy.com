@@ -1,4 +1,4 @@
-import { UserEntity } from "@/modules/authentication/entities/authentication.entity";
+import { UserEntity } from "@sitemapy/interfaces";
 
 export interface AuthenticationRepository {
   login(params: {

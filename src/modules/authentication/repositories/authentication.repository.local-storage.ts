@@ -1,5 +1,5 @@
-import { UserEntity } from "@/modules/authentication/entities/authentication.entity";
 import { AuthenticationRepository } from "@/modules/authentication/repositories/authentication.repository";
+import { UserEntity } from "@sitemapy/interfaces";
 
 export class AuthenticationRepositoryLocalStorage
   implements AuthenticationRepository
@@ -13,6 +13,7 @@ export class AuthenticationRepositoryLocalStorage
         password: "adminadmin",
         created_at: new Date(),
         updated_at: new Date(),
+        language: "en",
       },
     ]);
   }
@@ -78,9 +79,10 @@ export class AuthenticationRepositoryLocalStorage
       return { error: true, code: "User already exists" };
     }
 
-    const newUser = {
+    const newUser: UserEntity = {
       ...params,
       id: params.email,
+      language: "en",
       created_at: new Date(),
       updated_at: new Date(),
     };
