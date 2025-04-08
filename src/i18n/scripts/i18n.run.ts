@@ -118,7 +118,7 @@ async function loadFile(lang: string) {
 }
 
 async function removeRemovedKeys(removedKeys: string[], lang: string) {
-  console.log(`Removing keys: ${removedKeys.join(", ")} from ${lang}`);
+  console.info(`Removing keys: ${removedKeys.join(", ")} from ${lang}`);
 
   const file = await loadFile(lang);
 
@@ -138,7 +138,7 @@ async function addCreatedKeys(
   createdKeys: Array<{ key: string; value: string; lang: string }>,
   lang: string
 ) {
-  console.log(
+  console.info(
     `Adding keys: ${createdKeys.map((k) => k.key).join(", ")} to ${lang}`
   );
   const imported = await loadFile(lang);
@@ -160,7 +160,7 @@ async function updateModifiedKeys(
   modifiedKeys: Array<{ key: string; value: string; lang: string }>,
   lang: string
 ) {
-  console.log(
+  console.info(
     `Updating keys: ${modifiedKeys.map((k) => k.key).join(", ")} in ${lang}`
   );
 
@@ -193,19 +193,19 @@ async function main() {
     if (deleted.length > 0) {
       await removeRemovedKeys(deleted, lang);
     } else {
-      console.log(`No keys to remove`);
+      console.info(`No keys to remove`);
     }
 
     if (created.length > 0) {
       await addCreatedKeys(created, lang);
     } else {
-      console.log(`No keys to add`);
+      console.info(`No keys to add`);
     }
 
     if (modified.length > 0) {
       await updateModifiedKeys(modified, lang);
     } else {
-      console.log(`No keys to update`);
+      console.info(`No keys to update`);
     }
   }
 

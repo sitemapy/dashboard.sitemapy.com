@@ -117,7 +117,6 @@ export const add_member = createAsyncThunk<
   });
 
   if (response.error) {
-    console.error(response);
     dispatch(actions.global_events.error({ error: response.code }));
   }
 

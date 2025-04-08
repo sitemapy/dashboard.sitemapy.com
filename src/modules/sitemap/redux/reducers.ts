@@ -30,11 +30,6 @@ export const sitemap_reducer = createReducer(initial_state, (builder) => {
     state.sitemap_url = action.payload.sitemap_url;
     state.sitemap_response = action.payload.sitemap_response;
 
-    console.log(
-      "action.payload.sitemap_response",
-      action.payload.sitemap_response
-    );
-
     state.collapsed_folders = action.payload.sitemap_response.flatMap(
       (sitemap) =>
         extract_sitemap_data<string>(sitemap, (element) => {
