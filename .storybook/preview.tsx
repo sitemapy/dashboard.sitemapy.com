@@ -1,5 +1,4 @@
 import "@/index.css";
-import "@sitemapy/ui/style.css";
 import { ComponentType } from "react";
 
 import type { Preview } from "@storybook/react";
