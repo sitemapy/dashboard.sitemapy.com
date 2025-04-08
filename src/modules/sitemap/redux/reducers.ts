@@ -4,6 +4,7 @@ import {
 } from "@/modules/sitemap/entities/sitemap.entity";
 import { actions } from "@/redux/actions";
 import { createReducer } from "@reduxjs/toolkit";
+import { extract_sitemap_data } from "../utils/extract-sitemap-data";
 
 export type sitemap_state = {
   sitemap_url: string | null;
@@ -11,6 +12,7 @@ export type sitemap_state = {
   history: SitemapHistory[];
   history_is_loading: boolean;
   sitemap_response: SitemapResponse | null;
+  collapsed_folders: Array<string>;
 };
 
 const initial_state: sitemap_state = {
@@ -19,6 +21,7 @@ const initial_state: sitemap_state = {
   is_loading: false,
   history: [],
   history_is_loading: false,
+  collapsed_folders: [],
 };
 
 export const sitemap_reducer = createReducer(initial_state, (builder) => {
@@ -30,6 +33,23 @@ export const sitemap_reducer = createReducer(initial_state, (builder) => {
       sitemap_response: action.payload.sitemap_response,
       created_at: new Date(),
     });
+    state.collapsed_folders = extract_sitemap_data<string>(
+      action.payload.sitemap_response,
+      (element) => {
+        if (element.type === "sitemap-index") return element.url;
+        return undefined;
+      }
+    );
+  });
+
+  builder.addCase(actions.sitemap._toggle_collapse_folder, (state, action) => {
+    if (state.collapsed_folders.includes(action.payload.id)) {
+      state.collapsed_folders = state.collapsed_folders.filter(
+        (folder) => folder !== action.payload.id
+      );
+    } else {
+      state.collapsed_folders.push(action.payload.id);
+    }
   });
 
   builder.addCase(

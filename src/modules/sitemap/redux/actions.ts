@@ -11,6 +11,10 @@ export const _store_sitemap_response = createAction<{
   sitemap_response: SitemapResponse;
 }>("sitemap/_store_sitemap_response");
 
+export const _toggle_collapse_folder = createAction<{
+  id: string;
+}>("sitemap/_toggle_collapse_folder");
+
 export const _set_fetching_sitemap_loading = createAction<boolean>(
   "sitemap/_set_fetching_sitemap_loading"
 );

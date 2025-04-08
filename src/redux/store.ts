@@ -40,5 +40,7 @@ export type AsyncThunkConfig = {
   dispatch: AppDispatch;
   extra: Dependencies;
 };
+
 export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
+export * from "./actions";
