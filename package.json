@@ -13,6 +13,7 @@
     "test": "vitest",
     "i18n": "tsx src/i18n/scripts/i18n.run.ts",
     "storybook": "storybook dev -p 6006",
+    "storybook:build": "storybook build",
     "upgrade:interfaces": "yarn add @sitemapy/interfaces@latest"
   },
   "dependencies": {
