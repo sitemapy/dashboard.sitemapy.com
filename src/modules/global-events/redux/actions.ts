@@ -1,7 +1,7 @@
 import { actions } from "@/redux/actions";
 import { AsyncThunkConfig } from "@/redux/store";
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { UserEntity } from "@sitemapy/interfaces";
+import { OrganizationEntity, UserEntity } from "@sitemapy/interfaces";
 
 export const error = createAsyncThunk<
   { error: string },
@@ -32,8 +32,14 @@ export const login = createAsyncThunk<
   { user: UserEntity },
   AsyncThunkConfig
 >("global_events/login", async (_, { dispatch }) => {
-  dispatch(actions.organization.create_organization_if_not_exists());
-  dispatch(actions.organization.get_organizations());
+  await dispatch(actions.organization.get_organizations());
+});
+
+export const organization_selected = createAsyncThunk<
+  void,
+  { organization: OrganizationEntity },
+  AsyncThunkConfig
+>("global_events/organization_selected", async (_, { dispatch }) => {
   dispatch(actions.sitemap.fetch_history());
 });
 
@@ -41,6 +47,4 @@ export const signup = createAsyncThunk<
   void,
   { user: UserEntity },
   AsyncThunkConfig
->("global_events/signup", async (payload, { dispatch }) => {
-  await dispatch(actions.organization.create_organization_if_not_exists());
-});
+>("global_events/signup", async () => {});

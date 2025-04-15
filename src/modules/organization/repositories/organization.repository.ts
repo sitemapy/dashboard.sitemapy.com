@@ -11,6 +11,13 @@ export interface OrganizationRepository {
     { error: true; code: string } | { error: false; body: OrganizationEntity[] }
   >;
 
+  get_current_selected_organization(params: {
+    user_id: string;
+  }): Promise<
+    | { error: true; code: string }
+    | { error: false; body: OrganizationEntity | null }
+  >;
+
   create_organization(params: {
     user_id: string;
     name: string;
@@ -18,9 +25,12 @@ export interface OrganizationRepository {
     { error: true; code: string } | { error: false; body: OrganizationEntity }
   >;
 
-  does_user_already_have_organization(params: {
+  select_organization(params: {
+    organization_id: string;
     user_id: string;
-  }): Promise<{ error: true; code: string } | { error: false; body: boolean }>;
+  }): Promise<
+    { error: true; code: string } | { error: false; body: OrganizationEntity }
+  >;
 
   get_organization_members(params: {
     organization_id: string;

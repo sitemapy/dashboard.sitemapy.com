@@ -25,13 +25,17 @@ export const organization_reducer = createReducer(initialState, (builder) => {
   });
 
   builder.addCase(
-    actions.organization.get_organizations.fulfilled,
+    actions.organization._store_organizations,
     (state, action) => {
       state.is_loading = false;
-      state.organization_list = action.payload;
-      if (action.payload.length > 0) {
-        state.current_organization = action.payload[0];
-      }
+      state.organization_list = action.payload.organizations;
+    }
+  );
+
+  builder.addCase(
+    actions.organization._store_current_selected_organization,
+    (state, action) => {
+      state.current_organization = action.payload.organization;
     }
   );
 

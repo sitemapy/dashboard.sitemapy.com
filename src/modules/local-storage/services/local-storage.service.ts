@@ -1,5 +1,7 @@
 export enum LOCAL_STORAGE_KEYS {
-  TOKEN_KEY = "token",
+  TOKEN_KEY = "bearer-token",
+  ORGANIZATION_ID_KEY = "organization_id",
+  LANGUAGE_KEY = "language",
 }
 
 export class LocalStorageService {

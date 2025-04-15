@@ -1,4 +1,4 @@
-import { RootState } from "@/redux/store";
+import { actions, AppDispatch, RootState } from "@/redux/store";
 import { connect, ConnectedProps } from "react-redux";
 
 const mapState = (state: RootState) => ({
@@ -6,7 +6,11 @@ const mapState = (state: RootState) => ({
   organizations: state.organization.organization_list,
 });
 
-const mapDispatch = () => ({});
+const mapDispatch = (dispatch: AppDispatch) => ({
+  select_organization: (organization_id: string) => {
+    dispatch(actions.organization.select_organization({ organization_id }));
+  },
+});
 
 export const connector = connect(mapState, mapDispatch);
 export type ContainerProps = ConnectedProps<typeof connector>;

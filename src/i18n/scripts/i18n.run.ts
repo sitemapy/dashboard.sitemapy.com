@@ -34,7 +34,9 @@ const translate = async (params: {
 
         If you translate into korean, please only write in korean and no english words.
 
-        Do not translate those words: My Search Console.
+        Keep markdown formatting if it exists.
+
+        Do not translate words that are in {}.
         
         Give me only the translation.`,
       },

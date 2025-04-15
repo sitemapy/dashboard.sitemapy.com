@@ -9,12 +9,49 @@ import {
 export class OrganizationRepositoryInMemory implements OrganizationRepository {
   private organizations: Map<string, OrganizationEntity> = new Map();
   private organization_members: OrganizationToUserEntity[] = [];
+  private _current_selected_organization: OrganizationEntity | null = null;
+
+  async get_current_selected_organization(params: {
+    user_id: string;
+  }): Promise<
+    | { error: true; code: string }
+    | { error: false; body: OrganizationEntity | null }
+  > {
+    if (this._current_selected_organization) {
+      return { error: false, body: this._current_selected_organization };
+    }
+
+    const organizations = Array.from(this.organizations.values()).filter(
+      (organization) =>
+        this.organization_members.find(
+          (member) =>
+            member.organization_id === organization.id &&
+            member.user_id === params.user_id
+        )
+    );
+
+    return { error: false, body: organizations[0] || null };
+  }
 
   async get_organizations(params: {
     user_id: string;
   }): Promise<
     { error: true; code: string } | { error: false; body: OrganizationEntity[] }
   > {
+    const does_user_already_have_organization =
+      await this._does_user_already_have_organization({
+        user_id: params.user_id,
+      });
+
+    if (!does_user_already_have_organization) {
+      await this.create_organization({
+        user_id: params.user_id,
+        name: "My Personal Organization",
+      });
+
+      return this.get_organizations({ user_id: params.user_id });
+    }
+
     const organization_members = this.organizations.values();
     const organizations = Array.from(organization_members).filter(
       (organization) =>
@@ -29,6 +66,21 @@ export class OrganizationRepositoryInMemory implements OrganizationRepository {
       error: false,
       body: organizations,
     };
+  }
+
+  async select_organization(params: {
+    organization_id: string;
+    user_id: string;
+  }): Promise<
+    { error: true; code: string } | { error: false; body: OrganizationEntity }
+  > {
+    const organization = this.organizations.get(params.organization_id);
+
+    if (!organization) return { error: true, code: "Organization not found" };
+
+    this._current_selected_organization = organization;
+
+    return { error: false, body: organization };
   }
 
   async create_organization(params: {
@@ -71,16 +123,16 @@ export class OrganizationRepositoryInMemory implements OrganizationRepository {
     };
   }
 
-  async does_user_already_have_organization(params: {
+  async _does_user_already_have_organization(params: {
     user_id: string;
-  }): Promise<{ error: true; code: string } | { error: false; body: boolean }> {
+  }): Promise<boolean> {
     const user_already_has_organization = this.organization_members.find(
       (member) => member.user_id === params.user_id
     );
 
-    if (!user_already_has_organization) return { error: false, body: false };
+    if (!user_already_has_organization) return false;
 
-    return { error: false, body: true };
+    return true;
   }
 
   async add_member(params: {

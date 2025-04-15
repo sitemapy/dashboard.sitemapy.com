@@ -1,6 +1,6 @@
 import { actions } from "@/redux/actions";
 import { AsyncThunkConfig } from "@/redux/store";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import {
   OrganizationEntity,
   OrganizationRole,
@@ -8,24 +8,106 @@ import {
   UserEntity,
 } from "@sitemapy/interfaces";
 
-export const get_organizations = createAsyncThunk<
-  OrganizationEntity[],
+export const _store_current_selected_organization = createAction<{
+  organization: OrganizationEntity;
+}>("organization/_store_current_selected_organization");
+
+export const fetch_selected_organization = createAsyncThunk<
+  void,
   void,
   AsyncThunkConfig
->("organization/get_organizations", async (_, { extra, getState }) => {
-  const { authentication } = getState();
-  const user = authentication.user as UserEntity;
+>(
+  "organization/select_organization",
+  async (_, { extra, dispatch, getState }) => {
+    const { authentication } = getState();
+    const user = authentication.user as UserEntity;
 
-  const response = await extra.OrganizationRepository.get_organizations({
-    user_id: user.id,
-  });
+    const response =
+      await extra.OrganizationRepository.get_current_selected_organization({
+        user_id: user.id,
+      });
 
-  if (response.error) {
-    throw new Error(response.code);
+    if (response.error) {
+      dispatch(actions.global_events.error({ error: response.code }));
+      return;
+    }
+
+    if (!response.body) {
+      dispatch(actions.global_events.error({ error: "No organization found" }));
+      return;
+    }
+
+    dispatch(
+      _store_current_selected_organization({
+        organization: response.body,
+      })
+    );
+
+    dispatch(
+      actions.global_events.organization_selected({
+        organization: response.body,
+      })
+    );
   }
+);
 
-  return response.body;
-});
+export const select_organization = createAsyncThunk<
+  void,
+  { organization_id: string },
+  AsyncThunkConfig
+>(
+  "organization/select_organization",
+  async (params, { extra, dispatch, getState }) => {
+    const { authentication } = getState();
+    const user = authentication.user as UserEntity;
+
+    const response = await extra.OrganizationRepository.select_organization({
+      organization_id: params.organization_id,
+      user_id: user.id,
+    });
+
+    if (response.error) {
+      dispatch(actions.global_events.error({ error: response.code }));
+      return;
+    }
+
+    dispatch(
+      _store_current_selected_organization({
+        organization: response.body,
+      })
+    );
+
+    dispatch(
+      actions.global_events.organization_selected({
+        organization: response.body,
+      })
+    );
+  }
+);
+
+export const _store_organizations = createAction<{
+  organizations: OrganizationEntity[];
+}>("organization/_store_organizations");
+
+export const get_organizations = createAsyncThunk<void, void, AsyncThunkConfig>(
+  "organization/get_organizations",
+  async (_, { extra, getState, dispatch }) => {
+    const { authentication } = getState();
+    const user = authentication.user as UserEntity;
+
+    const response = await extra.OrganizationRepository.get_organizations({
+      user_id: user.id,
+    });
+
+    if (response.error) {
+      dispatch(actions.global_events.error({ error: response.code }));
+      return;
+    }
+
+    dispatch(_store_organizations({ organizations: response.body }));
+    dispatch(fetch_selected_organization());
+  }
+);
 
 export const get_organization_members = createAsyncThunk<
   OrganizationToUserEntity[],
@@ -73,31 +155,6 @@ export const create_organization = createAsyncThunk<
     await dispatch(get_organizations());
 
     return response.body;
-  }
-);
-
-export const create_organization_if_not_exists = createAsyncThunk<
-  void,
-  void,
-  AsyncThunkConfig
->(
-  "organization/create_organization_if_not_exists",
-  async (params, { extra, dispatch, getState }) => {
-    const { authentication } = getState();
-    const user = authentication.user as UserEntity;
-
-    const response =
-      await extra.OrganizationRepository.does_user_already_have_organization({
-        user_id: user.id,
-      });
-
-    if (response.error) throw new Error(response.code);
-
-    const has_organization = response.body;
-
-    if (has_organization) return;
-
-    dispatch(create_organization({ name: "My Personal Organization" }));
   }
 );
 

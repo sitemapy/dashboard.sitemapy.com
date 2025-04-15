@@ -35,5 +35,15 @@
   "sitemap-status-bar/type": "The type of the sitemap is {type}.",
   "navbar/home": "Home",
   "navbar/about": "About",
-  "navbar/contact": "Contact"
+  "navbar/contact": "Contact",
+  "organization/create/title": "Create organization",
+  "organization/create/description": "An organization is a group of users who share the same access to the same resources.",
+  "organization/create/button": "Create",
+  "organization/create/input/name/label": "Name",
+  "organization/create/input/name/placeholder": "My organization",
+  "organization/create/input/name/error/length": "Name must be at least 1 character.",
+  "organization/switcher/create": "Create new organization",
+  "select-language-modal/title": "Change Language",
+  "select-language-modal/description": "Please select the language you want to change to.",
+  "select-language-modal/close": "Close"
 }

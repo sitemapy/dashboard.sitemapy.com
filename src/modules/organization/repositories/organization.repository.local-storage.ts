@@ -11,6 +11,7 @@ export class OrganizationRepositoryLocalStorage
 {
   private ORGANIZATION_KEY = "organizations";
   private ORGANIZATION_MEMBERS_KEY = "organization_members";
+  private CURRENT_SELECTED_ORGANIZATION_KEY = "current_selected_organization";
 
   private _get_organizations(): OrganizationEntity[] {
     return JSON.parse(localStorage.getItem(this.ORGANIZATION_KEY) || "[]");
@@ -35,25 +36,95 @@ export class OrganizationRepositoryLocalStorage
     );
   }
 
-  async get_organizations(): Promise<
+  private _get_current_selected_organization(): string | null {
+    return localStorage.getItem(this.CURRENT_SELECTED_ORGANIZATION_KEY);
+  }
+
+  private _set_current_selected_organization(organization_id: string): void {
+    localStorage.setItem(
+      this.CURRENT_SELECTED_ORGANIZATION_KEY,
+      organization_id
+    );
+  }
+
+  async select_organization(params: {
+    organization_id: string;
+    user_id: string;
+  }): Promise<
+    { error: true; code: string } | { error: false; body: OrganizationEntity }
+  > {
+    this._set_current_selected_organization(params.organization_id);
+
+    const organization = this._get_organizations().find(
+      (organization) => organization.id === params.organization_id
+    );
+
+    if (!organization) return { error: true, code: "Organization not found" };
+
+    return { error: false, body: organization };
+  }
+
+  async get_current_selected_organization(params: {
+    user_id: string;
+  }): Promise<
+    | { error: true; code: string }
+    | { error: false; body: OrganizationEntity | null }
+  > {
+    const organization_members = this._get_organization_members();
+    const organizations_to_user = organization_members
+      .filter((member) => member.user_id === params.user_id)
+      .map((member) => member.organization_id);
+
+    const organizations = this._get_organizations().filter((organization) =>
+      organizations_to_user.includes(organization.id)
+    );
+
+    if (organizations.length === 0)
+      return { error: true, code: "User has no organizations" };
+
+    const organization_id = this._get_current_selected_organization();
+    const organization = organizations.find(
+      (organization) => organization.id === organization_id
+    );
+
+    if (organization) return { error: false, body: organization };
+
+    this._set_current_selected_organization(organizations[0].id);
+
+    return { error: false, body: organizations[0] };
+  }
+
+  async get_organizations(params: {
+    user_id: string;
+  }): Promise<
     { error: true; code: string } | { error: false; body: OrganizationEntity[] }
   > {
+    const user_already_has_organization =
+      await this._does_user_already_have_organization({
+        user_id: params.user_id,
+      });
+
+    if (!user_already_has_organization) {
+      await this.create_organization({
+        user_id: params.user_id,
+        name: "My Personal Organization",
+      });
+    }
+
     const organizations = this._get_organizations();
 
     return { error: false, body: organizations };
   }
 
-  async does_user_already_have_organization(params: {
+  async _does_user_already_have_organization(params: {
     user_id: string;
-  }): Promise<{ error: true; code: string } | { error: false; body: boolean }> {
+  }): Promise<boolean> {
     const organization_members = this._get_organization_members();
     const user_already_has_organization = organization_members.find(
       (member) => member.user_id === params.user_id
     );
 
-    if (!user_already_has_organization) return { error: false, body: false };
-
-    return { error: false, body: true };
+    return !!user_already_has_organization;
   }
 
   async create_organization(params: {

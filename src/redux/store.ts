@@ -1,6 +1,7 @@
 import { authentication_reducer } from "@/modules/authentication/redux/reducers";
 import { build, Dependencies } from "@/modules/dependencies";
 import { global_events_reducer } from "@/modules/global-events/redux/reducers";
+import { modal_reducer } from "@/modules/modal/redux/reducers";
 import { notifications_reducer } from "@/modules/notifications/redux/reducers";
 import { organization_reducer } from "@/modules/organization/redux/reducers";
 import { sitemap_reducer } from "@/modules/sitemap/redux/reducers";
@@ -13,6 +14,7 @@ export const reducers = combineReducers({
   global_events: global_events_reducer,
   organization: organization_reducer,
   sitemap: sitemap_reducer,
+  modal: modal_reducer,
 });
 
 export const init = (initialState = {}, env?: "in-memory" | "api") => {

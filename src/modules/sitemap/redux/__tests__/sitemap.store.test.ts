@@ -121,4 +121,32 @@ describe("Feature: Sitemap", () => {
       "https://example.com/sitemap/index-1.xml",
     ]);
   });
+
+  it(`    
+    Given a user
+    When the user select an organization
+    Then the sitemap history should be fetched
+  `, async () => {
+    const { store, dependencies } = init({});
+
+    const sitemap_repository =
+      dependencies.SitemapRepository as SitemapRepositoryInMemory;
+
+    sitemap_repository._store_sitemap_response(sitemap_url, [sitemap_response]);
+    sitemap_repository._store_history(sitemap_url);
+
+    await store.dispatch(
+      actions.global_events.organization_selected({
+        organization: {
+          id: "1",
+          name: "Organization 1",
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+      })
+    );
+
+    expect(store.getState().sitemap.history.length).toBe(1);
+    expect(store.getState().sitemap.history[0]).toMatchObject({ sitemap_url });
+  });
 });

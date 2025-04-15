@@ -1,7 +1,9 @@
+import { MODAL_KEYS, useModal } from "@/lib/use-modal";
 import {
   Avatar,
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -12,6 +14,8 @@ import { LogOut } from "lucide-react";
 import { connector, ContainerProps } from "./navbar-user.container";
 
 export const Wrapper: React.FC<ContainerProps> = (props) => {
+  const { onOpenChange } = useModal(MODAL_KEYS.CHANGE_LANGUAGE);
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -47,14 +51,11 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        {/* <DropdownMenuGroup>
-          {props.navigation.map((nav) => (
-            <DropdownMenuItem key={nav.title}>
-              <nav.icon />
-              {nav.title}
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuGroup> */}
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={onOpenChange}>
+            Change language
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={props.on_logout}>
           <LogOut />

@@ -36,6 +36,35 @@ export const logout = createAsyncThunk<void, void, AsyncThunkConfig>(
   }
 );
 
+export const login_with_google = createAsyncThunk<void, void, AsyncThunkConfig>(
+  "authentication/login_with_google",
+  async (_, { extra, dispatch }) => {
+    dispatch(_set_fetching(true));
+
+    const response = await extra.AuthenticationRepository.login_with_google({
+      language: "en",
+    });
+
+    dispatch(_set_fetching(false));
+
+    if (response.error) {
+      dispatch(_login_failure({ error: response.code }));
+      dispatch(
+        actions.notifications.create({
+          message: "Authentication failed",
+          type: "error",
+          description: response.code,
+        })
+      );
+      return;
+    }
+
+    dispatch(_store_user({ user: response.body.user }));
+    dispatch(actions.global_events.login({ user: response.body.user }));
+    extra.LocationService.navigate("/");
+  }
+);
+
 export const login = createAsyncThunk<
   void,
   { email: string; password: string },
@@ -63,7 +92,7 @@ export const login = createAsyncThunk<
   }
 
   dispatch(_store_user({ user: response.body }));
-  dispatch(actions.global_events.login({ user: response.body }));
+  await dispatch(actions.global_events.login({ user: response.body }));
   extra.LocationService.navigate("/");
 });
 

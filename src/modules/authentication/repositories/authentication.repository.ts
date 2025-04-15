@@ -1,4 +1,4 @@
-import { UserEntity } from "@sitemapy/interfaces";
+import { ErrorEntity, UserEntity } from "@sitemapy/interfaces";
 
 export interface AuthenticationRepository {
   login(params: {
@@ -16,6 +16,19 @@ export interface AuthenticationRepository {
   >;
 
   is_authenticated(): Promise<UserEntity | null>;
+
+  login_with_google(params: { language?: string }): Promise<
+    | {
+        error: true;
+        code: ErrorEntity;
+      }
+    | {
+        error: false;
+        body: {
+          user: UserEntity;
+        };
+      }
+  >;
 
   logout(): Promise<void>;
 }

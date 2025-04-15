@@ -407,4 +407,28 @@ describe("Feature: Organization", () => {
 
     expect(store.getState().organization.organization_list.length).toBe(0);
   });
+
+  it(`
+    Given a logged in user
+    When the user logs in
+    Then the organization should be selected
+  `, async () => {
+    const { store } = init({});
+
+    await store.dispatch(
+      actions.authentication.signup({
+        email: "admin@example.com",
+        password: "password123",
+      })
+    );
+
+    await store.dispatch(
+      actions.authentication.login({
+        email: "admin@example.com",
+        password: "password123",
+      })
+    );
+
+    expect(store.getState().organization.current_organization).toBeDefined();
+  });
 });

@@ -12,6 +12,10 @@ type History = {
 export class LocationServiceWindow implements LocationService {
   private history: History[] = [];
 
+  getHash() {
+    return window.location.hash;
+  }
+
   navigate(path: string, state: Record<string, unknown> = {}) {
     const url = path.startsWith("http")
       ? new URL(path)

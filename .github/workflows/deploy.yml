@@ -40,6 +40,8 @@ jobs:
 
       - name: Build
         run: yarn build
+        env:
+          VITE_API_ENDPOINT: "https://v2.api.sitemapy.com"
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

@@ -27,14 +27,19 @@ export class ApiService {
       ? "https://v2.api.sitemapy.com"
       : "http://localhost:3000";
 
-  async get<T>(url: string): Promise<IApiResponse<T>> {
-    const headers = {
+  private _get_headers(): Record<string, string> {
+    return {
       Authorization:
         "Bearer " + this.localStorageService.get(LOCAL_STORAGE_KEYS.TOKEN_KEY),
+      "x-organization-id": this.localStorageService.get(
+        LOCAL_STORAGE_KEYS.ORGANIZATION_ID_KEY
+      ) as string,
     };
+  }
 
+  async get<T>(url: string): Promise<IApiResponse<T>> {
     const response = await axios.get<T>(`${this.endpoint}${url}`, {
-      headers,
+      headers: this._get_headers(),
       validateStatus: () => true,
     });
 
@@ -52,13 +57,8 @@ export class ApiService {
   }
 
   async post<T>(url: string, data: unknown): Promise<IApiResponse<T>> {
-    const headers = {
-      Authorization:
-        "Bearer " + this.localStorageService.get(LOCAL_STORAGE_KEYS.TOKEN_KEY),
-    };
-
     const response = await axios.post<T>(`${this.endpoint}${url}`, data, {
-      headers,
+      headers: this._get_headers(),
       validateStatus: () => true,
     });
 

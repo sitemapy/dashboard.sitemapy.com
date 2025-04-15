@@ -1,5 +1,5 @@
 import { AuthenticationRepository } from "@/modules/authentication/repositories/authentication.repository";
-import { UserEntity } from "@sitemapy/interfaces";
+import { ErrorEntity, UserEntity } from "@sitemapy/interfaces";
 
 export class AuthenticationRepositoryLocalStorage
   implements AuthenticationRepository
@@ -44,6 +44,19 @@ export class AuthenticationRepositoryLocalStorage
     } else {
       localStorage.removeItem(this.KEY_AUTHENTICATED);
     }
+  }
+
+  async login_with_google(): Promise<
+    | { error: true; code: ErrorEntity }
+    | { error: false; body: { user: UserEntity } }
+  > {
+    const user = this._get_users()[0];
+
+    if (!user) return { error: true, code: ErrorEntity.USER_NOT_FOUND };
+
+    this._set_authenticated_user(user);
+
+    return { error: false, body: { user } };
   }
 
   async login(params: {

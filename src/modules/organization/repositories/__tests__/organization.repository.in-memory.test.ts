@@ -59,39 +59,28 @@ describe("Feature: Organization Repository In Memory", () => {
   });
 
   it(`
-    Given a user does not have an organization
-    When checking if the user has an organization
-    Then the user should not have an organization
+    Given a user with no organizations exist
+    When getting organizations for a user
+    Then a personal organization should be created
   `, async () => {
     const repository = new OrganizationRepositoryInMemory();
 
-    const response = await repository.does_user_already_have_organization({
-      user_id: "test-user-id",
+    const orgs = await repository.get_organizations({
+      user_id: "user-1",
     });
 
-    if (response.error) throw new Error(response.code);
+    if (orgs.error) throw new Error(orgs.code);
 
-    expect(response.body).toBe(false);
-  });
+    expect(orgs.body.length).toBe(1);
+    expect(orgs.body[0].name).toBe("My Personal Organization");
 
-  it(`
-    Given a user has an organization
-    When checking if the user has an organization
-    Then the user should have an organization
-  `, async () => {
-    const repository = new OrganizationRepositoryInMemory();
-
-    await repository.create_organization({
-      name: "Test Organization",
-      user_id: "test-user-id",
+    const members = await repository.get_organization_members({
+      organization_id: orgs.body[0].id,
     });
 
-    const response = await repository.does_user_already_have_organization({
-      user_id: "test-user-id",
-    });
+    if (members.error) throw new Error(members.code);
 
-    if (response.error) throw new Error(response.code);
-
-    expect(response.body).toBe(true);
+    expect(members.body.length).toBe(1);
+    expect(members.body[0].user_id).toBe("user-1");
   });
 });

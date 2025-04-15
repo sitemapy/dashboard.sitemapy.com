@@ -11,6 +11,10 @@ type History = {
 export class LocationServiceInMemory implements LocationService {
   private history: History[] = [];
 
+  getHash() {
+    return this.history[this.history.length - 1]?.hash || "";
+  }
+
   navigate(path: string, state: Record<string, unknown> = {}) {
     const url = path.startsWith("http")
       ? new URL(path)

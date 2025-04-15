@@ -7,16 +7,16 @@ export const SitemapHero: React.FC = () => {
   const { formatMessage } = useIntl();
 
   return (
-    <div className={classNames("relative bg-white")}>
+    <div className={classNames("relative")}>
       <div
-        className="absolute right-0 top-32 hidden animate-bounce xl:block"
+        className="absolute right-0 top-32 -z-10 hidden animate-bounce xl:block"
         style={{ animationDuration: "4s" }}
       >
         <div className="h-36 w-36 rounded-full bg-blue-50 bg-opacity-50"></div>
       </div>
 
       <div
-        className="absolute left-0 top-32 hidden animate-bounce xl:block"
+        className="absolute left-0 top-32 -z-10 hidden animate-bounce xl:block"
         style={{ animationDuration: "3s" }}
       >
         <div className="h-36 w-36 rotate-12 rounded-lg bg-red-50 bg-opacity-50"></div>
