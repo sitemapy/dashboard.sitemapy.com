@@ -1,6 +1,7 @@
 import { actions } from "@/redux/actions";
 import { createReducer } from "@reduxjs/toolkit";
 import { SitemapResponse } from "@sitemapy/interfaces";
+import { uniqBy } from "lodash";
 import { extract_sitemap_data } from "../utils/extract-sitemap-data";
 
 export type sitemap_state = {
@@ -8,7 +9,6 @@ export type sitemap_state = {
   is_loading: boolean;
   history: Array<{
     sitemap_url: string;
-    sitemap_response: SitemapResponse;
     created_at: Date;
   }>;
   history_is_loading: boolean;
@@ -29,6 +29,16 @@ export const sitemap_reducer = createReducer(initial_state, (builder) => {
   builder.addCase(actions.sitemap._store_sitemap_response, (state, action) => {
     state.sitemap_url = action.payload.sitemap_url;
     state.sitemap_response = action.payload.sitemap_response;
+    state.history = uniqBy(
+      [
+        {
+          sitemap_url: action.payload.sitemap_url,
+          created_at: new Date(),
+        },
+        ...state.history,
+      ],
+      "sitemap_url"
+    );
 
     state.collapsed_folders = action.payload.sitemap_response.flatMap(
       (sitemap) =>
@@ -37,6 +47,14 @@ export const sitemap_reducer = createReducer(initial_state, (builder) => {
           return undefined;
         })
     );
+  });
+
+  builder.addCase(actions.sitemap._store_history, (state, action) => {
+    state.history = action.payload.history;
+  });
+
+  builder.addCase(actions.sitemap._set_sitemap_url, (state, action) => {
+    state.sitemap_url = action.payload.sitemap_url;
   });
 
   builder.addCase(actions.sitemap._toggle_collapse_folder, (state, action) => {

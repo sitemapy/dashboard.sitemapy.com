@@ -24,5 +24,16 @@
   "signup/submitButtonText": "Sign up",
   "signup/acceptTermsText": "By clicking continue, you agree to our <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>.",
   "signup/confirmPasswordLabel": "Confirm password",
-  "signup/confirmPasswordNotMatchError": "Passwords do not match"
+  "signup/confirmPasswordNotMatchError": "Passwords do not match",
+  "sitemapy/input/submit": "Check",
+  "sitemapy/hero/title": "Let's check if _your **sitemaps** are working._",
+  "sitemapy/hero/description": "Add your website url or directly your sitemap's url. We will check this and show you usefull data and statistics. Sitemap managment has never been so easy.",
+  "sitemap-status-bar/status_code": "The status code of the sitemap is {status_code}.",
+  "sitemap-status-bar/total_pages": "The total number of pages in the sitemap is {total_pages}.",
+  "sitemap-status-bar/response_time": "The response time of the sitemap is {response_time}ms.",
+  "sitemap-status-bar/updated_at": "The sitemap was last updated at {updated_at}.",
+  "sitemap-status-bar/type": "The type of the sitemap is {type}.",
+  "navbar/home": "Home",
+  "navbar/about": "About",
+  "navbar/contact": "Contact"
 }

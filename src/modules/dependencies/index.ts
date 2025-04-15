@@ -37,6 +37,12 @@ export const build = (env?: "in-memory" | "api"): Dependencies => {
         ["https://www.sudoku.academy/sitemap-index.xml", [sitemap]],
         ["https://www.sudoku.academy", [sitemap]],
       ]),
+      history: [
+        {
+          sitemap_url: "https://www.sudoku.academy/sitemap-index.xml",
+          created_at: new Date(),
+        },
+      ],
     }),
     LocationService: new LocationServiceWindow(),
   };

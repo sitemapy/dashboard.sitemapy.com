@@ -1,52 +1,63 @@
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/ui";
+import { SitemapResponse } from "@sitemapy/interfaces";
 import clsx from "clsx";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 import { CalendarIcon, ClockIcon, FileIcon, ServerIcon } from "lucide-react";
 import React, { memo } from "react";
 import { FormattedMessage } from "react-intl";
+
+dayjs.extend(relativeTime);
 
 type Props = {
   status_code?: number;
   response_time?: number;
   number_total_of_pages?: number;
   updated_at?: Date;
+  type: SitemapResponse["type"];
 };
 
 const Wrapper: React.FC<Props> = (props) => {
   const status = [
-    props.number_total_of_pages !== undefined && (
+    props.number_total_of_pages !== undefined && props.type !== "page" && (
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger>
           <div className={clsx("flex items-center gap-1")}>
             <FileIcon className="h-3 w-3" />
             {props.number_total_of_pages}
           </div>
         </TooltipTrigger>
-        <TooltipContent side="bottom">
+        <TooltipContent>
           <FormattedMessage
-            id="sitemap/results/status-bar/number-total-of-pages"
-            values={{ total: props.number_total_of_pages }}
+            id="sitemap-status-bar/total_pages"
+            values={{
+              total_pages: props.number_total_of_pages,
+            }}
           />
         </TooltipContent>
       </Tooltip>
     ),
     props.response_time && (
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger>
           <div className="flex items-center gap-1">
             <ClockIcon className="h-3 w-3" />
             {props.response_time}ms
           </div>
         </TooltipTrigger>
-        <TooltipContent side="bottom">
-          <div>
-            The response time for this sitemap is {props.response_time}ms
-          </div>
+        <TooltipContent>
+          <FormattedMessage
+            id="sitemap-status-bar/response_time"
+            values={{
+              response_time: props.response_time,
+            }}
+          />
         </TooltipContent>
       </Tooltip>
     ),
-    props.status_code && (
+    props.status_code && props.type !== "page" && (
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger>
           <div className={clsx(props.status_code !== 200 && "text-red-500")}>
             <div className="flex items-center gap-1">
               <ServerIcon className="h-3 w-3" />
@@ -54,36 +65,40 @@ const Wrapper: React.FC<Props> = (props) => {
             </div>
           </div>
         </TooltipTrigger>
-        <TooltipContent side="bottom">
-          <div>The status code for this sitemap is {props.status_code}</div>
+        <TooltipContent>
+          <FormattedMessage
+            id="sitemap-status-bar/status_code"
+            values={{
+              status_code: props.status_code,
+            }}
+          />
         </TooltipContent>
       </Tooltip>
     ),
     props.updated_at && (
       <Tooltip>
-        <TooltipTrigger asChild>
+        <TooltipTrigger>
           <div className="flex items-center gap-1">
             <CalendarIcon className="h-3 w-3" />
-            {props.updated_at.toLocaleString()}
+            {dayjs(props.updated_at).fromNow()}
           </div>
         </TooltipTrigger>
-        <TooltipContent side="bottom">
-          <div>
-            The sitemap was last updated at {props.updated_at.toLocaleString()}
-          </div>
+        <TooltipContent>
+          <FormattedMessage
+            id="sitemap-status-bar/updated_at"
+            values={{ updated_at: props.updated_at.toLocaleString() }}
+          />
         </TooltipContent>
       </Tooltip>
     ),
   ].filter(Boolean);
 
   return (
-    <div className="flex items-center space-x-1 text-xs">
+    <div className="flex items-center gap-2 text-xs">
       {status.map((item, index) => (
         <React.Fragment key={index}>
-          <div className="text-muted-foreground">{item}</div>
-          {index < status.length - 1 && (
-            <div className="text-muted-foreground">•</div>
-          )}
+          <div className="text-slate-400">{item}</div>
+          {index < status.length - 1 && <div className="text-slate-400">•</div>}
         </React.Fragment>
       ))}
     </div>

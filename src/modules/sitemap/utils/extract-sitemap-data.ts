@@ -1,4 +1,4 @@
-import { SitemapResponse } from "@sitemapy/interfaces";
+import { SitemapResponse } from "@sitemapy/interfaces"
 /**
  * Extract data from a sitemap response
  * @param sitemap_response - The sitemap response to extract data from
@@ -23,18 +23,20 @@ export const extract_sitemap_data = <T>(
   sitemap_response: SitemapResponse,
   extractor: (element: SitemapResponse) => T | undefined
 ): T[] => {
-  const results: T[] = [];
+  const results: T[] = []
 
   const visit = (node: SitemapResponse) => {
-    const extracted = extractor(node);
+    const extracted = extractor(node)
     if (extracted !== undefined) {
-      results.push(extracted);
+      results.push(extracted)
     }
 
-    node.children.forEach(visit);
-  };
+    if (Array.isArray(node.children)) {
+      node.children.forEach(visit)
+    }
+  }
 
-  visit(sitemap_response);
+  visit(sitemap_response)
 
-  return results;
-};
+  return results
+}

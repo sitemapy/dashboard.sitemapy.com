@@ -14,6 +14,7 @@ import {
   FormMessage,
   Input,
 } from "@/ui";
+import { Logo } from "@/ui/logo/logo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Link } from "@reach/router";
 import { useForm } from "react-hook-form";
@@ -57,7 +58,7 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
   return (
     <div className="min-h-svh bg-muted flex flex-col items-center justify-center gap-6 p-6 md:p-10">
       <div className="flex w-full max-w-sm flex-col gap-6">
-        {/* <Logo /> */}
+        <Logo />
 
         <div className="mx-auto flex w-full max-w-md flex-col gap-6 ">
           <Card>

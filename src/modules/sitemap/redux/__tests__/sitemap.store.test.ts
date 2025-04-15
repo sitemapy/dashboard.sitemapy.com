@@ -1,5 +1,5 @@
-import { actions } from "@/redux/actions";
-import { init } from "@/redux/store";
+import { SitemapRepositoryInMemory } from "@/modules/sitemap/repositories/sitemap.repository.in-memory";
+import { actions, init } from "@/redux/store";
 import { SitemapResponse } from "@sitemapy/interfaces";
 
 describe("Feature: Sitemap", () => {
@@ -39,9 +39,10 @@ describe("Feature: Sitemap", () => {
   `, async () => {
     const { store, dependencies } = init({});
 
-    dependencies.SitemapRepository._store_sitemap_response(sitemap_url, [
-      sitemap_response,
-    ]);
+    const sitemap_repository =
+      dependencies.SitemapRepository as SitemapRepositoryInMemory;
+
+    sitemap_repository._store_sitemap_response(sitemap_url, [sitemap_response]);
 
     await store.dispatch(
       actions.sitemap.fetch_sitemap({
@@ -64,9 +65,10 @@ describe("Feature: Sitemap", () => {
   `, async () => {
     const { store, dependencies } = init({});
 
-    dependencies.SitemapRepository._store_sitemap_response(sitemap_url, [
-      sitemap_response,
-    ]);
+    const sitemap_repository =
+      dependencies.SitemapRepository as SitemapRepositoryInMemory;
+
+    sitemap_repository._store_sitemap_response(sitemap_url, [sitemap_response]);
 
     await store.dispatch(
       actions.sitemap.fetch_sitemap({
@@ -95,16 +97,17 @@ describe("Feature: Sitemap", () => {
     ).toBe(true);
   });
 
-  it(`
+  it(`    
     Given a user
     When the sitemap is fetched
     Then all sitemap-index should be collapsed by default
   `, async () => {
     const { store, dependencies } = init({});
 
-    await dependencies.SitemapRepository._store_sitemap_response(sitemap_url, [
-      sitemap_response,
-    ]);
+    const sitemap_repository =
+      dependencies.SitemapRepository as SitemapRepositoryInMemory;
+
+    sitemap_repository._store_sitemap_response(sitemap_url, [sitemap_response]);
 
     await store.dispatch(
       actions.sitemap.fetch_sitemap({

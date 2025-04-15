@@ -1,12 +1,10 @@
-import { GalleryVerticalEnd } from "lucide-react";
-
-export const Logo = () => {
+export const Logo: React.FC<{ hideText?: boolean }> = ({ hideText }) => {
   return (
     <div className="flex items-center gap-2 self-center font-medium">
-      <div className="bg-primary text-primary-foreground flex h-6 w-6 items-center justify-center rounded-md">
-        <GalleryVerticalEnd className="size-4" />
+      <div className="size-8">
+        <img src="/logo.png" alt="Sitemapy" className="h-full w-full" />
       </div>
-      Acme Inc.
+      {!hideText && <span>Sitemapy</span>}
     </div>
   );
 };

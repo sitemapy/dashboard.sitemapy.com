@@ -1,17 +1,17 @@
-import { actions } from "@/redux/actions";
-import { useAppDispatch } from "@/redux/store";
-import { SitemapResponse } from "@sitemapy/interfaces";
-import type { Meta } from "@storybook/react";
-import React from "react";
-import { SitemapResults } from "../sitemap-results";
+import { actions } from "@/redux/actions"
+import { useAppDispatch } from "@/redux/store"
+import { SitemapResponse } from "@sitemapy/interfaces"
+import type { Meta } from "@storybook/react"
+import React from "react"
+import { SitemapResults } from "../sitemap-results"
 
 const meta = {
   title: "Organisms/SitemapResults",
   component: SitemapResults,
   parameters: {},
-} satisfies Meta<typeof SitemapResults>;
+} satisfies Meta<typeof SitemapResults>
 
-export default meta;
+export default meta
 
 const sitemaps: SitemapResponse[] = [
   {
@@ -51,7 +51,8 @@ const sitemaps: SitemapResponse[] = [
                   url: `https://www.google.com/topics/web-design/web-design-${i}`,
                   updated_at: new Date(),
                   type: "page",
-                  sitemap_parent_url: "https://www.google.com/topics/web-design/",
+                  sitemap_parent_url:
+                    "https://www.google.com/topics/web-design/",
                   number_total_of_pages: 5000,
                   children: [],
                 })),
@@ -61,23 +62,25 @@ const sitemaps: SitemapResponse[] = [
           },
         ],
       },
-   
     ],
   },
-];
-
+]
 
 export const Default = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   React.useEffect(() => {
     dispatch(
       actions.sitemap._store_sitemap_response({
         sitemap_url: "https://www.google.com/sitemap.xml",
         sitemap_response: sitemaps,
-      })
-    );
-  }, []);
+      }),
+    )
+  }, [])
 
-  return <SitemapResults />;
-};
+  return (
+    <div className="w-full p-4">
+      <SitemapResults />
+    </div>
+  )
+}

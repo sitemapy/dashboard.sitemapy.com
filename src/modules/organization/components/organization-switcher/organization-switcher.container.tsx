@@ -1,15 +1,12 @@
-import { actions } from "@/redux/actions";
 import { RootState } from "@/redux/store";
 import { connect, ConnectedProps } from "react-redux";
 
 const mapState = (state: RootState) => ({
-  is_loading: state.sitemap.is_loading,
+  active_organization: state.organization.current_organization,
+  organizations: state.organization.organization_list,
 });
 
-const mapDispatch = {
-  onSubmit: (sitemap_url: string) =>
-    actions.sitemap.fetch_sitemap({ sitemap_url }),
-};
+const mapDispatch = () => ({});
 
 export const connector = connect(mapState, mapDispatch);
 export type ContainerProps = ConnectedProps<typeof connector>;
