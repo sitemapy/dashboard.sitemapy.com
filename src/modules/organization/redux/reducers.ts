@@ -54,7 +54,7 @@ export const organization_reducer = createReducer(initialState, (builder) => {
     }
   );
 
-  builder.addCase(actions.global_events.logout, () => ({
-    ...initialState,
-  }));
+  builder.addCase(actions.global_events.logout, () => {
+    return initialState;
+  });
 });

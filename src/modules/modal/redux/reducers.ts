@@ -1,5 +1,5 @@
 import { MODAL_KEYS } from "@/lib/use-modal";
-import { actions } from "@/redux/store";
+import { actions } from "@/redux/actions";
 import { createReducer } from "@reduxjs/toolkit";
 
 interface State {
@@ -35,5 +35,9 @@ export const modal_reducer = createReducer(initialState, (builder) => {
     });
 
     state.current = null;
+  });
+
+  builder.addCase(actions.global_events.logout, () => {
+    return initialState;
   });
 });

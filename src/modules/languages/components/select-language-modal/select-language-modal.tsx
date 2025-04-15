@@ -40,12 +40,9 @@ export const SelectLanguageModal: React.FC = () => {
               variant="ghost"
               onClick={() => handleChangeLanguage(lang.id)}
               key={lang.id}
-              className="justify-start"
+              className="justify-start px-2"
             >
-              <img
-                className="size-6 rounded-full"
-                src={`/flags/${lang.id}.svg`}
-              />
+              <img className="size-6 rounded" src={`/flags/${lang.id}.svg`} />
               <div className="">{lang.label}</div>
             </Button>
           ))}

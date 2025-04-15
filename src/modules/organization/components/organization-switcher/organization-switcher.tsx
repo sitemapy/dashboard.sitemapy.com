@@ -48,7 +48,7 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
         {props.organizations.map((organization) => (
           <DropdownMenuItem
             key={organization.name}
-            className="gap-2 p-2"
+            className="cursor-pointer gap-2 p-2"
             onClick={() => {
               props.select_organization(organization.id);
             }}
@@ -60,14 +60,14 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="gap-2 p-2">
+        <DropdownMenuItem
+          className="cursor-pointer gap-2 p-2"
+          onClick={onOpenChange}
+        >
           <div className="size-6 bg-background flex items-center justify-center rounded-md border">
             <Plus className="size-4" />
           </div>
-          <div
-            onClick={onOpenChange}
-            className="text-muted-foreground font-medium"
-          >
+          <div className="text-muted-foreground font-medium">
             {intl.formatMessage({
               id: "organization/switcher/create",
             })}

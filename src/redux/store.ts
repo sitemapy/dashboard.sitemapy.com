@@ -9,12 +9,12 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 export const reducers = combineReducers({
+  modal: modal_reducer,
   notifications: notifications_reducer,
   authentication: authentication_reducer,
   global_events: global_events_reducer,
   organization: organization_reducer,
   sitemap: sitemap_reducer,
-  modal: modal_reducer,
 });
 
 export const init = (initialState = {}, env?: "in-memory" | "api") => {

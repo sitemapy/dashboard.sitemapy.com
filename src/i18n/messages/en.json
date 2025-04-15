@@ -1,6 +1,6 @@
 {
   "login/title": "Welcome back",
-  "login/description": "Login with your Apple or Google account",
+  "login/description": "Login with your Google account",
   "login/separatorText": "Or continue with",
   "login/loginWithGoogleText": "Login with Google",
   "login/emailLabel": "Email",
@@ -12,7 +12,7 @@
   "login/loginButtonText": "Login",
   "login/acceptTermsText": "By clicking continue, you agree to our <terms>Terms of Service</terms> and <privacy>Privacy Policy</privacy>.",
   "signup/title": "Welcome back",
-  "signup/description": "Login with your Apple or Google account",
+  "signup/description": "Login with your Google account",
   "signup/separatorText": "Or continue with",
   "signup/google": "Sign up with Google",
   "signup/emailLabel": "Email",

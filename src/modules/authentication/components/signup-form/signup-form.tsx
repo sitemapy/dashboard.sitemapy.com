@@ -181,7 +181,7 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
             </CardContent>
 
             <CardFooter>
-              <div className="w-full text-center text-sm">
+              <div className="w-full text-center text-sm [&_a]:underline [&_a]:underline-offset-4">
                 {intl.formatMessage(
                   { id: "signup/alreadyHaveAccountText" },
                   {

@@ -13,7 +13,7 @@ const mapDispatch = (dispatch: AppDispatch) => ({
     );
   },
   onGoogleButtonClick: () => {
-    alert("Not implemented");
+    dispatch(actions.authentication.login_with_google());
   },
 });
 

@@ -80,4 +80,8 @@ export const sitemap_reducer = createReducer(initial_state, (builder) => {
       state.history_is_loading = action.payload;
     }
   );
+
+  builder.addCase(actions.global_events.logout, () => {
+    return initial_state;
+  });
 });

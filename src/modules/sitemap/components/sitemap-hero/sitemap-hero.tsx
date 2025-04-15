@@ -47,7 +47,7 @@ export const SitemapHero: React.FC = () => {
 
         <div
           className={
-            "mx-auto mt-8 max-w-xl leading-normal tracking-tight text-slate-400 md:max-w-5xl md:text-xl lg:text-xl"
+            "mx-auto mt-4 max-w-xl tracking-tight text-slate-400 md:max-w-5xl md:text-xl lg:text-xl"
           }
         >
           {formatMessage({ id: "sitemapy/hero/description" })}
