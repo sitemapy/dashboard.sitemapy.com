@@ -41,6 +41,8 @@ export const organization_selected = createAsyncThunk<
   AsyncThunkConfig
 >("global_events/organization_selected", async (_, { dispatch }) => {
   dispatch(actions.sitemap.fetch_history());
+  dispatch(actions.api.fetch_logs());
+  dispatch(actions.api.fetch_api_key());
 });
 
 export const signup = createAsyncThunk<

@@ -45,5 +45,15 @@
   "organization/switcher/create": "Create new organization",
   "select-language-modal/title": "Change Language",
   "select-language-modal/description": "Please select the language you want to change to.",
-  "select-language-modal/close": "Close"
+  "select-language-modal/close": "Close",
+  "navbar/developers": "Developers",
+  "api/api-key-input/api-key-label": "API Key",
+  "api/api-key-input/show-api-key": "Show API Key",
+  "api/api-key-input/hide-api-key": "Hide API Key",
+  "api/api-key-input/copy-to-clipboard": "Copy to clipboard",
+  "api/api-key-input/reset-api-key": "Reset API Key",
+  "api/api-key-input/reset-api-key-title": "Are you sure to reset the API Key?",
+  "api/api-key-input/reset-api-key-description": "By resetting the API Key, services that use the old API Key will stop working.",
+  "api/api-key-input/reset-api-key-cancel": "No, keep it",
+  "api/api-key-input/reset-api-key-reset": "Yes, reset it"
 }

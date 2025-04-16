@@ -9,6 +9,9 @@ export const NavbarTabs: React.FC = () => {
       <NavbarTabItem to="/">
         {formatMessage({ id: "navbar/home" })}
       </NavbarTabItem>
+      <NavbarTabItem to="/developers">
+        {formatMessage({ id: "navbar/developers" })}
+      </NavbarTabItem>
     </div>
   );
 };

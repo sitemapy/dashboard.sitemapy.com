@@ -7,15 +7,6 @@ const config: StorybookConfig = {
     name: "@storybook/react-vite",
     options: {},
   },
-  previewHead: (head) => {
-    return `
-          <script
-  src="https://unpkg.com/react-scan@0.3.3/dist/auto.global.js"
-></script>
-      ${head}
-
-    `;
-  },
   viteFinal: (config) => {
     if (config.resolve) {
       config.resolve.alias = {

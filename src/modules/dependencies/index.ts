@@ -10,6 +10,10 @@ import { SitemapRepositoryInMemory } from "@/modules/sitemap/repositories/sitema
 import { AuthenticationRepositoryLocalStorage } from "../authentication/repositories/authentication.repository.local-storage";
 import { OrganizationRepositoryLocalStorage } from "../organization/repositories/organization.repository.local-storage";
 
+import { v4 } from "uuid";
+import { ApiRepository } from "../api/repositories/api.repository";
+import { ApiRepositoryInMemory } from "../api/repositories/api.repository.in-memory";
+import { logs } from "./__fixtures__/logs";
 import { sitemap } from "./__fixtures__/sitemaps";
 
 export type Dependencies = {
@@ -17,33 +21,63 @@ export type Dependencies = {
   OrganizationRepository: OrganizationRepository;
   SitemapRepository: SitemapRepository;
   LocationService: LocationService;
+  ApiRepository: ApiRepository;
 };
 
-export const build = (env?: "in-memory" | "api"): Dependencies => {
+export const build = (env?: "in-memory" | "api" | "demo"): Dependencies => {
   if (env === "in-memory") {
     return {
       AuthenticationRepository: new AuthenticationRepositoryInMemory(),
       OrganizationRepository: new OrganizationRepositoryInMemory(),
       SitemapRepository: new SitemapRepositoryInMemory(),
       LocationService: new LocationServiceInMemory(),
+      ApiRepository: new ApiRepositoryInMemory(),
+    };
+  }
+
+  if (env === "demo") {
+    const api_repository = new ApiRepositoryInMemory();
+
+    api_repository._store_api_key({
+      organization_id: "My Personal Organization",
+      api_key: {
+        api_key: v4(),
+        current_usage: 450,
+        max_usage: 1000,
+        reset_date: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 30),
+      },
+    });
+
+    api_repository._store_logs({
+      organization_id: "My Personal Organization",
+      logs: logs,
+    });
+
+    return {
+      AuthenticationRepository: new AuthenticationRepositoryLocalStorage(),
+      OrganizationRepository: new OrganizationRepositoryLocalStorage(),
+      ApiRepository: api_repository,
+      SitemapRepository: new SitemapRepositoryInMemory({
+        sitemap_responses: new Map([
+          ["https://www.sudoku.academy/sitemap-index.xml", [sitemap]],
+          ["https://www.sudoku.academy", [sitemap]],
+        ]),
+        history: [
+          {
+            sitemap_url: "https://www.sudoku.academy/sitemap-index.xml",
+            created_at: new Date(),
+          },
+        ],
+      }),
+      LocationService: new LocationServiceWindow(),
     };
   }
 
   return {
-    AuthenticationRepository: new AuthenticationRepositoryLocalStorage(),
-    OrganizationRepository: new OrganizationRepositoryLocalStorage(),
-    SitemapRepository: new SitemapRepositoryInMemory({
-      sitemap_responses: new Map([
-        ["https://www.sudoku.academy/sitemap-index.xml", [sitemap]],
-        ["https://www.sudoku.academy", [sitemap]],
-      ]),
-      history: [
-        {
-          sitemap_url: "https://www.sudoku.academy/sitemap-index.xml",
-          created_at: new Date(),
-        },
-      ],
-    }),
-    LocationService: new LocationServiceWindow(),
+    AuthenticationRepository: new AuthenticationRepositoryInMemory(),
+    OrganizationRepository: new OrganizationRepositoryInMemory(),
+    SitemapRepository: new SitemapRepositoryInMemory(),
+    LocationService: new LocationServiceInMemory(),
+    ApiRepository: new ApiRepositoryInMemory(),
   };
 };

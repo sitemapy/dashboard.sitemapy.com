@@ -116,9 +116,9 @@ export class OrganizationRepositoryLocalStorage
     return { error: false, body: organizations };
   }
 
-  async _does_user_already_have_organization(params: {
+  private _does_user_already_have_organization(params: {
     user_id: string;
-  }): Promise<boolean> {
+  }): boolean {
     const organization_members = this._get_organization_members();
     const user_already_has_organization = organization_members.find(
       (member) => member.user_id === params.user_id
@@ -134,7 +134,7 @@ export class OrganizationRepositoryLocalStorage
     { error: true; code: string } | { error: false; body: OrganizationEntity }
   > {
     const organization: OrganizationEntity = {
-      id: nanoid(),
+      id: params.name,
       name: params.name,
       created_at: new Date(),
       updated_at: new Date(),

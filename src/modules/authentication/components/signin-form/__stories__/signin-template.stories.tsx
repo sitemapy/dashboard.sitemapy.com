@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Wrapper as SigninForm } from "../signin-form";
 
 const meta = {
-  title: "Templates/Signin",
+  title: "modules/authentication/signin-form",
   component: SigninForm,
   parameters: {
     layout: "fullscreen",

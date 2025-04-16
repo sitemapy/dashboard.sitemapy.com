@@ -4,7 +4,10 @@ import { ErrorEntity, UserEntity } from "@sitemapy/interfaces";
 export class AuthenticationRepositoryLocalStorage
   implements AuthenticationRepository
 {
-  constructor() {
+  private readonly KEY = "users";
+  private readonly KEY_AUTHENTICATED = "user_authenticated";
+
+  constructor(params?: { users: Array<UserEntity> }) {
     this._set_users([
       ...this._get_users(),
       {
@@ -15,11 +18,9 @@ export class AuthenticationRepositoryLocalStorage
         updated_at: new Date(),
         language: "en",
       },
+      ...(params?.users || []),
     ]);
   }
-
-  private readonly KEY = "users";
-  private readonly KEY_AUTHENTICATED = "user_authenticated";
 
   private _get_users(): UserEntity[] {
     return JSON.parse(localStorage.getItem(this.KEY) || "[]");

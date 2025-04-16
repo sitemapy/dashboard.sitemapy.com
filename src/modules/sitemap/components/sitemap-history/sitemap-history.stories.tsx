@@ -1,7 +1,7 @@
 import { Wrapper as SitemapHistory } from "./sitemap-history";
 
 const meta = {
-  title: "Modules/Sitemap/SitemapHistory",
+  title: "modules/sitemap/sitemap-history",
   component: SitemapHistory,
   parameters: {},
 };

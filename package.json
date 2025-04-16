@@ -126,6 +126,7 @@
     "react-day-picker": "8.10.1",
     "react-resizable-panels": "^2.1.7",
     "recharts": "^2.15.1",
+    "shiki": "^3.2.2",
     "storybook": "^8.6.11",
     "tailwind-merge": "^3.1.0",
     "tsconfig-paths": "^4.2.0",

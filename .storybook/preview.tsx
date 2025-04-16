@@ -18,11 +18,13 @@ const preview: Preview = {
   },
   decorators: [
     (Story: ComponentType) => (
-      <Provider store={store}>
-        <CustomIntlProvider>
-          <Story />
-        </CustomIntlProvider>
-      </Provider>
+      <div className="antialiased">
+        <Provider store={store}>
+          <CustomIntlProvider>
+            <Story />
+          </CustomIntlProvider>
+        </Provider>
+      </div>
     ),
   ],
 };

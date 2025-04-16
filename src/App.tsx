@@ -12,7 +12,7 @@ Sentry.init({
   integrations: [],
 });
 
-const { store } = init({}, "api");
+const { store } = init({}, "demo");
 
 function App() {
   return (

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Wrapper as SignupForm } from "../signup-form";
 
 const meta = {
-  title: "Templates/Signup",
+  title: "modules/authentication/signup-form",
   component: SignupForm,
   parameters: {
     layout: "fullscreen",

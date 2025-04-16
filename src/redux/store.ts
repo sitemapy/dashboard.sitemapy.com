@@ -1,3 +1,4 @@
+import { api_reducer } from "@/modules/api/redux/reducers";
 import { authentication_reducer } from "@/modules/authentication/redux/reducers";
 import { build, Dependencies } from "@/modules/dependencies";
 import { global_events_reducer } from "@/modules/global-events/redux/reducers";
@@ -6,6 +7,7 @@ import { notifications_reducer } from "@/modules/notifications/redux/reducers";
 import { organization_reducer } from "@/modules/organization/redux/reducers";
 import { sitemap_reducer } from "@/modules/sitemap/redux/reducers";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
+
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 export const reducers = combineReducers({
@@ -15,9 +17,10 @@ export const reducers = combineReducers({
   global_events: global_events_reducer,
   organization: organization_reducer,
   sitemap: sitemap_reducer,
+  api: api_reducer,
 });
 
-export const init = (initialState = {}, env?: "in-memory" | "api") => {
+export const init = (initialState = {}, env?: "in-memory" | "api" | "demo") => {
   const dependencies = env ? build(env) : build("in-memory");
 
   const store = configureStore({
