@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "dashboard-sitemapy-com"
+    "default": "dashboard-sitemapy-com",
+    "storybook": "storybook-sitemapy-com"
   }
 }
