@@ -1,7 +1,8 @@
 {
   "hosting": [
     {
-      "target": "default",
+      "target": "dashboard",
+      "projectId": "dashboard-sitemapy-com",
       "public": "dist",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
@@ -13,6 +14,7 @@
     },
     {
       "target": "storybook",
+      "projectId": "storybook-sitemapy-com",
       "public": "storybook-static",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
     }
