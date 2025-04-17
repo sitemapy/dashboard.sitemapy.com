@@ -1,12 +1,12 @@
 import { MessageDescriptor } from "@formatjs/intl";
 import en from "./i18n/messages/en.json";
 
-type Keys = keyof typeof en;
+export type MessageI18nKeys = keyof typeof en;
 
 declare module "react-intl" {
   interface IntlShape {
     formatMessage: (
-      messageDescriptor: MessageDescriptor & { id: Keys },
+      messageDescriptor: MessageDescriptor & { id: MessageI18nKeys },
       values?: Record<string, (chunks: React.ReactNode) => React.ReactNode>
     ) => string;
   }

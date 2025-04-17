@@ -1,11 +1,12 @@
+import { MessageI18nKeys } from "@/intl";
 import { actions } from "@/redux/actions";
 import { AsyncThunkConfig } from "@/redux/store";
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { OrganizationEntity, UserEntity } from "@sitemapy/interfaces";
 
 export const error = createAsyncThunk<
-  { error: string },
-  { error: string },
+  { error: MessageI18nKeys },
+  { error: MessageI18nKeys },
   AsyncThunkConfig
 >("global_events/error", async (params, { dispatch }) => {
   dispatch(

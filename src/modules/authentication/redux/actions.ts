@@ -51,9 +51,8 @@ export const login_with_google = createAsyncThunk<void, void, AsyncThunkConfig>(
       dispatch(_login_failure({ error: response.code }));
       dispatch(
         actions.notifications.create({
-          message: "Authentication failed",
+          message: "notifications/login/error",
           type: "error",
-          description: response.code,
         })
       );
       return;
@@ -83,9 +82,8 @@ export const login = createAsyncThunk<
     dispatch(_login_failure({ error: response.code }));
     dispatch(
       actions.notifications.create({
-        message: "Authentication failed",
+        message: "notifications/login/error",
         type: "error",
-        description: response.code,
       })
     );
     return;
@@ -119,7 +117,7 @@ export const signup = createAsyncThunk<
   dispatch(actions.global_events.signup({ user: response.body }));
   dispatch(
     actions.notifications.create({
-      message: "Account created successfully",
+      message: "notifications/signup/success",
       type: "success",
     })
   );

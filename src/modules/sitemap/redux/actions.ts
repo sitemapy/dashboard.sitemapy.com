@@ -1,3 +1,4 @@
+import { MessageI18nKeys } from "@/intl";
 import { actions } from "@/redux/actions";
 import { AsyncThunkConfig } from "@/redux/store";
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
@@ -40,7 +41,11 @@ export const fetch_sitemap = createAsyncThunk<
   dispatch(_set_fetching_sitemap_loading(false));
 
   if (sitemap_response.error) {
-    dispatch(actions.global_events.error({ error: sitemap_response.code }));
+    dispatch(
+      actions.global_events.error({
+        error: sitemap_response.code as MessageI18nKeys,
+      })
+    );
     return;
   }
 

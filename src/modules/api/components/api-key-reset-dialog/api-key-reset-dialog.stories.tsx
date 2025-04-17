@@ -1,5 +1,5 @@
 import type { StoryObj } from "@storybook/react";
-import { ApiKeyResetDialog } from "./api-key-reset-dialog";
+import { Wrapper as ApiKeyResetDialog } from "./api-key-reset-dialog";
 
 const meta = {
   title: "modules/api/api-key-reset-dialog",
@@ -15,8 +15,8 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     is_open: true,
-    onOpenChange: () => {},
-    onReset: () => {},
+    on_close: () => {},
+    on_reset: () => {},
     is_resetting: false,
   },
 };
@@ -24,8 +24,8 @@ export const Default: Story = {
 export const Resetting: Story = {
   args: {
     is_open: true,
-    onOpenChange: () => {},
-    onReset: () => {},
+    on_close: () => {},
+    on_reset: () => {},
     is_resetting: true,
   },
 };

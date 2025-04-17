@@ -1,8 +1,12 @@
+import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import { actions } from "@/redux/actions";
 import { AsyncThunkConfig } from "@/redux/store";
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { ApiKey, Log } from "../repositories/api.repository";
 
+export const _set_is_resetting_api_key = createAction<boolean>(
+  "api/_set_is_resetting_api_key"
+);
 export const _store_api_key = createAction<ApiKey>("api/_store_api_key");
 export const _store_logs = createAction<{
   logs: Array<Log>;
@@ -116,6 +120,50 @@ export const fetch_logs = createAsyncThunk<void, void, AsyncThunkConfig>(
         logs: response.body.logs,
         total_logs: response.body.total_logs,
         total_pages: response.body.total_pages,
+      })
+    );
+  }
+);
+
+export const reset_api_key = createAsyncThunk<void, void, AsyncThunkConfig>(
+  "api/reset_api_key",
+  async (_, { extra, dispatch, getState }) => {
+    const organization_id = getState().organization.current_organization
+      ?.id as string;
+
+    dispatch(actions.api._set_is_resetting_api_key(true));
+
+    const response = await extra.ApiRepository.reset_api_key({
+      organization_id,
+    });
+
+    dispatch(actions.api._set_is_resetting_api_key(false));
+
+    if (response.error) {
+      dispatch(actions.global_events.error({ error: response.code }));
+      return;
+    }
+
+    dispatch(actions.modal.close({ key: MODAL_KEYS.API_KEY_RESET }));
+    dispatch(actions.api._store_api_key(response.body.api_key));
+  }
+);
+
+export const copy_api_key = createAsyncThunk<void, void, AsyncThunkConfig>(
+  "api/copy_api_key",
+  async (_, { getState, dispatch, extra }) => {
+    const { api } = getState();
+
+    if (!api.api_key) {
+      return;
+    }
+
+    await extra.NavigatorService.copy_to_clipboard(api.api_key.api_key);
+
+    dispatch(
+      actions.notifications.create({
+        message: "notifications/api-key-copied-to-clipboard",
+        type: "success",
       })
     );
   }

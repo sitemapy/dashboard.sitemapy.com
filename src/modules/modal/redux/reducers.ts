@@ -1,4 +1,4 @@
-import { MODAL_KEYS } from "@/lib/use-modal";
+import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import { actions } from "@/redux/actions";
 import { createReducer } from "@reduxjs/toolkit";
 

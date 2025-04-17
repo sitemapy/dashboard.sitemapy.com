@@ -2,16 +2,12 @@ import { Button, Input, Tooltip, TooltipContent, TooltipTrigger } from "@/ui";
 import { CopyIcon, EyeIcon, RefreshCwIcon } from "lucide-react";
 import { useState } from "react";
 import { useIntl } from "react-intl";
+import { connector, ContainerProps } from "./api-key-input.container";
 
-type Props = {
-  api_key: string;
-  onReset: () => void;
-};
-
-export const ApiKeyInput: React.FC<Props> = (props) => {
+export const Wrapper: React.FC<ContainerProps> = (props) => {
   const intl = useIntl();
 
-  const [showApiKey, setShowApiKey] = useState(false);
+  const [show_api_key, set_show_api_key] = useState(false);
 
   return (
     <div className="space-y-2">
@@ -27,7 +23,7 @@ export const ApiKeyInput: React.FC<Props> = (props) => {
           <Input
             name="api-key"
             className="w-full"
-            type={showApiKey ? "text" : "password"}
+            type={show_api_key ? "text" : "password"}
             readOnly
             value={props.api_key}
           />
@@ -37,14 +33,14 @@ export const ApiKeyInput: React.FC<Props> = (props) => {
               <Button
                 variant="outline"
                 onClick={() => {
-                  setShowApiKey(!showApiKey);
+                  set_show_api_key(!show_api_key);
                 }}
               >
                 <EyeIcon className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              {showApiKey
+              {show_api_key
                 ? intl.formatMessage({ id: "api/api-key-input/hide-api-key" })
                 : intl.formatMessage({ id: "api/api-key-input/show-api-key" })}
             </TooltipContent>
@@ -52,11 +48,7 @@ export const ApiKeyInput: React.FC<Props> = (props) => {
 
           <Tooltip>
             <TooltipTrigger>
-              <Button
-                onClick={() => {
-                  navigator.clipboard.writeText(props.api_key);
-                }}
-              >
+              <Button onClick={props.on_copy}>
                 <CopyIcon className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
@@ -69,12 +61,7 @@ export const ApiKeyInput: React.FC<Props> = (props) => {
 
           <Tooltip>
             <TooltipTrigger>
-              <Button
-                variant="destructive"
-                onClick={() => {
-                  props.onReset();
-                }}
-              >
+              <Button variant="destructive" onClick={props.on_reset}>
                 <RefreshCwIcon className="h-4 w-4" />
               </Button>
             </TooltipTrigger>
@@ -87,3 +74,5 @@ export const ApiKeyInput: React.FC<Props> = (props) => {
     </div>
   );
 };
+
+export const ApiKeyInput = connector(Wrapper);

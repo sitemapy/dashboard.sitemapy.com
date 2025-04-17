@@ -5,7 +5,6 @@ import { SitemapHistory } from "@/modules/sitemap/components/sitemap-history/sit
 import { SitemapResults } from "@/modules/sitemap/components/sitemap-results/sitemap-results";
 import { SitemapSearchInput } from "@/modules/sitemap/components/sitemap-search-input/sitemap-search-input";
 import { RouteComponentProps } from "@reach/router";
-import React from "react";
 
 export const HomeRoute: React.FC<RouteComponentProps> = () => {
   return (

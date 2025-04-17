@@ -1,5 +1,5 @@
-import { MODAL_KEYS } from "@/lib/use-modal";
 import { addHash, removeHash } from "@/lib/utils";
+import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import { AsyncThunkConfig } from "@/redux/store";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 

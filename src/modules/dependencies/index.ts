@@ -13,6 +13,9 @@ import { OrganizationRepositoryLocalStorage } from "../organization/repositories
 import { v4 } from "uuid";
 import { ApiRepository } from "../api/repositories/api.repository";
 import { ApiRepositoryInMemory } from "../api/repositories/api.repository.in-memory";
+import { NavigatorService } from "../global-events/services/navigator.service";
+import { NavigatorServiceBrowser } from "../global-events/services/navigator.service.browser";
+import { NavigatorServiceInMemory } from "../global-events/services/navigator.service.in-memory";
 import { logs } from "./__fixtures__/logs";
 import { sitemap } from "./__fixtures__/sitemaps";
 
@@ -22,6 +25,7 @@ export type Dependencies = {
   SitemapRepository: SitemapRepository;
   LocationService: LocationService;
   ApiRepository: ApiRepository;
+  NavigatorService: NavigatorService;
 };
 
 export const build = (env?: "in-memory" | "api" | "demo"): Dependencies => {
@@ -32,6 +36,7 @@ export const build = (env?: "in-memory" | "api" | "demo"): Dependencies => {
       SitemapRepository: new SitemapRepositoryInMemory(),
       LocationService: new LocationServiceInMemory(),
       ApiRepository: new ApiRepositoryInMemory(),
+      NavigatorService: new NavigatorServiceInMemory(),
     };
   }
 
@@ -56,6 +61,7 @@ export const build = (env?: "in-memory" | "api" | "demo"): Dependencies => {
     return {
       AuthenticationRepository: new AuthenticationRepositoryLocalStorage(),
       OrganizationRepository: new OrganizationRepositoryLocalStorage(),
+      NavigatorService: new NavigatorServiceBrowser(),
       ApiRepository: api_repository,
       SitemapRepository: new SitemapRepositoryInMemory({
         sitemap_responses: new Map([
@@ -79,5 +85,6 @@ export const build = (env?: "in-memory" | "api" | "demo"): Dependencies => {
     SitemapRepository: new SitemapRepositoryInMemory(),
     LocationService: new LocationServiceInMemory(),
     ApiRepository: new ApiRepositoryInMemory(),
+    NavigatorService: new NavigatorServiceBrowser(),
   };
 };

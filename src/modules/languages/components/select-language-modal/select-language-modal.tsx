@@ -1,6 +1,7 @@
 import { languages_with_label } from "@/i18n/constants/langs";
-import { MODAL_KEYS, useModal } from "@/lib/use-modal";
+import { useModal } from "@/lib/use-modal";
 import { LOCAL_STORAGE_KEYS } from "@/modules/local-storage/services/local-storage.service";
+import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import {
   Button,
   Dialog,

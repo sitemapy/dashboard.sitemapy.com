@@ -59,4 +59,17 @@ export class ApiRepositoryInMemory implements ApiRepository {
       },
     };
   }
+
+  async reset_api_key(params: {
+    organization_id: string;
+  }): Promise<RepositoryResponse<{ api_key: ApiKey }>> {
+    this.keys.set(params.organization_id, {
+      api_key: "reseted_fake_api_key",
+      current_usage: 0,
+      max_usage: 1000,
+      reset_date: new Date(),
+    });
+
+    return this.fetch_api_key(params);
+  }
 }

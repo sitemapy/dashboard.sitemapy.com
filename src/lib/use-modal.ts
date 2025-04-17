@@ -1,9 +1,5 @@
+import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import { actions, useAppDispatch, useAppSelector } from "@/redux/store";
-
-export enum MODAL_KEYS {
-  ORGANIZATION_CREATE = "organization-create",
-  CHANGE_LANGUAGE = "change-language",
-}
 
 export const extract_hash_value = (params: {
   hash: string;

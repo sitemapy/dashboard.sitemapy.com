@@ -16,10 +16,7 @@ export const DevelopersRoute: React.FC<RouteComponentProps> = () => {
       <Protected>
         <GlobalLayout>
           <div className="mx-auto mt-8 flex max-w-6xl flex-col gap-8 p-4">
-            <ApiKeyInput
-              api_key={"a9675d23-6362-4923-b5c5-8744da81a87e"}
-              onReset={() => {}}
-            />
+            <ApiKeyInput />
 
             <ApiUsageBar
               actual_usage={100}
@@ -27,12 +24,7 @@ export const DevelopersRoute: React.FC<RouteComponentProps> = () => {
               usage_reset_date={new Date()}
             />
 
-            <ApiKeyResetDialog
-              is_open={false}
-              onOpenChange={() => {}}
-              onReset={() => {}}
-              is_resetting={false}
-            />
+            <ApiKeyResetDialog />
 
             <Tabs defaultValue="request">
               <TabsList>
@@ -49,18 +41,7 @@ export const DevelopersRoute: React.FC<RouteComponentProps> = () => {
               </TabsContent>
             </Tabs>
 
-            <ApiLogsTable
-              logs={[]}
-              totalLogs={0}
-              totalLogsPerPage={10}
-              currentPage={1}
-              totalPages={1}
-              onFirstPage={() => {}}
-              onPreviousPage={() => {}}
-              onNextPage={() => {}}
-              onLastPage={() => {}}
-              onTotalLogsPerPageChange={() => {}}
-            />
+            <ApiLogsTable />
           </div>
         </GlobalLayout>
       </Protected>

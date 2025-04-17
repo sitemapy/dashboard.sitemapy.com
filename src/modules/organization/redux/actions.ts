@@ -33,7 +33,11 @@ export const fetch_selected_organization = createAsyncThunk<
     }
 
     if (!response.body) {
-      dispatch(actions.global_events.error({ error: "No organization found" }));
+      dispatch(
+        actions.global_events.error({
+          error: "notifications/no-organization-found",
+        })
+      );
       return;
     }
 

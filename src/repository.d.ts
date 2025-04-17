@@ -1,7 +1,7 @@
 type RepositoryResponse<T> =
   | {
       error: true;
-      code: string;
+      code: MessageI18nKeys;
     }
   | {
       error: false;

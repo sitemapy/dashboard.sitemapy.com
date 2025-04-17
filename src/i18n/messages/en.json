@@ -55,5 +55,9 @@
   "api/api-key-input/reset-api-key-title": "Are you sure to reset the API Key?",
   "api/api-key-input/reset-api-key-description": "By resetting the API Key, services that use the old API Key will stop working.",
   "api/api-key-input/reset-api-key-cancel": "No, keep it",
-  "api/api-key-input/reset-api-key-reset": "Yes, reset it"
+  "api/api-key-input/reset-api-key-reset": "Yes, reset it",
+  "notifications/login/error": "Login failed",
+  "notifications/signup/success": "Account created successfully",
+  "notifications/no-organization-found": "No organization found",
+  "notifications/api-key-copied-to-clipboard": "API key copied to clipboard"
 }

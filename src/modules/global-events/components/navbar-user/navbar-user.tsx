@@ -1,4 +1,5 @@
-import { MODAL_KEYS, useModal } from "@/lib/use-modal";
+import { useModal } from "@/lib/use-modal";
+import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import {
   Avatar,
   DropdownMenu,

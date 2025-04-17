@@ -33,4 +33,10 @@ export interface ApiRepository {
       total_pages: number;
     }>
   >;
+
+  reset_api_key(params: { organization_id: string }): Promise<
+    RepositoryResponse<{
+      api_key: ApiKey;
+    }>
+  >;
 }

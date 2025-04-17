@@ -10,6 +10,7 @@ export type api_state = {
   current_page: number;
   total_logs_per_page: number;
   is_loading: boolean;
+  is_resetting_api_key: boolean;
 };
 
 const initial_state: api_state = {
@@ -20,9 +21,17 @@ const initial_state: api_state = {
   total_pages: 0,
   current_page: 1,
   total_logs_per_page: 10,
+  is_resetting_api_key: false,
 };
 
 export const api_reducer = createReducer(initial_state, (builder) => {
+  builder.addCase(actions.api._set_is_resetting_api_key, (state, action) => {
+    return {
+      ...state,
+      is_resetting_api_key: action.payload,
+    };
+  });
+
   builder.addCase(actions.api._store_api_key, (state, action) => {
     return {
       ...state,

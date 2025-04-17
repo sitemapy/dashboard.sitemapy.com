@@ -1,3 +1,4 @@
+import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import { OrganizationRepositoryInMemory } from "@/modules/organization/repositories/organization.repository.in-memory";
 import { actions, init } from "@/redux/store";
 import { Log } from "../../repositories/api.repository";
@@ -148,5 +149,44 @@ describe("Feature: API", () => {
     expect(store.getState().api.total_logs_per_page).toEqual(20);
     expect(store.getState().api.current_page).toEqual(1);
     expect(store.getState().api.logs).toMatchObject(logs.slice(0, 20));
+  });
+
+  it(`
+    Given a logged in user
+    When the user resets the api key
+    Then the api key should be reset
+    And the logs should be fetched
+    And the modal should be closed
+  `, async () => {
+    const { store } = init({});
+
+    await store.dispatch(
+      actions.authentication.signup({
+        email: "test@test.com",
+        password: "password",
+      })
+    );
+
+    await store.dispatch(
+      actions.authentication.login({
+        email: "test@test.com",
+        password: "password",
+      })
+    );
+
+    expect(store.getState().api.api_key?.api_key).toEqual("fake_api_key");
+
+    await store.dispatch(actions.api.reset_api_key());
+
+    expect(store.getState().api.api_key?.api_key).toEqual(
+      "reseted_fake_api_key"
+    );
+
+    expect(store.getState().modal.history).toMatchObject([
+      {
+        type: "close",
+        key: MODAL_KEYS.API_KEY_RESET,
+      },
+    ]);
   });
 });

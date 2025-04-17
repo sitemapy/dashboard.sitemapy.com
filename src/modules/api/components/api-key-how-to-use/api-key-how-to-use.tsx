@@ -1,12 +1,10 @@
 import {
-  Button,
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/ui";
-import { CopyIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 import { codeToHtml } from "shiki";
 
@@ -102,9 +100,6 @@ export const ApiKeyHowToUse: React.FC<Props> = (props) => {
               <SelectItem value="ruby">ruby</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline" size="icon" className=" text-slate-500">
-            <CopyIcon className="size-4" />
-          </Button>
         </div>
       </div>
     </div>
