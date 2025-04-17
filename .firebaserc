@@ -6,11 +6,15 @@
   "targets": {
     "dashboard-sitemapy-com": {
       "hosting": {
-        "storybook": [
-          "storybook-sitemapy-com"
-        ],
         "dashboard": [
           "dashboard-sitemapy-com"
+        ]
+      }
+    },
+    "storybook-sitemapy-com": {
+      "hosting": {
+        "storybook": [
+          "storybook-sitemapy-com"
         ]
       }
     }
