@@ -37,6 +37,9 @@ const translate = async (params: {
         Keep markdown formatting if it exists.
 
         Do not translate words that are in {}.
+
+        The project is a web app, so please translate the words in a way that is easy to understand for a web app.
+        This is a web app is Sitemapy. A website that helps you manage your sitemaps. People can use the API to request sitemaps.
         
         Give me only the translation.`,
       },

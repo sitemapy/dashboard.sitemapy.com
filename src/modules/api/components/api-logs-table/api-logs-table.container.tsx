@@ -21,7 +21,7 @@ const mapDispatch = (dispatch: AppDispatch) => ({
     dispatch(actions.api.go_to_next_page());
   },
   onLastPage: () => {
-    dispatch(actions.api.change_current_page(1));
+    dispatch(actions.api.go_to_last_page());
   },
   onTotalLogsPerPageChange: (total_logs_per_page: number) => {
     dispatch(actions.api.change_total_logs_per_page(total_logs_per_page));

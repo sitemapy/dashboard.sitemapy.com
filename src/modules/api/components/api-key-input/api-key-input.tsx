@@ -12,9 +12,13 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
   return (
     <div className="space-y-2">
       <div>
-        <h1 className="text-2xl font-bold">API Key</h1>
+        <h1 className="text-2xl font-bold">
+          {intl.formatMessage({ id: "api/api-key-input/api-key-title" })}
+        </h1>
         <p className="text-muted-foreground text-sm">
-          Use this API key to be able to fetch sitemaps from the API.
+          {intl.formatMessage({
+            id: "api/api-key-input/api-key-description",
+          })}
         </p>
       </div>
 

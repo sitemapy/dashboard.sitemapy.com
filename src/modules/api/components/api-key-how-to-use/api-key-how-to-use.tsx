@@ -7,10 +7,7 @@ import {
 } from "@/ui";
 import { useEffect, useState } from "react";
 import { codeToHtml } from "shiki";
-
-type Props = {
-  api_key: string;
-};
+import { connector, ContainerProps } from "./api-key-how-to-use.container";
 
 const get_curl_command = (
   api_key: string
@@ -72,13 +69,13 @@ const get_html = async (params: { code: string; language: Language }) => {
   return html;
 };
 
-export const ApiKeyHowToUse: React.FC<Props> = (props) => {
+export const Wrapper: React.FC<ContainerProps> = (props) => {
   const [html, setHtml] = useState<string>("");
   const [language, setLanguage] = useState<string>("curl");
 
   useEffect(() => {
     get_html(generate_code(props.api_key, language)).then(setHtml);
-  }, [language]);
+  }, [language, props.api_key]);
 
   return (
     <div className="flex flex-col gap-4">
@@ -105,3 +102,5 @@ export const ApiKeyHowToUse: React.FC<Props> = (props) => {
     </div>
   );
 };
+
+export const ApiKeyHowToUse = connector(Wrapper);

@@ -1,5 +1,3 @@
-import { useModal } from "@/lib/use-modal";
-import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import {
   Button,
   Dialog,
@@ -17,6 +15,7 @@ import {
 } from "@/ui";
 import { Form } from "@/ui/form/form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Loader2 } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { useIntl } from "react-intl";
 import { z } from "zod";
@@ -47,10 +46,8 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
     props.create_organization(values.name);
   };
 
-  const { isOpen, onOpenChange } = useModal(MODAL_KEYS.ORGANIZATION_CREATE);
-
   return (
-    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+    <Dialog open={props.is_open} onOpenChange={props.on_close}>
       <DialogContent className="sm:max-w-[425px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmit)}>
@@ -89,8 +86,12 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
               />
             </div>
             <DialogFooter>
-              <Button type="submit">
-                {intl.formatMessage({ id: "organization/create/button" })}
+              <Button type="submit" disabled={props.is_creating}>
+                {props.is_creating ? (
+                  <Loader2 className="size-5 animate-spin" />
+                ) : (
+                  intl.formatMessage({ id: "organization/create/button" })
+                )}
               </Button>
             </DialogFooter>
           </form>

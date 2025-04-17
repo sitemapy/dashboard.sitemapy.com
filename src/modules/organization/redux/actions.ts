@@ -1,3 +1,4 @@
+import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import { actions } from "@/redux/actions";
 import { AsyncThunkConfig } from "@/redux/store";
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
@@ -137,6 +138,10 @@ export const get_organization_members = createAsyncThunk<
   }
 );
 
+export const _set_is_creating = createAction<{ is_creating: boolean }>(
+  "organization/_set_is_creating"
+);
+
 export const create_organization = createAsyncThunk<
   OrganizationEntity,
   { name: string },
@@ -147,14 +152,20 @@ export const create_organization = createAsyncThunk<
     const { authentication } = getState();
     const user = authentication.user as UserEntity;
 
+    dispatch(_set_is_creating({ is_creating: true }));
+
     const response = await extra.OrganizationRepository.create_organization({
       ...params,
       user_id: user.id,
     });
 
+    dispatch(_set_is_creating({ is_creating: false }));
+
     if (response.error) {
       throw new Error(response.code);
     }
+
+    dispatch(actions.modal.close({ key: MODAL_KEYS.ORGANIZATION_CREATE }));
 
     await dispatch(get_organizations());
 

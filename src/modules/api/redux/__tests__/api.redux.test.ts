@@ -189,4 +189,61 @@ describe("Feature: API", () => {
       },
     ]);
   });
+
+  it(`
+    Given a logged in user
+    When the user goes to the last page
+    Then the current page should be the last page
+    And the logs should be fetched
+  `, async () => {
+    const { store, dependencies } = init({});
+
+    const organization_repository =
+      dependencies.OrganizationRepository as OrganizationRepositoryInMemory;
+
+    const organization = await organization_repository.create_organization({
+      user_id: "test@test.com",
+      name: "Test Organization",
+    });
+
+    if (organization.error) throw new Error("Organization not created");
+
+    const api_repository = dependencies.ApiRepository as ApiRepositoryInMemory;
+
+    const logs: Array<Log> = Array.from({ length: 100 }, (_, index) => ({
+      id: index.toString(),
+      created_at: new Date(),
+      fetching_duration: 1000,
+      number_of_sitemap_fetched: 1,
+      status: "success",
+      total_pages_in_sitemaps: 1,
+      url: "https://example.com/sitemap.xml",
+      error_message: null,
+    }));
+
+    api_repository._store_logs({
+      organization_id: organization.body.id,
+      logs: logs,
+    });
+
+    await store.dispatch(
+      actions.authentication.signup({
+        email: "test@test.com",
+        password: "password",
+      })
+    );
+
+    await store.dispatch(
+      actions.authentication.login({
+        email: "test@test.com",
+        password: "password",
+      })
+    );
+
+    await store.dispatch(actions.api.fetch_logs());
+    await store.dispatch(actions.api.go_to_last_page());
+
+    expect(store.getState().api.current_page).toEqual(10);
+    expect(store.getState().api.logs).toMatchObject(logs.slice(-10));
+  });
 });

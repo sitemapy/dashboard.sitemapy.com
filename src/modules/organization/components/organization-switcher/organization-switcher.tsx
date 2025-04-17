@@ -14,8 +14,8 @@ import { useIntl } from "react-intl";
 import { connector, ContainerProps } from "./organization-switcher.container";
 
 export const Wrapper: React.FC<ContainerProps> = (props) => {
-  const { onOpenChange } = useModal(MODAL_KEYS.ORGANIZATION_CREATE);
   const intl = useIntl();
+  const { onOpenChange } = useModal(MODAL_KEYS.ORGANIZATION_CREATE);
 
   if (!props.active_organization) {
     return null;
@@ -44,7 +44,7 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
         sideOffset={4}
       >
         <DropdownMenuLabel className="text-muted-foreground text-xs">
-          Organizations
+          {intl.formatMessage({ id: "organization-switcher/title" })}
         </DropdownMenuLabel>
         {props.organizations.map((organization) => (
           <DropdownMenuItem

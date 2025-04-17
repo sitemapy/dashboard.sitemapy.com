@@ -9,6 +9,7 @@ export type OrganizationState = {
   organization_list: OrganizationEntity[];
   current_organization: OrganizationEntity | null;
   is_loading: boolean;
+  is_creating: boolean;
   organization_members: OrganizationToUserEntity[];
 };
 
@@ -16,6 +17,7 @@ const initialState: OrganizationState = {
   organization_list: [],
   current_organization: null,
   is_loading: false,
+  is_creating: false,
   organization_members: [],
 };
 

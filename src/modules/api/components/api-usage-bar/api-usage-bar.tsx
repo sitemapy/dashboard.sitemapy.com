@@ -1,10 +1,9 @@
-type Props = {
-  actual_usage: number;
-  total_usage_limit: number;
-  usage_reset_date: Date;
-};
+import { useIntl } from "react-intl";
+import { connector, ContainerProps } from "./api-usage-bar.container";
 
-export const ApiUsageBar: React.FC<Props> = (props) => {
+export const Wrapper: React.FC<ContainerProps> = (props) => {
+  const intl = useIntl();
+
   const percentage = (props.actual_usage / props.total_usage_limit) * 100;
   const formattedDate = props.usage_reset_date.toLocaleDateString();
 
@@ -12,9 +11,26 @@ export const ApiUsageBar: React.FC<Props> = (props) => {
     <div className="space-y-2">
       <div className="flex justify-between text-sm">
         <div>
-          {props.actual_usage} / {props.total_usage_limit} requests used
+          {intl.formatMessage(
+            {
+              id: "api/api-usage-bar/actual-usage",
+            },
+            {
+              actual_usage: props.actual_usage,
+              total_usage_limit: props.total_usage_limit,
+            }
+          )}
         </div>
-        <div>Quota resets on {formattedDate}</div>
+        <div>
+          {intl.formatMessage(
+            {
+              id: "api/api-usage-bar/quota-resets-on",
+            },
+            {
+              date: formattedDate,
+            }
+          )}
+        </div>
       </div>
       <div className="bg-accent h-2 w-full rounded-full">
         <div
@@ -25,3 +41,5 @@ export const ApiUsageBar: React.FC<Props> = (props) => {
     </div>
   );
 };
+
+export const ApiUsageBar = connector(Wrapper);

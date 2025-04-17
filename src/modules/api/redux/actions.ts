@@ -62,6 +62,16 @@ export const go_to_next_page = createAsyncThunk<void, void, AsyncThunkConfig>(
     }
   }
 );
+export const go_to_last_page = createAsyncThunk<void, void, AsyncThunkConfig>(
+  "api/go_to_last_page",
+  async (_, { dispatch, getState }) => {
+    const { api } = getState();
+    if (api.current_page < api.total_pages) {
+      dispatch(_set_current_page(api.total_pages));
+      await dispatch(fetch_logs());
+    }
+  }
+);
 
 export const go_to_previous_page = createAsyncThunk<
   void,

@@ -21,27 +21,44 @@ import {
   CircleCheckIcon,
   CircleXIcon,
 } from "lucide-react";
+import { useIntl } from "react-intl";
 import { connector, ContainerProps } from "./api-logs-table.container";
 
 export const Wrapper: React.FC<ContainerProps> = (props) => {
+  const intl = useIntl();
+
   return (
     <div className="space-y-2">
       <div>
-        <h1 className="text-2xl font-bold">Logs</h1>
+        <h1 className="text-2xl font-bold">
+          {intl.formatMessage({ id: "api-logs-table/title" })}
+        </h1>
         <p className="text-muted-foreground text-sm">
-          View and manage your API logs here.
+          {intl.formatMessage({ id: "api-logs-table/description" })}
         </p>
       </div>
       <div className="relative rounded-lg border p-4">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Status</TableHead>
-              <TableHead>Reference</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>URL</TableHead>
-              <TableHead>Sitemaps</TableHead>
-              <TableHead>Pages</TableHead>
+              <TableHead>
+                {intl.formatMessage({ id: "api-logs-table/header/status" })}
+              </TableHead>
+              <TableHead>
+                {intl.formatMessage({ id: "api-logs-table/header/reference" })}
+              </TableHead>
+              <TableHead>
+                {intl.formatMessage({ id: "api-logs-table/header/date" })}
+              </TableHead>
+              <TableHead>
+                {intl.formatMessage({ id: "api-logs-table/header/url" })}
+              </TableHead>
+              <TableHead>
+                {intl.formatMessage({ id: "api-logs-table/header/sitemaps" })}
+              </TableHead>
+              <TableHead>
+                {intl.formatMessage({ id: "api-logs-table/header/pages" })}
+              </TableHead>
             </TableRow>
           </TableHeader>
 
@@ -78,14 +95,16 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
 
         {props.logs.length === 0 && (
           <div className="bg-accent text-accent-foreground mt-2 flex w-full items-center justify-center rounded p-4 text-sm font-medium">
-            No logs found
+            {intl.formatMessage({ id: "api-logs-table/no-logs-found" })}
           </div>
         )}
       </div>
 
       <div className="flex items-center justify-end space-x-6">
         <div className="flex items-center space-x-2">
-          <p className="text-sm font-medium">Rows per page</p>
+          <p className="text-sm font-medium">
+            {intl.formatMessage({ id: "api-logs-table/rows-per-page" })}
+          </p>
           <Select
             value={`${props.total_logs_per_page}`}
             onValueChange={(value) => {
@@ -106,8 +125,14 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
         </div>
 
         <div className="flex items-center space-x-6 lg:space-x-8">
-          <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-            Page {props.current_page} of {props.total_pages}
+          <div className="flex items-center justify-center text-sm font-medium">
+            {intl.formatMessage(
+              { id: "api-logs-table/number-of-page-status" },
+              {
+                current_page: props.current_page,
+                total_pages: props.total_pages,
+              }
+            )}
           </div>
           <div className="flex items-center space-x-1">
             <Button
@@ -132,7 +157,6 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
               onClick={props.onNextPage}
               disabled={false}
             >
-              <span className="sr-only">Go to next page</span>
               <ChevronRightIcon />
             </Button>
             <Button
@@ -141,7 +165,6 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
               onClick={props.onLastPage}
               disabled={false}
             >
-              <span className="sr-only">Go to last page</span>
               <ChevronsRightIcon />
             </Button>
           </div>

@@ -12,9 +12,11 @@ import {
 } from "@/ui";
 import BoringAvatar from "boring-avatars";
 import { LogOut } from "lucide-react";
+import { useIntl } from "react-intl";
 import { connector, ContainerProps } from "./navbar-user.container";
 
 export const Wrapper: React.FC<ContainerProps> = (props) => {
+  const intl = useIntl();
   const { onOpenChange } = useModal(MODAL_KEYS.CHANGE_LANGUAGE);
 
   return (
@@ -54,13 +56,13 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={onOpenChange}>
-            Change language
+            {intl.formatMessage({ id: "navbar/user/change-language" })}
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={props.on_logout}>
           <LogOut />
-          Log out
+          {intl.formatMessage({ id: "navbar/user/logout" })}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
