@@ -1,4 +1,4 @@
-import { ApiLogEntity } from "@sitemapy/interfaces";
+import { ApiKeyEntity, ApiLogEntity } from "@sitemapy/interfaces";
 import { ApiRepositoryInMemory } from "../api.repository.in-memory";
 
 describe("Feature:ApiRepositoryInMemory", () => {
@@ -19,19 +19,19 @@ describe("Feature:ApiRepositoryInMemory", () => {
       }
 
       expect(result.body.api_key).toEqual({
-        api_key: "fake_api_key",
-        current_usage: 0,
-        max_usage: 1000,
-        reset_date: expect.any(Date),
+        key: "fake_api_key",
+        organization_id: "org_1",
+        created_at: expect.any(Date),
+        updated_at: expect.any(Date),
       });
     });
 
     it("should return stored api key", async () => {
-      const storedKey = {
-        api_key: "test_key",
-        current_usage: 50,
-        max_usage: 2000,
-        reset_date: new Date(),
+      const storedKey: ApiKeyEntity = {
+        key: "test_key",
+        organization_id: "org_1",
+        created_at: new Date(),
+        updated_at: new Date(),
       };
 
       repository._store_api_key({
