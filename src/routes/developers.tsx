@@ -18,11 +18,7 @@ export const DevelopersRoute: React.FC<RouteComponentProps> = () => {
           <div className="mx-auto mt-8 flex max-w-6xl flex-col gap-8 p-4">
             <ApiKeyInput />
 
-            <ApiUsageBar
-              actual_usage={100}
-              total_usage_limit={1000}
-              usage_reset_date={new Date()}
-            />
+            <ApiUsageBar />
 
             <ApiKeyResetDialog />
 
@@ -32,9 +28,7 @@ export const DevelopersRoute: React.FC<RouteComponentProps> = () => {
                 <TabsTrigger value="response">Response</TabsTrigger>
               </TabsList>
               <TabsContent value="request">
-                <ApiKeyHowToUse
-                  api_key={"a9675d23-6362-4923-b5c5-8744da81a87e"}
-                />
+                <ApiKeyHowToUse />
               </TabsContent>
               <TabsContent value="response">
                 <ApiKeyHowToUseResponse />

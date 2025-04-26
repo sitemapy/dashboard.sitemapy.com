@@ -2,7 +2,7 @@ import { RootState } from "@/redux/store";
 import { connect, ConnectedProps } from "react-redux";
 
 const mapState = (state: RootState) => ({
-  api_key: state.api.api_key?.api_key || "",
+  api_key: state.api.api_key?.key || "",
 });
 
 const mapDispatch = () => ({});

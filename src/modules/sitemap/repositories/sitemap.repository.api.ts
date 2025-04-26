@@ -1,20 +1,22 @@
 import { ApiService } from "@/modules/api/services/api.service";
 import { SitemapRepository } from "@/modules/sitemap/repositories/sitemap.repository";
-import { SitemapResponse } from "@sitemapy/interfaces";
+import { ApiResponses, SitemapResponse } from "@sitemapy/interfaces";
 import { uniqBy } from "lodash";
 
 export class SitemapRepositoryApi implements SitemapRepository {
+  private readonly LOCAL_STORAGE_KEY_HISTORY = "sitemap-history";
+
   constructor(private apiService: ApiService) {}
 
   async fetch_sitemap(
     sitemap_url: string
   ): Promise<RepositoryResponse<SitemapResponse[]>> {
-    const response = await this.apiService.post<SitemapResponse>(
-      `/sitemap/free-tool/run`,
-      {
-        url: sitemap_url,
-      }
-    );
+    const response = await this.apiService.post<
+      ApiResponses["POST /sitemap/crawl/with-tree"]
+    >(`/sitemap/crawl/with-tree`, {
+      url: sitemap_url,
+      include_pages: true,
+    });
 
     if (response.error) {
       return {
@@ -35,7 +37,7 @@ export class SitemapRepositoryApi implements SitemapRepository {
 
   private _get_history(): { sitemap_url: string; created_at: Date }[] {
     try {
-      const history = localStorage.getItem("sitemap_history");
+      const history = localStorage.getItem(this.LOCAL_STORAGE_KEY_HISTORY);
 
       if (!history) return [];
 
@@ -50,7 +52,7 @@ export class SitemapRepositoryApi implements SitemapRepository {
       const history_in_local_storage = this._get_history();
 
       localStorage.setItem(
-        "sitemap_history",
+        this.LOCAL_STORAGE_KEY_HISTORY,
         JSON.stringify(
           uniqBy(
             [...history, ...history_in_local_storage],
@@ -59,7 +61,7 @@ export class SitemapRepositoryApi implements SitemapRepository {
         )
       );
     } catch {
-      // Do nothing
+      return;
     }
   }
 

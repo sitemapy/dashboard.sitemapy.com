@@ -1,4 +1,4 @@
-import { Log } from "../api.repository";
+import { ApiLogEntity } from "@sitemapy/interfaces";
 import { ApiRepositoryInMemory } from "../api.repository.in-memory";
 
 describe("Feature:ApiRepositoryInMemory", () => {
@@ -36,7 +36,12 @@ describe("Feature:ApiRepositoryInMemory", () => {
 
       repository._store_api_key({
         organization_id: "org_1",
-        api_key: storedKey,
+        api_key: {
+          key: "test_key",
+          organization_id: "org_1",
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
       });
 
       const result = await repository.fetch_api_key({
@@ -71,7 +76,7 @@ describe("Feature:ApiRepositoryInMemory", () => {
     });
 
     it("should return paginated logs", async () => {
-      const logs: Log[] = Array.from({ length: 25 }, (_, i) => ({
+      const logs: ApiLogEntity[] = Array.from({ length: 25 }, (_, i) => ({
         id: `log_${i}`,
         url: `https://example.com/${i}`,
         number_of_sitemap_fetched: i,
@@ -80,6 +85,10 @@ describe("Feature:ApiRepositoryInMemory", () => {
         fetching_duration: i,
         status: "success",
         error_message: null,
+        api_key_id: "api_key_id",
+        organization_id: "organization_id",
+        does_sitemap_contain_errors: false,
+        mode: "pages_only",
       }));
 
       repository._store_logs({

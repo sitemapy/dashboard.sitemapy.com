@@ -56,7 +56,7 @@
   "api/api-key-input/reset-api-key-description": "By resetting the API Key, services that use the old API Key will stop working.",
   "api/api-key-input/reset-api-key-cancel": "No, keep it",
   "api/api-key-input/reset-api-key-reset": "Yes, reset it",
-  "notifications/login/error": "Login failed",
+  "user/not-found": "User not found",
   "notifications/signup/success": "Account created successfully",
   "notifications/no-organization-found": "No organization found",
   "notifications/api-key-copied-to-clipboard": "API key copied to clipboard",
@@ -78,5 +78,7 @@
   "api-logs-table/header/sitemaps": "Sitemaps",
   "api-logs-table/header/pages": "Pages",
   "api-logs-table/no-logs-found": "No logs found",
-  "organization-switcher/title": "Organizations"
+  "organization-switcher/title": "Organizations",
+  "global-events/loading": "We are checking if you are logged in...",
+  "global-events/go-to-login": "Go on the login page"
 }

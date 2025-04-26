@@ -1,5 +1,5 @@
+import { ApiLogEntity } from "@sitemapy/interfaces";
 import { useState } from "react";
-import { Log } from "../../repositories/api.repository";
 import { Wrapper as ApiLogsTable } from "./api-logs-table";
 
 const meta = {
@@ -10,14 +10,16 @@ const meta = {
 
 export default meta;
 
-const logs: Array<Log> = Array.from({ length: 1000 }, (_, index) => ({
+const logs: Array<ApiLogEntity> = Array.from({ length: 1000 }, (_, index) => ({
   id: index.toString(),
   url: `https://example.com/sitemap-${index}.xml`,
-  status: "success",
-  error_message: null,
+  does_sitemap_contain_errors: false,
+  mode: "pages_only",
   number_of_sitemap_fetched: 3,
   total_pages_in_sitemaps: 65030,
   created_at: new Date(),
+  api_key_id: "api_key_id",
+  organization_id: "organization_id",
   fetching_duration: index,
 }));
 

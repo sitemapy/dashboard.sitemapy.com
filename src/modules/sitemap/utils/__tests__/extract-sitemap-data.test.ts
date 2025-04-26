@@ -8,6 +8,10 @@ describe("Feature: Extract sitemap data", () => {
     status_code: 200,
     type: "sitemap-index",
     sitemap_parent_url: null,
+    number_total_of_pages: 0,
+    number_total_of_sitemaps: 0,
+    fetching_duration: 0,
+    does_sitemap_contain_errors: false,
     children: [
       {
         url: "https://example.com/sitemap1.xml",
@@ -16,6 +20,9 @@ describe("Feature: Extract sitemap data", () => {
         type: "sitemap",
         sitemap_parent_url: "https://example.com/sitemap.xml",
         number_total_of_pages: 10,
+        number_total_of_sitemaps: 0,
+        fetching_duration: 0,
+        does_sitemap_contain_errors: false,
       },
       {
         url: "https://example.com/sitemap2.xml",
@@ -30,12 +37,17 @@ describe("Feature: Extract sitemap data", () => {
             type: "sitemap",
             sitemap_parent_url: "https://example.com/sitemap2.xml",
             number_total_of_pages: 5,
+            number_total_of_sitemaps: 0,
+            fetching_duration: 0,
+            does_sitemap_contain_errors: false,
           },
         ],
         number_total_of_pages: 15,
+        number_total_of_sitemaps: 0,
+        fetching_duration: 0,
+        does_sitemap_contain_errors: false,
       },
     ],
-    number_total_of_pages: 30,
   };
 
   it("should extract data from all nodes in the sitemap tree", () => {
@@ -75,6 +87,9 @@ describe("Feature: Extract sitemap data", () => {
       type: "sitemap",
       sitemap_parent_url: "https://example.com/sitemap.xml",
       number_total_of_pages: 0,
+      number_total_of_sitemaps: 0,
+      fetching_duration: 0,
+      does_sitemap_contain_errors: false,
     };
 
     const extracted = extract_sitemap_data(empty_sitemap, (node) => node.url);

@@ -41,7 +41,8 @@ jobs:
       - name: Build
         run: yarn build
         env:
-          VITE_API_ENDPOINT: "https://v2.api.sitemapy.com"
+          NODE_ENV: "production"
+          VITE_MODE: "api"
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
@@ -85,7 +86,7 @@ jobs:
       - name: Build Storybook
         run: yarn storybook:build
         env:
-          VITE_API_ENDPOINT: "https://v2.api.sitemapy.com"
+          VITE_MODE: "in-memory"
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

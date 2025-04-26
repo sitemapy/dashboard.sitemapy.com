@@ -27,10 +27,19 @@ const generate_response = () => {
             sitemap_parent_url: "https://www.sudoku.academy/sitemap-1.xml",
             number_total_of_pages: 1,
             children: [],
+            number_total_of_sitemaps: 0,
+            fetching_duration: 0,
+            does_sitemap_contain_errors: false,
           },
         ],
+        number_total_of_sitemaps: 0,
+        fetching_duration: 0,
+        does_sitemap_contain_errors: false,
       },
     ],
+    number_total_of_sitemaps: 0,
+    fetching_duration: 0,
+    does_sitemap_contain_errors: false,
   };
 
   return JSON.stringify(response, null, 2);
