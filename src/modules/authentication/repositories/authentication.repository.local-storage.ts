@@ -47,10 +47,7 @@ export class AuthenticationRepositoryLocalStorage
     }
   }
 
-  async login_with_google(): Promise<
-    | { error: true; code: ErrorEntity }
-    | { error: false; body: { user: UserEntity } }
-  > {
+  async login_with_google(): Promise<RepositoryResponse<{ user: UserEntity }>> {
     const user = this._get_users()[0];
 
     if (!user) return { error: true, code: ErrorEntity.USER_NOT_FOUND };
@@ -63,17 +60,15 @@ export class AuthenticationRepositoryLocalStorage
   async login(params: {
     email: string;
     password: string;
-  }): Promise<
-    { error: true; code: string } | { error: false; body: UserEntity }
-  > {
+  }): Promise<RepositoryResponse<UserEntity>> {
     const user = this._get_users().find((user) => user.email === params.email);
 
     if (!user) {
-      return { error: true, code: "User not found" };
+      return { error: true, code: ErrorEntity.USER_NOT_FOUND };
     }
 
     if (user.password !== params.password) {
-      return { error: true, code: "Invalid password" };
+      return { error: true, code: ErrorEntity.USER_NOT_FOUND };
     }
 
     this._set_authenticated_user(user);

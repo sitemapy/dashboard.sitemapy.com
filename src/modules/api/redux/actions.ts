@@ -2,14 +2,14 @@ import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import { actions } from "@/redux/actions";
 import { AsyncThunkConfig } from "@/redux/store";
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { ApiKey, Log } from "../repositories/api.repository";
+import { ApiKeyEntity, ApiLogEntity } from "@sitemapy/interfaces";
 
 export const _set_is_resetting_api_key = createAction<boolean>(
   "api/_set_is_resetting_api_key"
 );
-export const _store_api_key = createAction<ApiKey>("api/_store_api_key");
+export const _store_api_key = createAction<ApiKeyEntity>("api/_store_api_key");
 export const _store_logs = createAction<{
-  logs: Array<Log>;
+  logs: Array<ApiLogEntity>;
   total_logs: number;
   total_pages: number;
 }>("api/_store_logs");
@@ -168,7 +168,7 @@ export const copy_api_key = createAsyncThunk<void, void, AsyncThunkConfig>(
       return;
     }
 
-    await extra.NavigatorService.copy_to_clipboard(api.api_key.api_key);
+    await extra.NavigatorService.copy_to_clipboard(api.api_key.key);
 
     dispatch(
       actions.notifications.create({

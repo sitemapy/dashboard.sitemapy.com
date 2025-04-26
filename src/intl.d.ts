@@ -7,10 +7,7 @@ declare module "react-intl" {
   interface IntlShape {
     formatMessage: (
       messageDescriptor: MessageDescriptor & { id: MessageI18nKeys },
-      values?: Record<
-        string,
-        string | number | boolean | Date | React.ReactNode
-      >
+      values?: Record<string, ((chunks: string) => unknown) | string>
     ) => string;
   }
 }

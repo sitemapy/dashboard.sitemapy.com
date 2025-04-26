@@ -1,7 +1,7 @@
 import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import { OrganizationRepositoryInMemory } from "@/modules/organization/repositories/organization.repository.in-memory";
 import { actions, init } from "@/redux/store";
-import { Log } from "../../repositories/api.repository";
+import { ApiLogEntity } from "@sitemapy/interfaces";
 import { ApiRepositoryInMemory } from "../../repositories/api.repository.in-memory";
 
 describe("Feature: API", () => {
@@ -28,22 +28,24 @@ describe("Feature: API", () => {
     api_repository._store_api_key({
       organization_id: organization.body.id,
       api_key: {
-        api_key: "test_api_key",
-        current_usage: 0,
-        max_usage: 1000,
-        reset_date: new Date(),
+        key: "test_api_key",
+        organization_id: organization.body.id,
+        created_at: new Date(),
+        updated_at: new Date(),
       },
     });
 
-    const log: Log = {
+    const log: ApiLogEntity = {
       id: "1",
       created_at: new Date(),
       fetching_duration: 1000,
       number_of_sitemap_fetched: 1,
-      status: "success",
+      does_sitemap_contain_errors: false,
+      mode: "pages_only",
       total_pages_in_sitemaps: 1,
+      api_key_id: "api_key_id",
+      organization_id: organization.body.id,
       url: "https://example.com/sitemap.xml",
-      error_message: null,
     };
 
     api_repository._store_logs({
@@ -69,7 +71,7 @@ describe("Feature: API", () => {
       "Test Organization"
     );
 
-    expect(store.getState().api.api_key?.api_key).toEqual("test_api_key");
+    expect(store.getState().api.api_key?.key).toEqual("test_api_key");
     expect(store.getState().api.logs).toMatchObject([log]);
     expect(store.getState().api.total_logs).toEqual(1);
     expect(store.getState().api.total_pages).toEqual(1);
@@ -95,16 +97,22 @@ describe("Feature: API", () => {
 
     const api_repository = dependencies.ApiRepository as ApiRepositoryInMemory;
 
-    const logs: Array<Log> = Array.from({ length: 100 }, (_, index) => ({
-      id: index.toString(),
-      created_at: new Date(),
-      fetching_duration: 1000,
-      number_of_sitemap_fetched: 1,
-      status: "success",
-      total_pages_in_sitemaps: 1,
-      url: "https://example.com/sitemap.xml",
-      error_message: null,
-    }));
+    const logs: Array<ApiLogEntity> = Array.from(
+      { length: 100 },
+      (_, index) => ({
+        id: index.toString(),
+        created_at: new Date(),
+        fetching_duration: 1000,
+        number_of_sitemap_fetched: 1,
+        does_sitemap_contain_errors: false,
+        mode: "pages_only",
+        total_pages_in_sitemaps: 1,
+        url: "https://example.com/sitemap.xml",
+        error_message: null,
+        api_key_id: "api_key_id",
+        organization_id: organization.body.id,
+      })
+    );
 
     api_repository._store_logs({
       organization_id: organization.body.id,
@@ -174,13 +182,11 @@ describe("Feature: API", () => {
       })
     );
 
-    expect(store.getState().api.api_key?.api_key).toEqual("fake_api_key");
+    expect(store.getState().api.api_key?.key).toEqual("fake_api_key");
 
     await store.dispatch(actions.api.reset_api_key());
 
-    expect(store.getState().api.api_key?.api_key).toEqual(
-      "reseted_fake_api_key"
-    );
+    expect(store.getState().api.api_key?.key).toEqual("reseted_fake_api_key");
 
     expect(store.getState().modal.history).toMatchObject([
       {
@@ -210,16 +216,22 @@ describe("Feature: API", () => {
 
     const api_repository = dependencies.ApiRepository as ApiRepositoryInMemory;
 
-    const logs: Array<Log> = Array.from({ length: 100 }, (_, index) => ({
-      id: index.toString(),
-      created_at: new Date(),
-      fetching_duration: 1000,
-      number_of_sitemap_fetched: 1,
-      status: "success",
-      total_pages_in_sitemaps: 1,
-      url: "https://example.com/sitemap.xml",
-      error_message: null,
-    }));
+    const logs: Array<ApiLogEntity> = Array.from(
+      { length: 100 },
+      (_, index) => ({
+        id: index.toString(),
+        created_at: new Date(),
+        fetching_duration: 1000,
+        number_of_sitemap_fetched: 1,
+        does_sitemap_contain_errors: false,
+        mode: "pages_only",
+        total_pages_in_sitemaps: 1,
+        url: "https://example.com/sitemap.xml",
+        error_message: null,
+        api_key_id: "api_key_id",
+        organization_id: organization.body.id,
+      })
+    );
 
     api_repository._store_logs({
       organization_id: organization.body.id,

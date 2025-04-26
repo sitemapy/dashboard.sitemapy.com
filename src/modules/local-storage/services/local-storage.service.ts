@@ -15,6 +15,14 @@ export class LocalStorageService {
     }
   }
 
+  delete(key: LOCAL_STORAGE_KEYS) {
+    try {
+      this.localStorage.removeItem(key);
+    } catch {
+      return null;
+    }
+  }
+
   set(key: LOCAL_STORAGE_KEYS, value: string) {
     try {
       this.localStorage.setItem(key, value);

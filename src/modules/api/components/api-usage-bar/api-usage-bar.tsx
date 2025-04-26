@@ -16,8 +16,8 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
               id: "api/api-usage-bar/actual-usage",
             },
             {
-              actual_usage: props.actual_usage,
-              total_usage_limit: props.total_usage_limit,
+              actual_usage: props.actual_usage.toString(),
+              total_usage_limit: props.total_usage_limit.toString(),
             }
           )}
         </div>

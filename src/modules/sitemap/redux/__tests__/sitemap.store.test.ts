@@ -7,7 +7,9 @@ describe("Feature: Sitemap", () => {
   const sitemap_response: SitemapResponse = {
     url: sitemap_url,
     status_code: 200,
-
+    does_sitemap_contain_errors: false,
+    number_total_of_sitemaps: 0,
+    fetching_duration: 0,
     type: "sitemap-index",
     sitemap_parent_url: null,
     number_total_of_pages: 20,
@@ -18,8 +20,14 @@ describe("Feature: Sitemap", () => {
         type: "sitemap-index",
         sitemap_parent_url: "https://example.com/sitemap/index-1.xml",
         number_total_of_pages: 20,
+        does_sitemap_contain_errors: false,
+        number_total_of_sitemaps: 0,
+        fetching_duration: 0,
         children: [
           {
+            does_sitemap_contain_errors: false,
+            fetching_duration: 0,
+            number_total_of_sitemaps: 0,
             url: "https://example.com/sitemap/index-1/pages.xml",
             status_code: 200,
             type: "sitemap",

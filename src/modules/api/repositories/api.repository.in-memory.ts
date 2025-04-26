@@ -1,33 +1,34 @@
-import { ApiKey, ApiRepository, Log } from "./api.repository";
+import { ApiKeyEntity, ApiLogEntity } from "@sitemapy/interfaces";
+import { ApiRepository } from "./api.repository";
 
 export class ApiRepositoryInMemory implements ApiRepository {
-  private keys: Map<string, ApiKey> = new Map();
-  private logs: Map<string, Array<Log>> = new Map();
+  private keys: Map<string, ApiKeyEntity> = new Map();
+  private logs: Map<string, Array<ApiLogEntity>> = new Map();
 
-  _store_logs(params: { organization_id: string; logs: Array<Log> }) {
+  _store_logs(params: { organization_id: string; logs: Array<ApiLogEntity> }) {
     this.logs.set(params.organization_id, params.logs);
   }
 
-  _store_api_key(params: { organization_id: string; api_key: ApiKey }) {
+  _store_api_key(params: { organization_id: string; api_key: ApiKeyEntity }) {
     this.keys.set(params.organization_id, params.api_key);
   }
 
   async fetch_api_key(params: {
     organization_id: string;
-  }): Promise<RepositoryResponse<{ api_key: ApiKey }>> {
+  }): ReturnType<ApiRepository["fetch_api_key"]> {
     if (!this.keys.has(params.organization_id)) {
       this.keys.set(params.organization_id, {
-        api_key: "fake_api_key",
-        current_usage: 0,
-        max_usage: 1000,
-        reset_date: new Date(),
+        key: "fake_api_key",
+        organization_id: params.organization_id,
+        updated_at: new Date(),
+        created_at: new Date(),
       });
     }
 
     return {
       error: false,
       body: {
-        api_key: this.keys.get(params.organization_id) as ApiKey,
+        api_key: this.keys.get(params.organization_id) as ApiKeyEntity,
       },
     };
   }
@@ -36,13 +37,7 @@ export class ApiRepositoryInMemory implements ApiRepository {
     organization_id: string;
     current_page: number;
     how_many_logs_per_page: number;
-  }): Promise<
-    RepositoryResponse<{
-      logs: Array<Log>;
-      total_logs: number;
-      total_pages: number;
-    }>
-  > {
+  }): ReturnType<ApiRepository["fetch_logs"]> {
     const logs = this.logs.get(params.organization_id) || [];
     const total_logs = logs.length;
     const total_pages = Math.ceil(total_logs / params.how_many_logs_per_page);
@@ -62,12 +57,12 @@ export class ApiRepositoryInMemory implements ApiRepository {
 
   async reset_api_key(params: {
     organization_id: string;
-  }): Promise<RepositoryResponse<{ api_key: ApiKey }>> {
+  }): ReturnType<ApiRepository["reset_api_key"]> {
     this.keys.set(params.organization_id, {
-      api_key: "reseted_fake_api_key",
-      current_usage: 0,
-      max_usage: 1000,
-      reset_date: new Date(),
+      key: "reseted_fake_api_key",
+      organization_id: params.organization_id,
+      updated_at: new Date(),
+      created_at: new Date(),
     });
 
     return this.fetch_api_key(params);

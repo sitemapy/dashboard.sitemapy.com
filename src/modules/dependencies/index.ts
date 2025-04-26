@@ -12,13 +12,18 @@ import { OrganizationRepositoryLocalStorage } from "../organization/repositories
 
 import { v4 } from "uuid";
 import { ApiRepository } from "../api/repositories/api.repository";
+import { ApiRepositoryApi } from "../api/repositories/api.repository.api";
 import { ApiRepositoryInMemory } from "../api/repositories/api.repository.in-memory";
+import { ApiService } from "../api/services/api.service";
+import { AuthenticationRepositoryApi } from "../authentication/repositories/authentication.repository.api";
 import { NavigatorService } from "../global-events/services/navigator.service";
 import { NavigatorServiceBrowser } from "../global-events/services/navigator.service.browser";
 import { NavigatorServiceInMemory } from "../global-events/services/navigator.service.in-memory";
+import { LocalStorageService } from "../local-storage/services/local-storage.service";
+import { OrganizationRepositoryApi } from "../organization/repositories/organization.repository.api";
+import { SitemapRepositoryApi } from "../sitemap/repositories/sitemap.repository.api";
 import { logs } from "./__fixtures__/logs";
 import { sitemap } from "./__fixtures__/sitemaps";
-
 export type Dependencies = {
   AuthenticationRepository: AuthenticationRepository;
   OrganizationRepository: OrganizationRepository;
@@ -46,10 +51,10 @@ export const build = (env?: "in-memory" | "api" | "demo"): Dependencies => {
     api_repository._store_api_key({
       organization_id: "My Personal Organization",
       api_key: {
-        api_key: v4(),
-        current_usage: 450,
-        max_usage: 1000,
-        reset_date: new Date(new Date().getTime() + 1000 * 60 * 60 * 24 * 30),
+        key: v4(),
+        organization_id: "My Personal Organization",
+        updated_at: new Date(),
+        created_at: new Date(),
       },
     });
 
@@ -79,12 +84,14 @@ export const build = (env?: "in-memory" | "api" | "demo"): Dependencies => {
     };
   }
 
+  const apiService = new ApiService(new LocalStorageService(localStorage));
+
   return {
-    AuthenticationRepository: new AuthenticationRepositoryInMemory(),
-    OrganizationRepository: new OrganizationRepositoryInMemory(),
-    SitemapRepository: new SitemapRepositoryInMemory(),
-    LocationService: new LocationServiceInMemory(),
-    ApiRepository: new ApiRepositoryInMemory(),
+    AuthenticationRepository: new AuthenticationRepositoryApi(apiService),
+    OrganizationRepository: new OrganizationRepositoryApi(apiService),
+    SitemapRepository: new SitemapRepositoryApi(apiService),
+    LocationService: new LocationServiceWindow(),
+    ApiRepository: new ApiRepositoryApi(apiService),
     NavigatorService: new NavigatorServiceBrowser(),
   };
 };

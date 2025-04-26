@@ -24,7 +24,7 @@ export class ApiService {
 
   private endpoint: string =
     process.env.NODE_ENV === "production"
-      ? "https://v2.api.sitemapy.com"
+      ? "https://v2-api.sitemapy.com"
       : "http://localhost:3000";
 
   private _get_headers(): Record<string, string> {
@@ -38,40 +38,62 @@ export class ApiService {
   }
 
   async get<T>(url: string): Promise<IApiResponse<T>> {
-    const response = await axios.get<T>(`${this.endpoint}${url}`, {
-      headers: this._get_headers(),
-      validateStatus: () => true,
-    });
+    try {
+      const response = await axios.get<T>(`${this.endpoint}${url}`, {
+        headers: this._get_headers(),
+        validateStatus: () => true,
+      });
 
-    if (response.status !== 200) {
+      if (response.status !== 200) {
+        return {
+          error: true,
+          message: (response.data as { message: ErrorEntity }).message,
+        };
+      }
+
+      return {
+        error: false,
+        body: response.data,
+      };
+    } catch (error) {
       return {
         error: true,
-        message: (response.data as { message: ErrorEntity }).message,
+        message: (error as Error).message as ErrorEntity,
       };
     }
-
-    return {
-      error: false,
-      body: response.data,
-    };
   }
 
   async post<T>(url: string, data: unknown): Promise<IApiResponse<T>> {
-    const response = await axios.post<T>(`${this.endpoint}${url}`, data, {
-      headers: this._get_headers(),
-      validateStatus: () => true,
-    });
+    try {
+      const response = await axios.post<T>(`${this.endpoint}${url}`, data, {
+        headers: this._get_headers(),
+        validateStatus: () => true,
+      });
 
-    if (response.status !== 200) {
+      if (response.status !== 200) {
+        return {
+          error: true,
+          message: (response.data as { message: ErrorEntity }).message,
+        };
+      }
+
+      return {
+        error: false,
+        body: response.data,
+      };
+    } catch (error) {
       return {
         error: true,
-        message: (response.data as { message: ErrorEntity }).message,
+        message: (error as Error).message as ErrorEntity,
       };
     }
+  }
 
-    return {
-      error: false,
-      body: response.data,
-    };
+  async logout() {
+    this.localStorageService.delete(LOCAL_STORAGE_KEYS.TOKEN_KEY);
+  }
+
+  async authenticate(token: string) {
+    this.localStorageService.set(LOCAL_STORAGE_KEYS.TOKEN_KEY, token);
   }
 }

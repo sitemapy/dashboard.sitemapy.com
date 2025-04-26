@@ -7,6 +7,9 @@ export const sitemap: SitemapResponse = {
   number_total_of_pages: 35,
   status_code: 200,
   updated_at: new Date(),
+  does_sitemap_contain_errors: false,
+  number_total_of_sitemaps: 0,
+  fetching_duration: 0,
   children: [
     {
       url: "https://www.sudoku.academy/sitemap-1.xml",
@@ -15,6 +18,9 @@ export const sitemap: SitemapResponse = {
       number_total_of_pages: 35,
       status_code: 200,
       updated_at: new Date(),
+      does_sitemap_contain_errors: false,
+      number_total_of_sitemaps: 0,
+      fetching_duration: 0,
       children: [
         {
           url: "https://www.sudoku.academy/articles",
@@ -22,6 +28,9 @@ export const sitemap: SitemapResponse = {
           sitemap_parent_url: "https://www.sudoku.academy/sitemap-1.xml",
           number_total_of_pages: 15,
           status_code: 200,
+          does_sitemap_contain_errors: false,
+          number_total_of_sitemaps: 0,
+          fetching_duration: 0,
           updated_at: new Date(),
           children: Array.from({ length: 15 }, (_, index) => ({
             url: `https://www.sudoku.academy/articles/${index + 1}`,
@@ -31,6 +40,9 @@ export const sitemap: SitemapResponse = {
             status_code: 200,
             updated_at: new Date(),
             children: [],
+            does_sitemap_contain_errors: false,
+            number_total_of_sitemaps: 0,
+            fetching_duration: 0,
           })),
         },
         {
@@ -38,6 +50,9 @@ export const sitemap: SitemapResponse = {
           type: "folder",
           sitemap_parent_url: "https://www.sudoku.academy/sitemap-1.xml",
           number_total_of_pages: 20,
+          does_sitemap_contain_errors: false,
+          number_total_of_sitemaps: 0,
+          fetching_duration: 0,
           children: Array.from({ length: 20 }, (_, index) => ({
             url: `https://www.sudoku.academy/topics/${index + 1}`,
             type: "page",
@@ -45,6 +60,9 @@ export const sitemap: SitemapResponse = {
             number_total_of_pages: 0,
             status_code: 200,
             updated_at: new Date(),
+            does_sitemap_contain_errors: false,
+            number_total_of_sitemaps: 0,
+            fetching_duration: 0,
             children: [],
           })),
         },

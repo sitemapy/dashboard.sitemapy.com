@@ -68,10 +68,10 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
             {props.logs.map((log) => (
               <TableRow key={log.id}>
                 <TableCell>
-                  {log.status === "success" ? (
-                    <CircleCheckIcon className="size-4 text-green-500" />
-                  ) : (
+                  {log.does_sitemap_contain_errors ? (
                     <CircleXIcon className="size-4 text-red-500" />
+                  ) : (
+                    <CircleCheckIcon className="size-4 text-green-500" />
                   )}
                 </TableCell>
                 <TableCell>{log.id}</TableCell>
@@ -129,8 +129,8 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
             {intl.formatMessage(
               { id: "api-logs-table/number-of-page-status" },
               {
-                current_page: props.current_page,
-                total_pages: props.total_pages,
+                current_page: props.current_page.toString(),
+                total_pages: props.total_pages.toString(),
               }
             )}
           </div>
