@@ -19,7 +19,7 @@ describe("Feature:UsageRepositoryInMemory", () => {
 
       expect(result.body).toEqual({
         current_usage: 0,
-        total_usage_limit: 1000,
+        total_usage_limit: 100,
         usage_reset_date: expect.any(Date),
       });
     });
