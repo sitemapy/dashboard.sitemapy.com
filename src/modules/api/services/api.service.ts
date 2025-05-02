@@ -70,7 +70,7 @@ export class ApiService {
         validateStatus: () => true,
       });
 
-      if (response.status !== 200) {
+      if (response.status > 299) {
         return {
           error: true,
           message: (response.data as { message: ErrorEntity }).message,

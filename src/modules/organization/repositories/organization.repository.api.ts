@@ -24,7 +24,7 @@ export class OrganizationRepositoryApi implements OrganizationRepository {
 
   async get_organizations(): Promise<RepositoryResponse<OrganizationEntity[]>> {
     const response = await this.apiService.get<
-      ApiResponses["GET /organization"]
+      ApiResponses["GET /organizations"]
     >(`/organizations`);
 
     if (response.error) return { error: true, code: response.message };
@@ -61,8 +61,8 @@ export class OrganizationRepositoryApi implements OrganizationRepository {
     name: string;
   }): Promise<RepositoryResponse<OrganizationEntity>> {
     const response = await this.apiService.post<
-      ApiResponses["POST /organization"]
-    >(`/organization`, {
+      ApiResponses["POST /organizations"]
+    >(`/organizations`, {
       name: params.name,
     });
 

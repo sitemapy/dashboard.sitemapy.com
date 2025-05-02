@@ -1,11 +1,14 @@
-import { ApiKeyEntity, ApiLogEntity } from "@sitemapy/interfaces";
+import { ApiKeyEntity, SitemapLogEntity } from "@sitemapy/interfaces";
 import { ApiRepository } from "./api.repository";
 
 export class ApiRepositoryInMemory implements ApiRepository {
   private keys: Map<string, ApiKeyEntity> = new Map();
-  private logs: Map<string, Array<ApiLogEntity>> = new Map();
+  private logs: Map<string, Array<SitemapLogEntity>> = new Map();
 
-  _store_logs(params: { organization_id: string; logs: Array<ApiLogEntity> }) {
+  _store_logs(params: {
+    organization_id: string;
+    logs: Array<SitemapLogEntity>;
+  }) {
     this.logs.set(params.organization_id, params.logs);
   }
 

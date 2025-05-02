@@ -1,11 +1,11 @@
 import { useIntl } from "react-intl";
-import { connector, ContainerProps } from "./api-usage-bar.container";
+import { connector, ContainerProps } from "./usage-bar.container";
 
 export const Wrapper: React.FC<ContainerProps> = (props) => {
   const intl = useIntl();
 
   const percentage = (props.actual_usage / props.total_usage_limit) * 100;
-  const formattedDate = props.usage_reset_date.toLocaleDateString();
+  const formattedDate = props.usage_reset_date?.toLocaleDateString();
 
   return (
     <div className="space-y-2">
@@ -42,4 +42,4 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
   );
 };
 
-export const ApiUsageBar = connector(Wrapper);
+export const UsageBar = connector(Wrapper);

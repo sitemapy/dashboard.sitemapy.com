@@ -1,4 +1,4 @@
-import { ApiKeyEntity, ApiLogEntity } from "@sitemapy/interfaces";
+import { ApiKeyEntity, SitemapLogEntity } from "@sitemapy/interfaces";
 import { ApiRepositoryInMemory } from "../api.repository.in-memory";
 
 describe("Feature:ApiRepositoryInMemory", () => {
@@ -76,7 +76,7 @@ describe("Feature:ApiRepositoryInMemory", () => {
     });
 
     it("should return paginated logs", async () => {
-      const logs: ApiLogEntity[] = Array.from({ length: 25 }, (_, i) => ({
+      const logs: SitemapLogEntity[] = Array.from({ length: 25 }, (_, i) => ({
         id: `log_${i}`,
         url: `https://example.com/${i}`,
         number_of_sitemap_fetched: i,
@@ -89,6 +89,7 @@ describe("Feature:ApiRepositoryInMemory", () => {
         organization_id: "organization_id",
         does_sitemap_contain_errors: false,
         mode: "pages_only",
+        source: "api",
       }));
 
       repository._store_logs({

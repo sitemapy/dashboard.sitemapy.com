@@ -1,7 +1,7 @@
 import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import { OrganizationRepositoryInMemory } from "@/modules/organization/repositories/organization.repository.in-memory";
 import { actions, init } from "@/redux/store";
-import { ApiLogEntity } from "@sitemapy/interfaces";
+import { SitemapLogEntity } from "@sitemapy/interfaces";
 import { ApiRepositoryInMemory } from "../../repositories/api.repository.in-memory";
 
 describe("Feature: API", () => {
@@ -35,7 +35,7 @@ describe("Feature: API", () => {
       },
     });
 
-    const log: ApiLogEntity = {
+    const log: SitemapLogEntity = {
       id: "1",
       created_at: new Date(),
       fetching_duration: 1000,
@@ -43,9 +43,9 @@ describe("Feature: API", () => {
       does_sitemap_contain_errors: false,
       mode: "pages_only",
       total_pages_in_sitemaps: 1,
-      api_key_id: "api_key_id",
       organization_id: organization.body.id,
       url: "https://example.com/sitemap.xml",
+      source: "api",
     };
 
     api_repository._store_logs({
@@ -97,7 +97,7 @@ describe("Feature: API", () => {
 
     const api_repository = dependencies.ApiRepository as ApiRepositoryInMemory;
 
-    const logs: Array<ApiLogEntity> = Array.from(
+    const logs: Array<SitemapLogEntity> = Array.from(
       { length: 100 },
       (_, index) => ({
         id: index.toString(),
@@ -111,6 +111,7 @@ describe("Feature: API", () => {
         error_message: null,
         api_key_id: "api_key_id",
         organization_id: organization.body.id,
+        source: "api",
       })
     );
 
@@ -216,7 +217,7 @@ describe("Feature: API", () => {
 
     const api_repository = dependencies.ApiRepository as ApiRepositoryInMemory;
 
-    const logs: Array<ApiLogEntity> = Array.from(
+    const logs: Array<SitemapLogEntity> = Array.from(
       { length: 100 },
       (_, index) => ({
         id: index.toString(),
@@ -229,6 +230,7 @@ describe("Feature: API", () => {
         url: "https://example.com/sitemap.xml",
         error_message: null,
         api_key_id: "api_key_id",
+        source: "api",
         organization_id: organization.body.id,
       })
     );

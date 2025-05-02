@@ -11,8 +11,8 @@ export class ApiRepositoryApi implements ApiRepository {
     how_many_logs_per_page: number;
   }): ReturnType<ApiRepository["fetch_logs"]> {
     const response = await this.apiService.post<
-      ApiResponses["POST /api/get_logs"]
-    >(`/api/get_logs`, {
+      ApiResponses["POST /usage/get_logs"]
+    >(`/usage/get_logs`, {
       organization_id: params.organization_id,
       current_page: params.current_page,
       how_many_logs_per_page: params.how_many_logs_per_page,
@@ -25,9 +25,11 @@ export class ApiRepositoryApi implements ApiRepository {
     return {
       error: false,
       body: {
-        logs: response.body,
-        total_logs: response.body.length,
-        total_pages: 1,
+        logs: response.body.logs,
+        total_logs: response.body.total_logs,
+        total_pages: Math.ceil(
+          response.body.total_logs / params.how_many_logs_per_page
+        ),
       },
     };
   }

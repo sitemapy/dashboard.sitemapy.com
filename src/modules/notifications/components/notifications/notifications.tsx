@@ -13,7 +13,7 @@ export const Notifications: React.FC = () => {
   useEffect(() => {
     if (last_notification_id) {
       toast[last_notification.type || "success"](
-        intl.formatMessage({ id: last_notification.message }),
+        intl.formatMessage({ id: last_notification.message || "" }),
         {
           duration: last_notification.timeout || 1000,
           description: last_notification.description

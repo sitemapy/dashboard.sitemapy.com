@@ -25,6 +25,7 @@ export const app_mounted = createAsyncThunk<void, void, AsyncThunkConfig>(
   "global_events/app_mounted",
   async (_, { dispatch }) => {
     dispatch(actions.authentication.is_authenticated());
+    dispatch(actions.modal.sync());
   }
 );
 
@@ -44,6 +45,7 @@ export const organization_selected = createAsyncThunk<
   dispatch(actions.sitemap.fetch_history());
   dispatch(actions.api.fetch_logs());
   dispatch(actions.api.fetch_api_key());
+  dispatch(actions.usage.fetch_usage());
 });
 
 export const signup = createAsyncThunk<
@@ -51,3 +53,19 @@ export const signup = createAsyncThunk<
   { user: UserEntity },
   AsyncThunkConfig
 >("global_events/signup", async () => {});
+
+export const sitemap_was_fetched = createAsyncThunk<
+  void,
+  { sitemap_url: string },
+  AsyncThunkConfig
+>("global_events/sitemap_was_fetched", async (_, { dispatch }) => {
+  dispatch(actions.api.fetch_logs());
+});
+
+export const pop_state_triggered = createAsyncThunk<
+  void,
+  void,
+  AsyncThunkConfig
+>("global_events/pop_state_triggered", async (_, { dispatch }) => {
+  dispatch(actions.modal.sync());
+});

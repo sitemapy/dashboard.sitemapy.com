@@ -1,9 +1,9 @@
 import type { StoryObj } from "@storybook/react";
-import { ApiUsageBar } from "./api-usage-bar";
+import { UsageBar } from "./usage-bar";
 
 const meta = {
-  title: "modules/api/api-usage-bar",
-  component: ApiUsageBar,
+  title: "modules/usage/usage-bar",
+  component: UsageBar,
   parameters: {},
 };
 

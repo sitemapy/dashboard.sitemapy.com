@@ -27,6 +27,10 @@ export const modal_reducer = createReducer(initialState, (builder) => {
     state.current = action.payload.key;
   });
 
+  builder.addCase(actions.modal.store_current_key, (state, action) => {
+    state.current = action.payload.key;
+  });
+
   builder.addCase(actions.modal.close.fulfilled, (state, action) => {
     state.history.push({
       type: "close",

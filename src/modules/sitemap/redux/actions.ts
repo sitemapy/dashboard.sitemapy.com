@@ -25,7 +25,9 @@ export const fetch_sitemap = createAsyncThunk<
   void,
   { sitemap_url: string },
   AsyncThunkConfig
->("sitemap/fetch_sitemap", async (params, { dispatch, extra }) => {
+>("sitemap/fetch_sitemap", async (params, { dispatch, extra, getState }) => {
+  const { organization } = getState();
+
   dispatch(_set_sitemap_url({ sitemap_url: params.sitemap_url }));
   dispatch(_set_fetching_sitemap_loading(true));
 
@@ -34,9 +36,10 @@ export const fetch_sitemap = createAsyncThunk<
     sitemap_response: [],
   });
 
-  const sitemap_response = await extra.SitemapRepository.fetch_sitemap(
-    params.sitemap_url
-  );
+  const sitemap_response = await extra.SitemapRepository.fetch_sitemap({
+    sitemap_url: params.sitemap_url,
+    organization_id: organization.current_organization?.id as string,
+  });
 
   dispatch(_set_fetching_sitemap_loading(false));
 
@@ -55,6 +58,12 @@ export const fetch_sitemap = createAsyncThunk<
       sitemap_response: sitemap_response.body,
     })
   );
+
+  dispatch(
+    actions.global_events.sitemap_was_fetched({
+      sitemap_url: params.sitemap_url,
+    })
+  );
 });
 
 export const _store_history = createAction<{
@@ -63,10 +72,14 @@ export const _store_history = createAction<{
 
 export const fetch_history = createAsyncThunk<void, void, AsyncThunkConfig>(
   "sitemap/fetch_history",
-  async (params, { dispatch, extra }) => {
+  async (params, { dispatch, extra, getState }) => {
+    const { organization } = getState();
+
     dispatch(_set_fetching_history_loading(true));
 
-    const history = await extra.SitemapRepository.fetch_history();
+    const history = await extra.SitemapRepository.fetch_history(
+      organization.current_organization?.id as string
+    );
 
     dispatch(_set_fetching_history_loading(false));
 

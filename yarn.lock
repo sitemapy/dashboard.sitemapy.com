@@ -2232,10 +2232,10 @@
   resolved "https://registry.yarnpkg.com/@sinclair/typebox/-/typebox-0.27.8.tgz#6667fac16c436b5434a387a34dedb013198f6e6e"
   integrity sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==
 
-"@sitemapy/interfaces@^1.21.0":
-  version "1.21.0"
-  resolved "https://registry.yarnpkg.com/@sitemapy/interfaces/-/interfaces-1.21.0.tgz#1ff01c4d7d159f11559f81ef51d3a545d9dd4134"
-  integrity sha512-p4dKHeNriCw6pND7+R+g9KfFBRRyRCDMtpwFX8JRwGxVVF2cSYSALPxsTFfhE/UrCIgI/fiRRuGIQqyRd1Xizw==
+"@sitemapy/interfaces@^1.27.0":
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/@sitemapy/interfaces/-/interfaces-1.27.0.tgz#f3d13e6794f129af8a90b299f27daca53d5e0afa"
+  integrity sha512-EYRiOWTI8U2CldALR//f7HiEiwQoygvJTP8oUINf0BwhR7xuuCYSPa0ELM3Vm92XKPkedZVIdbfHgyKwheDxmQ==
 
 "@standard-schema/utils@^0.3.0":
   version "0.3.0"

@@ -1,11 +1,12 @@
-import { SitemapResponse } from "@sitemapy/interfaces"
+import { SitemapResponse } from "@sitemapy/interfaces";
 
 export interface SitemapRepository {
-  fetch_sitemap(
-    sitemap_url: string,
-  ): Promise<RepositoryResponse<SitemapResponse[]>>
+  fetch_sitemap(params: {
+    sitemap_url: string;
+    organization_id: string;
+  }): Promise<RepositoryResponse<SitemapResponse[]>>;
 
-  fetch_history(): Promise<
-    RepositoryResponse<{ sitemap_url: string; created_at: Date }[]>
-  >
+  fetch_history(
+    organization_id: string
+  ): Promise<RepositoryResponse<{ sitemap_url: string; created_at: Date }[]>>;
 }

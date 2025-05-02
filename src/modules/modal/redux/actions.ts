@@ -1,7 +1,22 @@
 import { addHash, removeHash } from "@/lib/utils";
 import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import { AsyncThunkConfig } from "@/redux/store";
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
+
+export const store_current_key = createAction<{ key: MODAL_KEYS }>(
+  "modal/store_current_key"
+);
+
+export const sync = createAsyncThunk<void, void, AsyncThunkConfig>(
+  "modal/sync",
+  async (payload, { extra, dispatch }) => {
+    const hash = extra.LocationService.getHash();
+
+    const key = hash.replace("#", "").split("&")[0];
+
+    dispatch(store_current_key({ key: key as MODAL_KEYS }));
+  }
+);
 
 export const open = createAsyncThunk<
   { key: MODAL_KEYS; value?: unknown },
