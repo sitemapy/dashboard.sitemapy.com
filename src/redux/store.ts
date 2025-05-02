@@ -6,6 +6,7 @@ import { modal_reducer } from "@/modules/modal/redux/reducers";
 import { notifications_reducer } from "@/modules/notifications/redux/reducers";
 import { organization_reducer } from "@/modules/organization/redux/reducers";
 import { sitemap_reducer } from "@/modules/sitemap/redux/reducers";
+import { usage_reducer } from "@/modules/usage/redux/reducers";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
@@ -18,6 +19,7 @@ export const reducers = combineReducers({
   organization: organization_reducer,
   sitemap: sitemap_reducer,
   api: api_reducer,
+  usage: usage_reducer,
 });
 
 export const init = (initialState = {}, env?: "in-memory" | "api" | "demo") => {

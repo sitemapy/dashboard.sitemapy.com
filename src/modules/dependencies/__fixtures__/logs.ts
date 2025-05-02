@@ -1,6 +1,6 @@
-import { ApiLogEntity } from "@sitemapy/interfaces";
+import { SitemapLogEntity } from "@sitemapy/interfaces";
 
-export const logs: ApiLogEntity[] = Array.from(
+export const logs: SitemapLogEntity[] = Array.from(
   { length: 2000 },
   (_, index) => ({
     id: `log_${index + 1}`,
@@ -14,6 +14,7 @@ export const logs: ApiLogEntity[] = Array.from(
     fetching_duration: 1000,
     number_of_sitemap_fetched: 3,
     total_pages_in_sitemaps: 56340,
+    source: index % 2 === 0 ? "api" : "web",
     does_sitemap_contain_errors: index % 5 === 0,
     mode: "pages_only",
   })

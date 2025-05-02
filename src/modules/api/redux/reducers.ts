@@ -1,10 +1,10 @@
 import { actions } from "@/redux/actions";
 import { createReducer } from "@reduxjs/toolkit";
-import { ApiKeyEntity, ApiLogEntity } from "@sitemapy/interfaces";
+import { ApiKeyEntity, SitemapLogEntity } from "@sitemapy/interfaces";
 
 export type api_state = {
   api_key: ApiKeyEntity | null;
-  logs: Array<ApiLogEntity>;
+  logs: Array<SitemapLogEntity>;
   total_logs: number;
   total_pages: number;
   current_page: number;

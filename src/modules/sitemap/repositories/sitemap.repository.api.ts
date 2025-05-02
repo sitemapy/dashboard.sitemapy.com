@@ -8,13 +8,15 @@ export class SitemapRepositoryApi implements SitemapRepository {
 
   constructor(private apiService: ApiService) {}
 
-  async fetch_sitemap(
-    sitemap_url: string
-  ): Promise<RepositoryResponse<SitemapResponse[]>> {
+  async fetch_sitemap(params: {
+    sitemap_url: string;
+    organization_id: string;
+  }): Promise<RepositoryResponse<SitemapResponse[]>> {
     const response = await this.apiService.post<
       ApiResponses["POST /sitemap/crawl/with-tree"]
     >(`/sitemap/crawl/with-tree`, {
-      url: sitemap_url,
+      url: params.sitemap_url,
+      organization_id: params.organization_id,
       include_pages: true,
     });
 
@@ -27,7 +29,7 @@ export class SitemapRepositoryApi implements SitemapRepository {
 
     this._store_history([
       {
-        sitemap_url: sitemap_url,
+        sitemap_url: params.sitemap_url,
         created_at: new Date(),
       },
     ]);

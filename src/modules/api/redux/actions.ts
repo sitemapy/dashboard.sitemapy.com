@@ -2,14 +2,14 @@ import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import { actions } from "@/redux/actions";
 import { AsyncThunkConfig } from "@/redux/store";
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
-import { ApiKeyEntity, ApiLogEntity } from "@sitemapy/interfaces";
+import { ApiKeyEntity, SitemapLogEntity } from "@sitemapy/interfaces";
 
 export const _set_is_resetting_api_key = createAction<boolean>(
   "api/_set_is_resetting_api_key"
 );
 export const _store_api_key = createAction<ApiKeyEntity>("api/_store_api_key");
 export const _store_logs = createAction<{
-  logs: Array<ApiLogEntity>;
+  logs: Array<SitemapLogEntity>;
   total_logs: number;
   total_pages: number;
 }>("api/_store_logs");

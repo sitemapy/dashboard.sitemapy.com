@@ -1,4 +1,4 @@
-import { ApiLogEntity } from "@sitemapy/interfaces";
+import { SitemapLogEntity } from "@sitemapy/interfaces";
 import { useState } from "react";
 import { Wrapper as ApiLogsTable } from "./api-logs-table";
 
@@ -10,18 +10,22 @@ const meta = {
 
 export default meta;
 
-const logs: Array<ApiLogEntity> = Array.from({ length: 1000 }, (_, index) => ({
-  id: index.toString(),
-  url: `https://example.com/sitemap-${index}.xml`,
-  does_sitemap_contain_errors: false,
-  mode: "pages_only",
-  number_of_sitemap_fetched: 3,
-  total_pages_in_sitemaps: 65030,
-  created_at: new Date(),
-  api_key_id: "api_key_id",
-  organization_id: "organization_id",
-  fetching_duration: index,
-}));
+const logs: Array<SitemapLogEntity> = Array.from(
+  { length: 1000 },
+  (_, index) => ({
+    id: index.toString(),
+    url: `https://example.com/sitemap-${index}.xml`,
+    does_sitemap_contain_errors: false,
+    mode: "pages_only",
+    number_of_sitemap_fetched: 3,
+    total_pages_in_sitemaps: 65030,
+    created_at: new Date(),
+    source: "api",
+    api_key_id: "api_key_id",
+    organization_id: "organization_id",
+    fetching_duration: index,
+  })
+);
 
 export const Default = () => {
   const [currentPage, setCurrentPage] = useState(1);

@@ -3,9 +3,9 @@ import { ApiKeyHowToUse } from "@/modules/api/components/api-key-how-to-use/api-
 import { ApiKeyInput } from "@/modules/api/components/api-key-input/api-key-input";
 import { ApiKeyResetDialog } from "@/modules/api/components/api-key-reset-dialog/api-key-reset-dialog";
 import { ApiLogsTable } from "@/modules/api/components/api-logs-table/api-logs-table";
-import { ApiUsageBar } from "@/modules/api/components/api-usage-bar/api-usage-bar";
 import { Protected } from "@/modules/authentication/components/protected/protected";
 import { GlobalLayout } from "@/modules/global-events/components/global-layout/global-layout";
+import { UsageBar } from "@/modules/usage/components/usage-bar/usage-bar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs/tabs";
 import { RouteComponentProps } from "@reach/router";
 import React from "react";
@@ -18,7 +18,7 @@ export const DevelopersRoute: React.FC<RouteComponentProps> = () => {
           <div className="mx-auto mt-8 flex max-w-6xl flex-col gap-8 p-4">
             <ApiKeyInput />
 
-            <ApiUsageBar />
+            <UsageBar />
 
             <ApiKeyResetDialog />
 

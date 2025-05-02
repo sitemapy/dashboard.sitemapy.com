@@ -1,4 +1,4 @@
-import { ApiKeyEntity, ApiLogEntity } from "@sitemapy/interfaces";
+import { ApiKeyEntity, SitemapLogEntity } from "@sitemapy/interfaces";
 
 export interface ApiRepository {
   fetch_api_key(params: { organization_id: string }): Promise<
@@ -12,7 +12,7 @@ export interface ApiRepository {
     how_many_logs_per_page: number;
   }): Promise<
     RepositoryResponse<{
-      logs: Array<ApiLogEntity>;
+      logs: Array<SitemapLogEntity>;
       total_logs: number;
       total_pages: number;
     }>
