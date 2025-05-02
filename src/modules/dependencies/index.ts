@@ -26,7 +26,6 @@ import { UsageRepositoryApi } from "../usage/repositories/usage.repository.api";
 import { UsageRepositoryInMemory } from "../usage/repositories/usage.repository.in-memory";
 import { logs } from "./__fixtures__/logs";
 import { sitemap } from "./__fixtures__/sitemaps";
-
 export type Dependencies = {
   AuthenticationRepository: AuthenticationRepository;
   OrganizationRepository: OrganizationRepository;
