@@ -7,7 +7,7 @@ export const GlobalPopStateListener = () => {
 
   useEffect(() => {
     function handlePopState() {
-      dispatch(actions.global_events.pop_state_triggered());
+      dispatch(actions.global.pop_state_triggered());
     }
 
     window.addEventListener("popstate", handlePopState);
