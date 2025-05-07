@@ -7,6 +7,7 @@ import { Routes } from "@/routes";
 import * as Sentry from "@sentry/react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Provider } from "react-redux";
+import { GlobalPopStateListener } from "./modules/global-events/components/global-pop-state-listener/global-pop-state-listener";
 
 Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN,
