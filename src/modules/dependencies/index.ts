@@ -14,9 +14,9 @@ import { ApiRepositoryInMemory } from "../api/repositories/api.repository.in-mem
 import { ApiService } from "../api/services/api.service";
 import { AuthenticationRepositoryApi } from "../authentication/repositories/authentication.repository.api";
 import { AuthenticationRepositoryLocalStorage } from "../authentication/repositories/authentication.repository.local-storage";
-import { NavigatorService } from "../global-events/services/navigator.service";
-import { NavigatorServiceBrowser } from "../global-events/services/navigator.service.browser";
-import { NavigatorServiceInMemory } from "../global-events/services/navigator.service.in-memory";
+import { NavigatorService } from "../global/services/navigator.service";
+import { NavigatorServiceBrowser } from "../global/services/navigator.service.browser";
+import { NavigatorServiceInMemory } from "../global/services/navigator.service.in-memory";
 import { LocalStorageService } from "../local-storage/services/local-storage.service";
 import { OrganizationRepositoryApi } from "../organization/repositories/organization.repository.api";
 import { OrganizationRepositoryLocalStorage } from "../organization/repositories/organization.repository.local-storage";

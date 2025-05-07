@@ -1,12 +1,12 @@
 import { CustomIntlProvider } from "@/i18n/components/custom-intl-provider/custom-intl-provider";
-import { GlobalAppMounted } from "@/modules/global-events/components/global-app-mounted/global-app-mounted";
+import { GlobalAppMounted } from "@/modules/global/components/global-app-mounted/global-app-mounted";
+import { GlobalPopStateListener } from "@/modules/global/components/global-pop-state-listener/global-pop-state-listener";
 import { Notifications } from "@/modules/notifications/components/notifications/notifications";
 import { init } from "@/redux/store";
 import { Routes } from "@/routes";
 import * as Sentry from "@sentry/react";
 import { ErrorBoundary } from "react-error-boundary";
 import { Provider } from "react-redux";
-import { GlobalPopStateListener } from "./modules/global-events/components/global-pop-state-listener/global-pop-state-listener";
 
 Sentry.init({
   dsn: import.meta.env.VITE_SENTRY_DSN,

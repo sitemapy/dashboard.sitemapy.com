@@ -1,7 +1,7 @@
 import { api_reducer } from "@/modules/api/redux/reducers";
 import { authentication_reducer } from "@/modules/authentication/redux/reducers";
 import { build, Dependencies } from "@/modules/dependencies";
-import { global_events_reducer } from "@/modules/global-events/redux/reducers";
+import { global_events_reducer } from "@/modules/global/redux/reducers";
 import { modal_reducer } from "@/modules/modal/redux/reducers";
 import { notifications_reducer } from "@/modules/notifications/redux/reducers";
 import { organization_reducer } from "@/modules/organization/redux/reducers";
@@ -15,7 +15,7 @@ export const reducers = combineReducers({
   modal: modal_reducer,
   notifications: notifications_reducer,
   authentication: authentication_reducer,
-  global_events: global_events_reducer,
+  global: global_events_reducer,
   organization: organization_reducer,
   sitemap: sitemap_reducer,
   api: api_reducer,

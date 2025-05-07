@@ -80,5 +80,6 @@
   "api-logs-table/no-logs-found": "No logs found",
   "organization-switcher/title": "Organizations",
   "global-events/loading": "We are checking if you are logged in...",
-  "global-events/go-to-login": "Go on the login page"
+  "global-events/go-to-login": "Go on the login page",
+  "usage-limit/exceeded": "You have reached your usage limit. Please upgrade to a higher plan to continue using the service or wait for the next reset."
 }

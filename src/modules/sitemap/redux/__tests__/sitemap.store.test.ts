@@ -58,7 +58,7 @@ describe("Feature: Sitemap", () => {
       })
     );
 
-    expect(store.getState().global_events.history.length).toBe(0);
+    expect(store.getState().global.history.length).toBe(0);
     expect(store.getState().sitemap.sitemap_url).toBe(sitemap_url);
     expect(store.getState().sitemap.sitemap_response).toMatchObject([
       sitemap_response,
@@ -84,7 +84,7 @@ describe("Feature: Sitemap", () => {
       })
     );
 
-    expect(store.getState().global_events.history.length).toBe(0);
+    expect(store.getState().global.history.length).toBe(0);
     expect(store.getState().sitemap.sitemap_url).toBe(sitemap_url);
   });
 
@@ -144,7 +144,7 @@ describe("Feature: Sitemap", () => {
     sitemap_repository._store_history(sitemap_url);
 
     await store.dispatch(
-      actions.global_events.organization_selected({
+      actions.global.organization_selected({
         organization: {
           id: "1",
           name: "Organization 1",

@@ -70,7 +70,7 @@ export const api_reducer = createReducer(initial_state, (builder) => {
     };
   });
 
-  builder.addCase(actions.global_events.logout, () => {
+  builder.addCase(actions.global.logout, () => {
     return initial_state;
   });
 });

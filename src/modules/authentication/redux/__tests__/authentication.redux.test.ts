@@ -130,7 +130,7 @@ describe("Feature: Authentication", () => {
 
     expect(store.getState().authentication.initialized).toBe(false);
 
-    await store.dispatch(actions.global_events.app_mounted());
+    await store.dispatch(actions.global.app_mounted());
 
     expect(store.getState().authentication.user?.email).toBe("test@test.com");
     expect(store.getState().authentication.initialized).toBe(true);

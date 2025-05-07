@@ -50,7 +50,7 @@ export const authentication_reducer = createReducer(initialState, (builder) => {
     .addCase(actions.authentication._set_initialized, (state, action) => {
       state.initialized = action.payload;
     })
-    .addCase(actions.global_events.logout, () => {
+    .addCase(actions.global.logout, () => {
       return initialState;
     });
 });

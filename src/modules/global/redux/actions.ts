@@ -1,4 +1,5 @@
 import { MessageI18nKeys } from "@/intl";
+import { MODAL_KEYS } from "@/modules/modal/redux/entities/modal-keys";
 import { actions } from "@/redux/actions";
 import { AsyncThunkConfig } from "@/redux/store";
 import { createAction, createAsyncThunk } from "@reduxjs/toolkit";
@@ -9,12 +10,16 @@ export const error = createAsyncThunk<
   { error: MessageI18nKeys },
   AsyncThunkConfig
 >("global_events/error", async (params, { dispatch }) => {
-  dispatch(
-    actions.notifications.create({
-      message: params.error,
-      type: "error",
-    })
-  );
+  if (params.error === "usage-limit/exceeded") {
+    dispatch(actions.modal.open({ key: MODAL_KEYS.USAGE_LIMIT_REACHED }));
+  } else {
+    dispatch(
+      actions.notifications.create({
+        message: params.error,
+        type: "error",
+      })
+    );
+  }
 
   return params;
 });

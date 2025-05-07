@@ -26,7 +26,7 @@ export const fetch_usage = createAsyncThunk<void, void, AsyncThunkConfig>(
 
     if (response.error) {
       dispatch(
-        actions.global_events.error({
+        actions.global.error({
           error: response.code,
         })
       );

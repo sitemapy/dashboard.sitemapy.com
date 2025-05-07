@@ -29,13 +29,13 @@ export const fetch_selected_organization = createAsyncThunk<
       });
 
     if (response.error) {
-      dispatch(actions.global_events.error({ error: response.code }));
+      dispatch(actions.global.error({ error: response.code }));
       return;
     }
 
     if (!response.body) {
       dispatch(
-        actions.global_events.error({
+        actions.global.error({
           error: "notifications/no-organization-found",
         })
       );
@@ -49,7 +49,7 @@ export const fetch_selected_organization = createAsyncThunk<
     );
 
     dispatch(
-      actions.global_events.organization_selected({
+      actions.global.organization_selected({
         organization: response.body,
       })
     );
@@ -72,7 +72,7 @@ export const select_organization = createAsyncThunk<
     });
 
     if (response.error) {
-      dispatch(actions.global_events.error({ error: response.code }));
+      dispatch(actions.global.error({ error: response.code }));
       return;
     }
 
@@ -83,7 +83,7 @@ export const select_organization = createAsyncThunk<
     );
 
     dispatch(
-      actions.global_events.organization_selected({
+      actions.global.organization_selected({
         organization: response.body,
       })
     );
@@ -105,7 +105,7 @@ export const get_organizations = createAsyncThunk<void, void, AsyncThunkConfig>(
     });
 
     if (response.error) {
-      dispatch(actions.global_events.error({ error: response.code }));
+      dispatch(actions.global.error({ error: response.code }));
       return;
     }
 
@@ -189,7 +189,7 @@ export const add_member = createAsyncThunk<
   });
 
   if (response.error) {
-    dispatch(actions.global_events.error({ error: response.code }));
+    dispatch(actions.global.error({ error: response.code }));
   }
 
   await dispatch(

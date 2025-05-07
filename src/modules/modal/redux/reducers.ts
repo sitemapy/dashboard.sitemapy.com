@@ -41,7 +41,7 @@ export const modal_reducer = createReducer(initialState, (builder) => {
     state.current = null;
   });
 
-  builder.addCase(actions.global_events.logout, () => {
+  builder.addCase(actions.global.logout, () => {
     return initialState;
   });
 });

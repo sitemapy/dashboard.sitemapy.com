@@ -4,7 +4,7 @@ import { ApiKeyInput } from "@/modules/api/components/api-key-input/api-key-inpu
 import { ApiKeyResetDialog } from "@/modules/api/components/api-key-reset-dialog/api-key-reset-dialog";
 import { ApiLogsTable } from "@/modules/api/components/api-logs-table/api-logs-table";
 import { Protected } from "@/modules/authentication/components/protected/protected";
-import { GlobalLayout } from "@/modules/global-events/components/global-layout/global-layout";
+import { GlobalLayout } from "@/modules/global/components/global-layout/global-layout";
 import { UsageBar } from "@/modules/usage/components/usage-bar/usage-bar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/ui/tabs/tabs";
 import { RouteComponentProps } from "@reach/router";

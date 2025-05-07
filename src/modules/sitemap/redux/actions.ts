@@ -45,7 +45,7 @@ export const fetch_sitemap = createAsyncThunk<
 
   if (sitemap_response.error) {
     dispatch(
-      actions.global_events.error({
+      actions.global.error({
         error: sitemap_response.code as MessageI18nKeys,
       })
     );
@@ -60,7 +60,7 @@ export const fetch_sitemap = createAsyncThunk<
   );
 
   dispatch(
-    actions.global_events.sitemap_was_fetched({
+    actions.global.sitemap_was_fetched({
       sitemap_url: params.sitemap_url,
     })
   );
@@ -84,7 +84,7 @@ export const fetch_history = createAsyncThunk<void, void, AsyncThunkConfig>(
     dispatch(_set_fetching_history_loading(false));
 
     if (history.error) {
-      dispatch(actions.global_events.error({ error: history.code }));
+      dispatch(actions.global.error({ error: history.code }));
       return;
     }
 
