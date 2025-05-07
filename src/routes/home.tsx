@@ -1,5 +1,5 @@
 import { Protected } from "@/modules/authentication/components/protected/protected";
-import { GlobalLayout } from "@/modules/global-events/components/global-layout/global-layout";
+import { GlobalLayout } from "@/modules/global/components/global-layout/global-layout";
 import { SitemapHero } from "@/modules/sitemap/components/sitemap-hero/sitemap-hero";
 import { SitemapHistory } from "@/modules/sitemap/components/sitemap-history/sitemap-history";
 import { SitemapResults } from "@/modules/sitemap/components/sitemap-results/sitemap-results";

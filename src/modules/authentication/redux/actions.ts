@@ -30,7 +30,7 @@ export const _set_initialized = createAction<boolean>(
 export const logout = createAsyncThunk<void, void, AsyncThunkConfig>(
   "authentication/logout",
   async (_, { extra, dispatch }) => {
-    dispatch(actions.global_events.logout());
+    dispatch(actions.global.logout());
     extra.LocationService.navigate("/login");
     await extra.AuthenticationRepository.logout();
   }
@@ -59,7 +59,7 @@ export const login_with_google = createAsyncThunk<void, void, AsyncThunkConfig>(
     }
 
     dispatch(_store_user({ user: response.body.user }));
-    dispatch(actions.global_events.login({ user: response.body.user }));
+    dispatch(actions.global.login({ user: response.body.user }));
     extra.LocationService.navigate("/");
   }
 );
@@ -90,7 +90,7 @@ export const login = createAsyncThunk<
   }
 
   dispatch(_store_user({ user: response.body }));
-  await dispatch(actions.global_events.login({ user: response.body }));
+  await dispatch(actions.global.login({ user: response.body }));
   extra.LocationService.navigate("/");
 });
 
@@ -114,7 +114,7 @@ export const signup = createAsyncThunk<
   }
 
   dispatch(_store_user({ user: response.body }));
-  dispatch(actions.global_events.signup({ user: response.body }));
+  dispatch(actions.global.signup({ user: response.body }));
   dispatch(
     actions.notifications.create({
       message: "notifications/signup/success",
@@ -136,7 +136,7 @@ export const is_authenticated = createAsyncThunk<void, void, AsyncThunkConfig>(
     }
 
     dispatch(_store_user({ user: response }));
-    dispatch(actions.global_events.login({ user: response }));
+    dispatch(actions.global.login({ user: response }));
     dispatch(actions.authentication._set_initialized(true));
   }
 );

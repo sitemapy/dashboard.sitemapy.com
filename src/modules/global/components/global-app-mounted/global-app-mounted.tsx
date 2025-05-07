@@ -6,7 +6,7 @@ export const GlobalAppMounted = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(actions.global_events.app_mounted());
+    dispatch(actions.global.app_mounted());
   }, []);
 
   return null;

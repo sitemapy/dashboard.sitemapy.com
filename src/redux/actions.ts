@@ -1,6 +1,6 @@
 import * as api from "@/modules/api/redux/actions";
 import * as authentication from "@/modules/authentication/redux/actions";
-import * as global_events from "@/modules/global-events/redux/actions";
+import * as global from "@/modules/global/redux/actions";
 import * as modal from "@/modules/modal/redux/actions";
 import * as notifications from "@/modules/notifications/redux/actions";
 import * as organization from "@/modules/organization/redux/actions";
@@ -12,7 +12,7 @@ export const actions = {
   notifications,
   authentication,
   organization,
-  global_events,
+  global,
   sitemap,
   modal,
   usage,

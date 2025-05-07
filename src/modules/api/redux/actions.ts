@@ -26,7 +26,7 @@ export const fetch_api_key = createAsyncThunk<void, void, AsyncThunkConfig>(
 
     if (response.error) {
       dispatch(
-        actions.global_events.error({
+        actions.global.error({
           error: response.code,
         })
       );
@@ -117,7 +117,7 @@ export const fetch_logs = createAsyncThunk<void, void, AsyncThunkConfig>(
 
     if (response.error) {
       dispatch(
-        actions.global_events.error({
+        actions.global.error({
           error: response.code,
         })
       );
@@ -150,7 +150,7 @@ export const reset_api_key = createAsyncThunk<void, void, AsyncThunkConfig>(
     dispatch(actions.api._set_is_resetting_api_key(false));
 
     if (response.error) {
-      dispatch(actions.global_events.error({ error: response.code }));
+      dispatch(actions.global.error({ error: response.code }));
       return;
     }
 

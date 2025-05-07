@@ -58,7 +58,7 @@ describe("Feature: Organization", () => {
       })
     );
 
-    store.dispatch(actions.global_events.logout());
+    store.dispatch(actions.global.logout());
 
     await store.dispatch(
       actions.authentication.login({
@@ -361,7 +361,7 @@ describe("Feature: Organization", () => {
 
     expect(organization_member_role?.role).toBe("member");
 
-    const events = store.getState().global_events.history;
+    const events = store.getState().global.history;
     const error_event = events.find((event) => event.type === "error");
 
     expect(error_event).toBeDefined();
@@ -403,7 +403,7 @@ describe("Feature: Organization", () => {
 
     expect(organization_created).toBeDefined();
 
-    store.dispatch(actions.global_events.logout());
+    store.dispatch(actions.global.logout());
 
     expect(store.getState().organization.organization_list.length).toBe(0);
   });

@@ -10,7 +10,7 @@ const initial_state: global_events_state = {
 };
 
 export const global_events_reducer = createReducer(initial_state, (builder) => {
-  builder.addCase(actions.global_events.error.fulfilled, (state, action) => {
+  builder.addCase(actions.global.error.fulfilled, (state, action) => {
     return {
       ...state,
       history: [
@@ -23,7 +23,7 @@ export const global_events_reducer = createReducer(initial_state, (builder) => {
     };
   });
 
-  builder.addCase(actions.global_events.logout, (state) => {
+  builder.addCase(actions.global.logout, (state) => {
     return {
       ...state,
       history: [
