@@ -1,3 +1,4 @@
+import { Database } from "@/database.types";
 import { AuthenticationRepository } from "@/modules/authentication/repositories/authentication.repository";
 import { AuthenticationRepositoryInMemory } from "@/modules/authentication/repositories/authentication.repository.in-memory";
 import { LocationService } from "@/modules/location/services/location.service";
@@ -7,25 +8,23 @@ import { OrganizationRepository } from "@/modules/organization/repositories/orga
 import { OrganizationRepositoryInMemory } from "@/modules/organization/repositories/organization.repository.in-memory";
 import { SitemapRepository } from "@/modules/sitemap/repositories/sitemap.repository";
 import { SitemapRepositoryInMemory } from "@/modules/sitemap/repositories/sitemap.repository.in-memory";
+import { createClient } from "@supabase/supabase-js";
 import { v4 } from "uuid";
 import { ApiRepository } from "../api/repositories/api.repository";
-import { ApiRepositoryApi } from "../api/repositories/api.repository.api";
 import { ApiRepositoryInMemory } from "../api/repositories/api.repository.in-memory";
-import { ApiService } from "../api/services/api.service";
-import { AuthenticationRepositoryApi } from "../authentication/repositories/authentication.repository.api";
+import { ApiRepositorySupabase } from "../api/repositories/api.repository.supabase";
 import { AuthenticationRepositoryLocalStorage } from "../authentication/repositories/authentication.repository.local-storage";
+import { AuthenticationRepositorySupabase } from "../authentication/repositories/authentication.repository.supabase";
 import { NavigatorService } from "../global/services/navigator.service";
 import { NavigatorServiceBrowser } from "../global/services/navigator.service.browser";
 import { NavigatorServiceInMemory } from "../global/services/navigator.service.in-memory";
-import { LocalStorageService } from "../local-storage/services/local-storage.service";
-import { OrganizationRepositoryApi } from "../organization/repositories/organization.repository.api";
 import { OrganizationRepositoryLocalStorage } from "../organization/repositories/organization.repository.local-storage";
-import { SitemapRepositoryApi } from "../sitemap/repositories/sitemap.repository.api";
+import { OrganizationRepositorySupabase } from "../organization/repositories/organization.repository.supabase";
 import { UsageRepository } from "../usage/repositories/usage.repository";
-import { UsageRepositoryApi } from "../usage/repositories/usage.repository.api";
 import { UsageRepositoryInMemory } from "../usage/repositories/usage.repository.in-memory";
 import { logs } from "./__fixtures__/logs";
 import { sitemap } from "./__fixtures__/sitemaps";
+
 export type Dependencies = {
   AuthenticationRepository: AuthenticationRepository;
   OrganizationRepository: OrganizationRepository;
@@ -89,15 +88,18 @@ export const build = (env?: "in-memory" | "api" | "demo"): Dependencies => {
     };
   }
 
-  const apiService = new ApiService(new LocalStorageService(localStorage));
+  const supabase = createClient<Database>(
+    import.meta.env.VITE_SUPABASE_URL!,
+    import.meta.env.VITE_SUPABASE_ANON_KEY!
+  );
 
   return {
-    AuthenticationRepository: new AuthenticationRepositoryApi(apiService),
-    OrganizationRepository: new OrganizationRepositoryApi(apiService),
-    SitemapRepository: new SitemapRepositoryApi(apiService),
+    AuthenticationRepository: new AuthenticationRepositorySupabase(supabase),
+    OrganizationRepository: new OrganizationRepositorySupabase(supabase),
+    SitemapRepository: new SitemapRepositoryInMemory(),
     LocationService: new LocationServiceWindow(),
-    ApiRepository: new ApiRepositoryApi(apiService),
-    UsageRepository: new UsageRepositoryApi(apiService),
-    NavigatorService: new NavigatorServiceBrowser(),
+    ApiRepository: new ApiRepositorySupabase(supabase),
+    UsageRepository: new UsageRepositoryInMemory(),
+    NavigatorService: new NavigatorServiceInMemory(),
   };
 };

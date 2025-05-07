@@ -109,6 +109,11 @@ export const get_organizations = createAsyncThunk<void, void, AsyncThunkConfig>(
       return;
     }
 
+    if (response.body.length === 0) {
+      dispatch(create_organization({ name: "My Organization" }));
+      return;
+    }
+
     dispatch(_store_organizations({ organizations: response.body }));
     dispatch(fetch_selected_organization());
   }
