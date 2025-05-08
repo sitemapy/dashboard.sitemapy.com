@@ -1,5 +1,6 @@
 import { Database } from "@/database.types";
 import { AuthenticationRepository } from "@/modules/authentication/repositories/authentication.repository";
+import { LOCAL_STORAGE_KEYS } from "@/modules/local-storage/services/local-storage.service";
 import { ErrorEntity, UserEntity } from "@sitemapy/interfaces";
 import { SupabaseClient } from "@supabase/supabase-js";
 
@@ -21,6 +22,12 @@ export class AuthenticationRepositorySupabase
       return { error: true, code: error.message };
     }
 
+    const jwt = data.session.access_token;
+
+    if (jwt) {
+      window.localStorage.setItem(LOCAL_STORAGE_KEYS.TOKEN_KEY, jwt);
+    }
+
     const user: UserEntity = {
       id: data.user.id,
       email: data.user.email!,
@@ -40,7 +47,7 @@ export class AuthenticationRepositorySupabase
     const { error } = await this.supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: "http://127.0.0.1:8000",
+        redirectTo: "http://localhost:8000",
         queryParams: {
           access_type: "offline",
           prompt: "consent",
@@ -95,19 +102,26 @@ export class AuthenticationRepositorySupabase
   }
 
   async is_authenticated(): Promise<UserEntity | null> {
-    const { data, error } = await this.supabase.auth.getUser();
+    const user = await this.supabase.auth.getUser();
+    const session = await this.supabase.auth.getSession();
 
-    if (error) {
+    const jwt = session.data.session?.access_token;
+
+    if (jwt) {
+      window.localStorage.setItem(LOCAL_STORAGE_KEYS.TOKEN_KEY, jwt);
+    }
+
+    if (!user.data.user) {
       return null;
     }
 
     return {
-      id: data.user.id,
-      email: data.user.email!,
+      id: user.data.user.id,
+      email: user.data.user.email!,
       password: "",
       language: "en",
-      created_at: new Date(data.user.created_at!),
-      updated_at: new Date(data.user.updated_at!),
+      created_at: new Date(user.data.user.created_at!),
+      updated_at: new Date(user.data.user.updated_at!),
     };
   }
 }

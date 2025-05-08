@@ -55,16 +55,24 @@ export class ApiRepositorySupabase implements ApiRepository {
       updated_at: new Date(),
     };
 
-    const { error } = await this.supabase
+    const { error, data } = await this.supabase
       .from("api_keys")
       .update({
         key: new_api_key.key,
         updated_at: new_api_key.updated_at.toISOString(),
       })
-      .eq("organization_id", params.organization_id);
+      .eq("organization_id", params.organization_id)
+      .select("*");
 
     if (error) {
       return { error: true, code: error.message };
+    }
+
+    if (!data || data.length === 0) {
+      return {
+        error: true,
+        code: "RLS restrictions. You should not see this error.",
+      };
     }
 
     return { error: false, body: { api_key: new_api_key } };

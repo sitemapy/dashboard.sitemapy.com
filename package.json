@@ -4,11 +4,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "start": "vite --host",
-    "start:mode:api:local": "VITE_MODE=api NODE_ENV=development vite --host",
-    "start:mode:api:production": "VITE_MODE=api NODE_ENV=production vite --host --port 3000",
-    "start:mode:demo": "VITE_MODE=demo vite --host",
-    "start:mode:in-memory": "VITE_MODE=in-memory vite --host",
+    "start": "vite --host --port 8000",
+    "start:mode:api:local": "VITE_MODE=api NODE_ENV=development vite --host --port 8000",
+    "start:mode:api:production": "VITE_MODE=api NODE_ENV=production vite --host --port 8000",
+    "start:mode:demo": "VITE_MODE=demo vite --host --port 8000",
+    "start:mode:in-memory": "VITE_MODE=in-memory vite --host --port 8000",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
@@ -21,7 +21,8 @@
     "upgrade:interfaces": "yarn add @sitemapy/interfaces@latest",
     "migration:create": "supabase migration new",
     "migration:apply": "supabase db push",
-    "supabase:types": "yarn supabase gen types typescript --local > src/database.types.ts"
+    "supabase:types": "yarn supabase gen types typescript --local > src/database.types.ts",
+    "supabase:functions:serve": "supabase functions serve"
   },
   "dependencies": {
     "@headlessui/react": "1.7.15",

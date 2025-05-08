@@ -24,7 +24,7 @@ export class ApiService {
 
   private endpoint: string =
     process.env.NODE_ENV === "production"
-      ? "https://v2-api.sitemapy.com"
+      ? "http://localhost:3000"
       : "http://localhost:3000";
 
   private _get_headers(): Record<string, string> {

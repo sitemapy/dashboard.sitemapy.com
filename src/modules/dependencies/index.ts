@@ -13,13 +13,16 @@ import { v4 } from "uuid";
 import { ApiRepository } from "../api/repositories/api.repository";
 import { ApiRepositoryInMemory } from "../api/repositories/api.repository.in-memory";
 import { ApiRepositorySupabase } from "../api/repositories/api.repository.supabase";
+import { ApiService } from "../api/services/api.service";
 import { AuthenticationRepositoryLocalStorage } from "../authentication/repositories/authentication.repository.local-storage";
 import { AuthenticationRepositorySupabase } from "../authentication/repositories/authentication.repository.supabase";
 import { NavigatorService } from "../global/services/navigator.service";
 import { NavigatorServiceBrowser } from "../global/services/navigator.service.browser";
 import { NavigatorServiceInMemory } from "../global/services/navigator.service.in-memory";
+import { LocalStorageService } from "../local-storage/services/local-storage.service";
 import { OrganizationRepositoryLocalStorage } from "../organization/repositories/organization.repository.local-storage";
 import { OrganizationRepositorySupabase } from "../organization/repositories/organization.repository.supabase";
+import { SitemapRepositoryApi } from "../sitemap/repositories/sitemap.repository.api";
 import { UsageRepository } from "../usage/repositories/usage.repository";
 import { UsageRepositoryInMemory } from "../usage/repositories/usage.repository.in-memory";
 import { logs } from "./__fixtures__/logs";
@@ -93,12 +96,14 @@ export const build = (env?: "in-memory" | "api" | "demo"): Dependencies => {
     import.meta.env.VITE_SUPABASE_ANON_KEY!
   );
 
+  const api = new ApiService(new LocalStorageService(window.localStorage));
+
   return {
     AuthenticationRepository: new AuthenticationRepositorySupabase(supabase),
     OrganizationRepository: new OrganizationRepositorySupabase(supabase),
-    SitemapRepository: new SitemapRepositoryInMemory(),
-    LocationService: new LocationServiceWindow(),
     ApiRepository: new ApiRepositorySupabase(supabase),
+    SitemapRepository: new SitemapRepositoryApi(api),
+    LocationService: new LocationServiceWindow(),
     UsageRepository: new UsageRepositoryInMemory(),
     NavigatorService: new NavigatorServiceInMemory(),
   };
