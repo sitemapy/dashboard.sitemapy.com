@@ -27,10 +27,16 @@ export class AuthenticationRepositoryApi implements AuthenticationRepository {
 
   async forgot_password(params: {
     email: string;
+    callback_url: string;
+    language: string;
   }): ReturnType<AuthenticationRepository["forgot_password"]> {
     const response = await this.apiService.post<
       ApiResponses["POST /auth/forgot-password"]
-    >("/auth/forgot-password", { email: params.email });
+    >("/auth/forgot-password", {
+      email: params.email,
+      callback_url: params.callback_url,
+      language: params.language,
+    });
 
     if (response.error) {
       return { error: true, code: response.message };
@@ -93,9 +99,9 @@ export class AuthenticationRepositoryApi implements AuthenticationRepository {
     });
   }
 
-  async login_with_google(): ReturnType<
-    AuthenticationRepository["login_with_google"]
-  > {
+  async login_with_google(params: {
+    language: string;
+  }): ReturnType<AuthenticationRepository["login_with_google"]> {
     const callback_url = window.location.origin + "/authentication/callback";
     const google_url_response = await this.apiService.post<
       ApiResponses["GET /auth/google/url"]
@@ -120,7 +126,7 @@ export class AuthenticationRepositoryApi implements AuthenticationRepository {
     >("/auth/google/callback", {
       code: code_response.body.code,
       callback_url,
-      language: navigator.language || "en",
+      language: params.language,
     });
 
     if (callback_response.error) {
@@ -164,5 +170,25 @@ export class AuthenticationRepositoryApi implements AuthenticationRepository {
     }
 
     return response.body.user;
+  }
+
+  async reset_password(params: {
+    email: string;
+    password: string;
+    token: string;
+  }): ReturnType<AuthenticationRepository["reset_password"]> {
+    const response = await this.apiService.post<
+      ApiResponses["POST /auth/reset-password"]
+    >("/auth/reset-password", {
+      email: params.email,
+      password: params.password,
+      token: params.token,
+    });
+
+    if (response.error) {
+      return { error: true, code: response.message };
+    }
+
+    return { error: false, body: response.body };
   }
 }

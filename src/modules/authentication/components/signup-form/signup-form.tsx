@@ -75,6 +75,7 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
               <div className="grid gap-6">
                 <div className="flex flex-col gap-4">
                   <Button
+                    isLoading={props.is_loading}
                     onClick={props.onGoogleButtonClick}
                     variant="outline"
                     className="w-full"
@@ -171,7 +172,11 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
                         />
                       </div>
 
-                      <Button type="submit" className="w-full">
+                      <Button
+                        type="submit"
+                        className="w-full"
+                        isLoading={props.is_loading}
+                      >
                         {intl.formatMessage({ id: "signup/submitButtonText" })}
                       </Button>
                     </div>

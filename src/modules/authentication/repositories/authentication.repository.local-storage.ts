@@ -6,7 +6,7 @@ export class AuthenticationRepositoryLocalStorage
 {
   private readonly KEY = "users";
   private readonly KEY_AUTHENTICATED = "user_authenticated";
-
+  private readonly KEY_FORGOT_PASSWORD_REQUESTS = "forgot_password_requests";
   constructor(params?: { users: Array<UserEntity> }) {
     this._set_users([
       ...this._get_users(),
@@ -20,12 +20,6 @@ export class AuthenticationRepositoryLocalStorage
       },
       ...(params?.users || []),
     ]);
-  }
-
-  async forgot_password(): ReturnType<
-    AuthenticationRepository["forgot_password"]
-  > {
-    return { error: false, body: {} };
   }
 
   private _get_users(): UserEntity[] {
@@ -117,5 +111,77 @@ export class AuthenticationRepositoryLocalStorage
     );
 
     return user ?? null;
+  }
+
+  private _get_forgot_password_requests(): {
+    email: string;
+    callback_url: string;
+    token: string;
+  }[] {
+    return JSON.parse(
+      localStorage.getItem(this.KEY_FORGOT_PASSWORD_REQUESTS) || "[]"
+    );
+  }
+
+  private _set_forgot_password_requests(
+    requests: {
+      email: string;
+      callback_url: string;
+      token: string;
+    }[]
+  ) {
+    localStorage.setItem(
+      this.KEY_FORGOT_PASSWORD_REQUESTS,
+      JSON.stringify(requests)
+    );
+  }
+
+  async forgot_password(params: {
+    email: string;
+    callback_url: string;
+    token: string;
+  }): ReturnType<AuthenticationRepository["forgot_password"]> {
+    this._set_forgot_password_requests([
+      ...this._get_forgot_password_requests(),
+      {
+        email: params.email,
+        callback_url: params.callback_url,
+        token: params.token,
+      },
+    ]);
+
+    return { error: false, body: {} };
+  }
+
+  async reset_password(params: {
+    email: string;
+    password: string;
+    token: string;
+  }): Promise<RepositoryResponse<unknown>> {
+    const find_forgot_password_request =
+      this._get_forgot_password_requests().find(
+        (request) =>
+          request.email === params.email && request.token === params.token
+      );
+
+    if (!find_forgot_password_request) {
+      return { error: true, code: ErrorEntity.FORGOT_PASSWORD_INVALID_TOKEN };
+    }
+
+    const user = this._get_users().find((user) => user.email === params.email);
+
+    if (!user) {
+      return { error: true, code: ErrorEntity.USER_NOT_FOUND };
+    }
+
+    this._set_users(
+      this._get_users().map((user) =>
+        user.email === params.email
+          ? { ...user, password: params.password }
+          : user
+      )
+    );
+
+    return { error: false, body: {} };
   }
 }

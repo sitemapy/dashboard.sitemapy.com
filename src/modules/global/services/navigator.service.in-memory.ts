@@ -10,4 +10,8 @@ export class NavigatorServiceInMemory implements NavigatorService {
   _get_clipboard_content(): string | null {
     return this.clipboard_content;
   }
+
+  get_language(): string {
+    return "en";
+  }
 }

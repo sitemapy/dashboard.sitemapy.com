@@ -6,6 +6,15 @@ export class AuthenticationRepositoryInMemory
 {
   private users: UserEntity[] = [];
   private authenticated_user: UserEntity | null = null;
+  private forgot_password_requests: {
+    email: string;
+    callback_url: string;
+    token: string;
+  }[] = [];
+
+  get _get_forgot_password_requests() {
+    return this.forgot_password_requests;
+  }
 
   async login(params: {
     email: string;
@@ -26,9 +35,16 @@ export class AuthenticationRepositoryInMemory
     return { error: false, body: user };
   }
 
-  async forgot_password(): ReturnType<
-    AuthenticationRepository["forgot_password"]
-  > {
+  async forgot_password(params: {
+    email: string;
+    callback_url: string;
+  }): ReturnType<AuthenticationRepository["forgot_password"]> {
+    this.forgot_password_requests.push({
+      email: params.email,
+      callback_url: params.callback_url,
+      token: "test-token",
+    });
+
     return { error: false, body: {} };
   }
 
@@ -78,5 +94,28 @@ export class AuthenticationRepositoryInMemory
     AuthenticationRepository["is_authenticated"]
   > {
     return this.authenticated_user ?? null;
+  }
+
+  async reset_password(params: {
+    email: string;
+    password: string;
+    token: string;
+  }): ReturnType<AuthenticationRepository["reset_password"]> {
+    const find_forgot_password_request = this.forgot_password_requests.find(
+      (request) =>
+        request.email === params.email && request.token === params.token
+    );
+
+    if (!find_forgot_password_request) {
+      return { error: true, code: ErrorEntity.FORGOT_PASSWORD_INVALID_TOKEN };
+    }
+
+    this.users = this.users.map((user) =>
+      user.email === params.email
+        ? { ...user, password: params.password }
+        : user
+    );
+
+    return { error: false, body: {} };
   }
 }

@@ -147,7 +147,11 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
                         )}
                       />
 
-                      <Button type="submit" className="w-full">
+                      <Button
+                        type="submit"
+                        className="w-full"
+                        isLoading={props.is_loading}
+                      >
                         {intl.formatMessage({
                           id: "forgot-password-reset/forgot-password-button-text",
                         })}

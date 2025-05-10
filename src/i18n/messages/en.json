@@ -79,8 +79,8 @@
   "api-logs-table/header/pages": "Pages",
   "api-logs-table/no-logs-found": "No logs found",
   "organization-switcher/title": "Organizations",
-  "global-events/loading": "We are checking if you are logged in...",
-  "global-events/go-to-login": "Go on the login page",
+  "global/loading": "We are checking if you are logged in...",
+  "global/go-to-login": "Go on the login page",
   "usage-limit/exceeded": "You have reached your usage limit. Please upgrade to a higher plan to continue using the service or wait for the next reset.",
   "forgot-password/title": "Forgot password ?",
   "forgot-password/description": "Please enter your email to reset your password.",
@@ -88,8 +88,10 @@
   "forgot-password/forgot-password-button-text": "Reset password",
   "forgot-password/back-to-login-text": "Remember your password? <a>Back to login</a>",
   "notifications/forgot-password-sent": "Password reset email sent, please check your email.",
+  "notifications/forgot-password-reset/success": "Password reset successfully, please login with your new password.",
   "forgot-password-reset/title": "Reset password",
-  "forgot-password-reset/description": "Please enter your email to reset your password.",
+  "forgot-password-reset/description": "Please enter your email and choose a new password.",
   "forgot-password-reset/back-to-login-text": "Don't want to reset your password? <a>Back to login</a>",
-  "forgot-password-reset/forgot-password-button-text": "Reset password"
+  "forgot-password-reset/forgot-password-button-text": "Reset password",
+  "forgot-password/invalid-token": "Reset password failed, did you use the correct link or the good email?"
 }

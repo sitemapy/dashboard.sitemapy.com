@@ -41,8 +41,10 @@ export const login_with_google = createAsyncThunk<void, void, AsyncThunkConfig>(
   async (_, { extra, dispatch }) => {
     dispatch(_set_fetching(true));
 
+    const language = extra.NavigatorService.get_language();
+
     const response = await extra.AuthenticationRepository.login_with_google({
-      language: "en",
+      language: language?.split("-")[0] || "en",
     });
 
     dispatch(_set_fetching(false));
@@ -71,8 +73,13 @@ export const forgot_password = createAsyncThunk<
 >("authentication/forgot_password", async (payload, { extra, dispatch }) => {
   dispatch(_set_fetching(true));
 
+  const origin = extra.LocationService.getOrigin();
+  const language = extra.NavigatorService.get_language();
+
   const response = await extra.AuthenticationRepository.forgot_password({
     email: payload.email,
+    callback_url: `${origin}/forgot-password/callback`,
+    language: language?.split("-")[0] || "en",
   });
 
   dispatch(_set_fetching(false));
@@ -169,3 +176,35 @@ export const is_authenticated = createAsyncThunk<void, void, AsyncThunkConfig>(
     dispatch(actions.authentication._set_initialized(true));
   }
 );
+
+export const reset_password = createAsyncThunk<
+  void,
+  { email: string; password: string },
+  AsyncThunkConfig
+>("authentication/reset_password", async (payload, { extra, dispatch }) => {
+  const params = extra.LocationService.getParams<{ token: string }>();
+
+  dispatch(_set_fetching(true));
+
+  const response = await extra.AuthenticationRepository.reset_password({
+    email: payload.email,
+    password: payload.password,
+    token: params.token,
+  });
+
+  dispatch(_set_fetching(false));
+
+  if (response.error) {
+    dispatch(actions.global.error({ error: response.code }));
+    return;
+  }
+
+  dispatch(
+    actions.notifications.create({
+      message: "notifications/forgot-password-reset/success",
+      type: "success",
+    })
+  );
+
+  extra.LocationService.navigate("/login");
+});
