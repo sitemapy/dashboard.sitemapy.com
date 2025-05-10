@@ -22,6 +22,12 @@ export class AuthenticationRepositoryLocalStorage
     ]);
   }
 
+  async forgot_password(): ReturnType<
+    AuthenticationRepository["forgot_password"]
+  > {
+    return { error: false, body: {} };
+  }
+
   private _get_users(): UserEntity[] {
     return JSON.parse(localStorage.getItem(this.KEY) || "[]");
   }

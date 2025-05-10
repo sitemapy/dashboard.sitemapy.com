@@ -64,6 +64,34 @@ export const login_with_google = createAsyncThunk<void, void, AsyncThunkConfig>(
   }
 );
 
+export const forgot_password = createAsyncThunk<
+  void,
+  { email: string },
+  AsyncThunkConfig
+>("authentication/forgot_password", async (payload, { extra, dispatch }) => {
+  dispatch(_set_fetching(true));
+
+  const response = await extra.AuthenticationRepository.forgot_password({
+    email: payload.email,
+  });
+
+  dispatch(_set_fetching(false));
+
+  if (response.error) {
+    dispatch(actions.global.error({ error: response.code }));
+    return;
+  }
+
+  dispatch(
+    actions.notifications.create({
+      message: "notifications/forgot-password-sent",
+      type: "success",
+    })
+  );
+
+  extra.LocationService.navigate("/login");
+});
+
 export const login = createAsyncThunk<
   void,
   { email: string; password: string },
@@ -91,6 +119,7 @@ export const login = createAsyncThunk<
 
   dispatch(_store_user({ user: response.body }));
   await dispatch(actions.global.login({ user: response.body }));
+
   extra.LocationService.navigate("/");
 });
 

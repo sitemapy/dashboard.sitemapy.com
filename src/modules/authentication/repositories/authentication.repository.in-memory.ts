@@ -10,9 +10,7 @@ export class AuthenticationRepositoryInMemory
   async login(params: {
     email: string;
     password: string;
-  }): Promise<
-    { error: true; code: string } | { error: false; body: UserEntity }
-  > {
+  }): ReturnType<AuthenticationRepository["login"]> {
     const user = this.users.find((user) => user.email === params.email);
 
     if (!user) {
@@ -26,6 +24,12 @@ export class AuthenticationRepositoryInMemory
     this.authenticated_user = user;
 
     return { error: false, body: user };
+  }
+
+  async forgot_password(): ReturnType<
+    AuthenticationRepository["forgot_password"]
+  > {
+    return { error: false, body: {} };
   }
 
   async login_with_google(): Promise<
@@ -44,9 +48,7 @@ export class AuthenticationRepositoryInMemory
   async signup(params: {
     email: string;
     password: string;
-  }): Promise<
-    { error: true; code: string } | { error: false; body: UserEntity }
-  > {
+  }): ReturnType<AuthenticationRepository["signup"]> {
     const user = this.users.find((user) => user.email === params.email);
 
     if (user) {
@@ -66,11 +68,15 @@ export class AuthenticationRepositoryInMemory
     return { error: false, body: newUser };
   }
 
-  async logout(): Promise<void> {
+  async logout(): ReturnType<AuthenticationRepository["logout"]> {
     this.authenticated_user = null;
+
+    return { error: false, body: {} };
   }
 
-  async is_authenticated(): Promise<UserEntity | null> {
+  async is_authenticated(): ReturnType<
+    AuthenticationRepository["is_authenticated"]
+  > {
     return this.authenticated_user ?? null;
   }
 }

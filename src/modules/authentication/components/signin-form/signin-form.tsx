@@ -118,14 +118,14 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
                                     id: "login/passwordLabel",
                                   })}
                                 </FormLabel>
-                                <a
-                                  href="#"
+                                <Link
+                                  to="/forgot-password"
                                   className="ml-auto text-xs underline-offset-4 hover:underline"
                                 >
                                   {intl.formatMessage({
                                     id: "login/forgotPasswordText",
                                   })}
-                                </a>
+                                </Link>
                               </div>
                               <FormControl>
                                 <Input

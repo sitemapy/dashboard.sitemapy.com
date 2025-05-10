@@ -17,5 +17,9 @@ export interface AuthenticationRepository {
     language?: string;
   }): Promise<RepositoryResponse<{ user: UserEntity }>>;
 
-  logout(): Promise<void>;
+  logout(): Promise<unknown>;
+
+  forgot_password(params: {
+    email: string;
+  }): Promise<RepositoryResponse<unknown>>;
 }
