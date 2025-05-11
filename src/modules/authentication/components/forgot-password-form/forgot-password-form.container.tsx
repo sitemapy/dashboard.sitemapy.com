@@ -6,16 +6,8 @@ const mapState = (state: RootState) => ({
 });
 
 const mapDispatch = (dispatch: AppDispatch) => ({
-  onSubmit: (values: { email: string; password: string }) => {
-    dispatch(
-      actions.authentication.login({
-        email: values.email,
-        password: values.password,
-      })
-    );
-  },
-  onGoogleButtonClick: () => {
-    dispatch(actions.authentication.login_with_google());
+  onSubmit: (values: { email: string }) => {
+    dispatch(actions.authentication.forgot_password({ email: values.email }));
   },
 });
 

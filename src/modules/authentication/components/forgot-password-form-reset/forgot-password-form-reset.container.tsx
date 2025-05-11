@@ -8,14 +8,11 @@ const mapState = (state: RootState) => ({
 const mapDispatch = (dispatch: AppDispatch) => ({
   onSubmit: (values: { email: string; password: string }) => {
     dispatch(
-      actions.authentication.login({
+      actions.authentication.reset_password({
         email: values.email,
         password: values.password,
       })
     );
-  },
-  onGoogleButtonClick: () => {
-    dispatch(actions.authentication.login_with_google());
   },
 });
 

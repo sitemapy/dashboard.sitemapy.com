@@ -17,6 +17,7 @@ export const error = createAsyncThunk<
       actions.notifications.create({
         message: params.error,
         type: "error",
+        timeout: 5000,
       })
     );
   }

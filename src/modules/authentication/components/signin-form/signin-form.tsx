@@ -68,6 +68,7 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
                     variant="outline"
                     onClick={props.onGoogleButtonClick}
                     className="w-full"
+                    isLoading={props.is_loading}
                   >
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                       <path
@@ -118,14 +119,14 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
                                     id: "login/passwordLabel",
                                   })}
                                 </FormLabel>
-                                <a
-                                  href="#"
+                                <Link
+                                  to="/forgot-password"
                                   className="ml-auto text-xs underline-offset-4 hover:underline"
                                 >
                                   {intl.formatMessage({
                                     id: "login/forgotPasswordText",
                                   })}
-                                </a>
+                                </Link>
                               </div>
                               <FormControl>
                                 <Input
@@ -140,7 +141,11 @@ export const Wrapper: React.FC<ContainerProps> = (props) => {
                           )}
                         />
                       </div>
-                      <Button type="submit" className="w-full">
+                      <Button
+                        type="submit"
+                        className="w-full"
+                        isLoading={props.is_loading}
+                      >
                         {intl.formatMessage({ id: "login/loginButtonText" })}
                       </Button>
                     </div>

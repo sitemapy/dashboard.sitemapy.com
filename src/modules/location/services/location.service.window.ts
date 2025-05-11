@@ -16,6 +16,19 @@ export class LocationServiceWindow implements LocationService {
     return window.location.hash;
   }
 
+  getUrl() {
+    return window.location.href;
+  }
+
+  getParams<T extends Record<string, string>>() {
+    const url = new URL(window.location.href);
+    return Object.fromEntries(url.searchParams.entries()) as T;
+  }
+
+  getOrigin() {
+    return window.location.origin;
+  }
+
   navigate(path: string, state: Record<string, unknown> = {}) {
     const url = path.startsWith("http")
       ? new URL(path)

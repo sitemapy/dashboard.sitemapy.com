@@ -10,5 +10,8 @@ export interface LocationService {
   navigate: (path: string, state?: Record<string, unknown>) => void;
   getPathname: () => string;
   getHistory: () => History[];
+  getUrl: () => string;
   getHash: () => string;
+  getOrigin: () => string;
+  getParams: <T extends Record<string, string>>() => T;
 }

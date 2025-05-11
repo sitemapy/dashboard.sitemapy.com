@@ -1,5 +1,7 @@
 import { actions } from "@/redux/actions";
 import { init } from "@/redux/store";
+import { ErrorEntity } from "@sitemapy/interfaces";
+import { AuthenticationRepositoryInMemory } from "../../repositories/authentication.repository.in-memory";
 
 describe("Feature: Authentication", () => {
   it(`
@@ -134,5 +136,119 @@ describe("Feature: Authentication", () => {
 
     expect(store.getState().authentication.user?.email).toBe("test@test.com");
     expect(store.getState().authentication.initialized).toBe(true);
+  });
+
+  it(`
+    Given a user is not logged in
+    When the user send forgot password request
+    Then the user should be redirected to the login page
+    And the forgot password request should be sent to the server
+  `, async () => {
+    const { store, dependencies } = init({});
+
+    await store.dispatch(
+      actions.authentication.forgot_password({
+        email: "test@example.com",
+      })
+    );
+
+    const AuthenticationRepository =
+      dependencies.AuthenticationRepository as AuthenticationRepositoryInMemory;
+
+    expect(dependencies.LocationService.getPathname()).toBe("/login");
+
+    expect(
+      AuthenticationRepository._get_forgot_password_requests
+    ).toMatchObject([
+      {
+        email: "test@example.com",
+        callback_url: "http://local.dev/forgot-password/callback",
+        token: expect.any(String),
+      },
+    ]);
+  });
+
+  it(`
+    Given a user already has a forgot password request
+    When the user reset password
+    Then the user should be redirected to the login page
+    And the password should be reset
+  `, async () => {
+    const { store, dependencies } = init({});
+
+    const email = "test@example.com";
+
+    await store.dispatch(
+      actions.authentication.forgot_password({
+        email,
+      })
+    );
+
+    const AuthenticationRepository =
+      dependencies.AuthenticationRepository as AuthenticationRepositoryInMemory;
+
+    const token =
+      AuthenticationRepository._get_forgot_password_requests[0].token;
+
+    dependencies.LocationService.navigate(
+      `/forgot-password/callback?token=${token}`
+    );
+
+    expect(dependencies.LocationService.getUrl()).toBe(
+      `http://local.dev/forgot-password/callback?token=${token}`
+    );
+
+    await store.dispatch(
+      actions.authentication.reset_password({
+        email,
+        password: "password123",
+      })
+    );
+
+    expect(store.getState().authentication.user).toBeNull();
+    expect(dependencies.LocationService.getPathname()).toBe("/login");
+  });
+
+  it(`
+    Given a user already has a forgot password request
+    When the user reset password with an invalid token
+    Then the user should show an error notification
+    And the password should not be reset
+  `, async () => {
+    const { store, dependencies } = init({});
+
+    const email = "test@example.com";
+
+    await store.dispatch(
+      actions.authentication.forgot_password({
+        email,
+      })
+    );
+
+    dependencies.LocationService.navigate(
+      `/forgot-password/callback?token=bad-token`
+    );
+
+    await store.dispatch(
+      actions.authentication.reset_password({
+        email,
+        password: "password123",
+      })
+    );
+
+    expect(dependencies.LocationService.getPathname()).toBe(
+      "/forgot-password/callback"
+    );
+
+    const search_for_error = store
+      .getState()
+      .notifications.notifications.find(
+        (notification) => notification.type === "error"
+      );
+
+    expect(search_for_error).toBeDefined();
+    expect(search_for_error?.message).toBe(
+      ErrorEntity.FORGOT_PASSWORD_INVALID_TOKEN
+    );
   });
 });

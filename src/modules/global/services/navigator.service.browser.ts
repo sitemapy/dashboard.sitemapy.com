@@ -8,4 +8,8 @@ export class NavigatorServiceBrowser implements NavigatorService {
       return;
     }
   }
+
+  get_language(): string {
+    return navigator.language;
+  }
 }

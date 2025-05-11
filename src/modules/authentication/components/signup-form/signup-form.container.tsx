@@ -1,7 +1,9 @@
-import { actions, AppDispatch } from "@/redux/store";
+import { actions, AppDispatch, RootState } from "@/redux/store";
 import { connect, ConnectedProps } from "react-redux";
 
-const mapState = () => ({});
+const mapState = (state: RootState) => ({
+  is_loading: state.authentication.is_loading,
+});
 
 const mapDispatch = (dispatch: AppDispatch) => ({
   onSubmit: (values: { email: string; password: string }) => {

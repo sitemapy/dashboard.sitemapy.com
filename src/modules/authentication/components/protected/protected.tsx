@@ -20,12 +20,12 @@ export const Protected: React.FC<{ children: React.ReactNode }> = ({
           <div className="flex flex-col items-center gap-4">
             <Loader2 className="size-8 animate-spin text-pink-400" />
             <p className="text-foreground">
-              {formatMessage({ id: "global-events/loading" })}
+              {formatMessage({ id: "global/loading" })}
             </p>
           </div>
           <Link to="/login">
             <Button variant="link">
-              {formatMessage({ id: "global-events/go-to-login" })}
+              {formatMessage({ id: "global/go-to-login" })}
             </Button>
           </Link>
         </div>
