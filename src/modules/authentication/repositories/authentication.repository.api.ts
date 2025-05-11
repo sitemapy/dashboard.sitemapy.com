@@ -104,7 +104,7 @@ export class AuthenticationRepositoryApi implements AuthenticationRepository {
   }): ReturnType<AuthenticationRepository["login_with_google"]> {
     const callback_url = window.location.origin + "/authentication/callback";
     const google_url_response = await this.apiService.post<
-      ApiResponses["GET /auth/google/url"]
+      ApiResponses["POST /auth/google/url"]
     >("/auth/google/url", {
       callback_url,
     });
